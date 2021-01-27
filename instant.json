@@ -1,0 +1,8 @@
+{
+  "id": "covid19-surveillance",
+  "name": "who-covid19-surveillance-package",
+  "description": "",
+  "type": "infrastructure",
+  "version": "v0.0.0",
+  "dependencies": ["core"]
+}
