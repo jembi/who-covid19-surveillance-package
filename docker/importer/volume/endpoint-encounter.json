@@ -1,0 +1,21 @@
+{
+  "name": "FHIR - Orchestrate Encounter Data into one resource",
+  "description": "",
+  "endpoint": {
+    "pattern": "/create-encounter"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "constants": {
+    "template": {
+      "resource": {
+        "resourceType": "Encounter",
+        "location": [],
+        "status": "finished",
+        "class": {}
+      }
+    }
+  }
+}

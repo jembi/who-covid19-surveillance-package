@@ -1,0 +1,25 @@
+{
+  "name": "FHIR - Orchestrate Observation Data into one resource",
+  "description": "",
+  "endpoint": {
+    "pattern": "/create-observation"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "constants": {
+    "template": {
+      "resource": {
+        "resourceType": "Observation",
+        "meta": {
+          "profile": []
+        },
+        "code": {
+          "coding": []
+        },
+        "status": "final"
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "FHIR - Orchestrate Location Data into one resource",
+  "description": "",
+  "endpoint": {
+    "pattern": "/create-location"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "constants": {
+    "template": {
+      "resource": {
+        "resourceType": "Location",
+        "address": {}
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "FHIR - Orchestrate Practitioner Data into one resource",
+  "description": "",
+  "endpoint": {
+    "pattern": "/create-practitioner"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "constants": {
+    "template": {
+      "resource": {
+        "resourceType": "Practitioner",
+        "name": []
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "FHIR - Orchestrate Composition Data into one resource",
+  "description": "",
+  "endpoint": {
+    "pattern": "/create-composition"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "constants": {
+    "template": {
+      "resource": {
+        "resourceType": "Composition",
+        "meta": {
+          "profile": []
+        },
+        "type": {
+          "coding": []
+        },
+        "status": "final",
+        "identifier": {
+          "system": "http://test.org/identifier/who-covid-19-case-report"
+        },
+        "encounter": {},
+        "author": [],
+        "title": "WHO COVID-19 Case Report"
+      }
+    }
+  }
+}
