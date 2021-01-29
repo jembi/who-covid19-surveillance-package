@@ -24,24 +24,9 @@
     },
     "required": ["requestBody"]
   },
-  "inputTransforms": {
-  },
+  "inputTransforms": {},
   "inputMapping": {
     "constants.resourceType": "resourceType",
     "constants.type": "type"
-  },
-  "requests": {
-    "response": [
-      {
-        "id": "hapi-fhir",
-        "config": {
-          "method": "post",
-          "url": "http://hapi-fhir/baseR4/",
-          "headers": {
-            "Content-Type": "application/json"
-          }
-        }
-      }
-    ]
   }
 }
