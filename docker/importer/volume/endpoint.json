@@ -1,0 +1,47 @@
+{
+  "name": "FHIR - Covid-19 QuestionnaireResponse to Bundle",
+  "description": "Endpoint to validate the incoming Covid-19 QuestionnaireResponse payload then transform to a Bundle",
+  "endpoint": {
+    "pattern": "/covid19-surveillance"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "constants": {
+    "resourceType": "Bundle",
+    "type": "document"
+  },
+  "inputValidation": {
+    "type": "object",
+    "properties": {
+      "requestBody": {
+        "type": "object",
+        "properties": {
+        },
+        "required": []
+      }
+    },
+    "required": ["requestBody"]
+  },
+  "inputTransforms": {
+  },
+  "inputMapping": {
+    "constants.resourceType": "resourceType",
+    "constants.type": "type"
+  },
+  "requests": {
+    "response": [
+      {
+        "id": "hapi-fhir",
+        "config": {
+          "method": "post",
+          "url": "http://hapi-fhir/baseR4/",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ]
+  }
+}
