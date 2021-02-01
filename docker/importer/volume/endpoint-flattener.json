@@ -1,0 +1,18 @@
+{
+  "name": "QuestionnaireResponse Flattener",
+  "description": "Flattens item array data from the Questionnaire Response",
+  "endpoint": {
+    "pattern": "/flatten"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputTransforms": {
+    "itemsObject": "(**.item){linkId: $exists(answer[0])? {'answer': answer[0], 'definition': definition, 'text': text}}"
+  },
+  "inputMapping": {
+    "transforms.itemsObject.patinfo_idadmin0.answer.valueCoding.code": "location.country",
+    "transforms.itemsObject.patinfo_idadmin1.answer.valueCoding.code": "location.state"
+  }
+}
