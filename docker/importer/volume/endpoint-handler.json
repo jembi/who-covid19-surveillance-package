@@ -1,16 +1,12 @@
 {
-  "name": "FHIR - Covid-19 QuestionnaireResponse to Bundle",
-  "description": "Endpoint to validate the incoming Covid-19 QuestionnaireResponse payload then transform to a Bundle",
+  "name": "FHIR - Covid-19 QuestionnaireResponse Orchestrator",
+  "description": "Endpoint to validate the incoming Covid-19 QuestionnaireResponse payload then transform to a usable format",
   "endpoint": {
     "pattern": "/covid19-surveillance"
   },
   "transformation": {
     "input": "JSON",
     "output": "JSON"
-  },
-  "constants": {
-    "resourceType": "Bundle",
-    "type": "document"
   },
   "inputValidation": {
     "type": "object",
@@ -20,13 +16,52 @@
         "properties": {
         },
         "required": []
+      },
+      "lookupRequests": {
+        "type": "object",
+        "properties": {
+          "flatArray": {
+            "type": "object",
+            "properties": {
+              "response": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "required": ["flatArray"]
       }
     },
-    "required": ["requestBody"]
+    "required": ["requestBody", "lookupRequests"]
   },
-  "inputTransforms": {},
   "inputMapping": {
-    "constants.resourceType": "resourceType",
-    "constants.type": "type"
+    "lookupRequests.flatArray.itemData": "resources"
+  },
+  "requests": {
+    "lookup": [
+      {
+        "id": "flatArray",
+        "forwardExistingRequestBody": true,
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/flatten",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ],
+    "response": [
+      {
+        "id": "bundler",
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/create-bundle",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ]
   }
 }
