@@ -1,0 +1,83 @@
+{
+  "name": "FHIR - FHIR Resource Bundler",
+  "description": "Endpoint to orchestrate Bundle creation",
+  "endpoint": {
+    "pattern": "/create-bundle"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "constants": {
+    "resourceType": "Bundle",
+    "type": "document"
+  },
+  "inputMapping": {
+    "constants.resourceType": "resourceType",
+    "constants.type": "type",
+    "lookupRequests.locationEndpoint.location": "entry[]+",
+    "lookupRequests.practitionerEndpoint.practitioner": "entry[]+",
+    "lookupRequests.encounterEndpoint.encounter": "entry[]+",
+    "lookupRequests.observationsEndpoint.observations": "entry[]+"
+  },
+  "requests": {
+    "lookup": [
+      {
+        "id": "locationEndpoint",
+        "forwardExistingRequestBody": true,
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/create-location",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      },
+      {
+        "id": "practitionerEndpoint",
+        "forwardExistingRequestBody": true,
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/create-practitioner",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      },
+      {
+        "id": "encounterEndpoint",
+        "forwardExistingRequestBody": true,
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/create-encounter",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      },
+      {
+        "id": "observationEndpoint",
+        "forwardExistingRequestBody": true,
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/create-observations",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ],
+    "response": [
+      {
+        "id": "future-upstream",
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:5001/test",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ]
+  }
+}
