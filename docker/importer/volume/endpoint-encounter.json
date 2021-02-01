@@ -8,6 +8,9 @@
     "input": "JSON",
     "output": "JSON"
   },
+  "inputMapping": {
+    "constants.template": "encounter"
+  },
   "constants": {
     "template": {
       "resource": {

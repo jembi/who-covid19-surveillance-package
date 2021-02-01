@@ -8,6 +8,9 @@
     "input": "JSON",
     "output": "JSON"
   },
+  "inputMapping": {
+    "constants.template": "practitioner"
+  },
   "constants": {
     "template": {
       "resource": {

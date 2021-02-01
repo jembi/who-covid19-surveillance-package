@@ -8,6 +8,11 @@
     "input": "JSON",
     "output": "JSON"
   },
+  "inputMapping": {
+    "constants.template": "location",
+    "requestBody.country": "location.resource.address.country",
+    "requestBody.state": "location.resource.address.state"
+  },
   "constants": {
     "template": {
       "resource": {
