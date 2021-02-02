@@ -66,18 +66,6 @@
           }
         }
       }
-    ],
-    "response": [
-      {
-        "id": "future-upstream",
-        "config": {
-          "method": "POST",
-          "url": "http://localhost:5001/test",
-          "headers": {
-            "Content-Type": "application/json"
-          }
-        }
-      }
     ]
   }
 }
