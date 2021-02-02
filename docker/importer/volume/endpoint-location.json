@@ -10,8 +10,8 @@
   },
   "inputMapping": {
     "constants.template": "location",
-    "requestBody.country": "location.resource.address.country",
-    "requestBody.state": "location.resource.address.state"
+    "requestBody.resources.location.country": "location.resource.address.country",
+    "requestBody.resources.location.state": "location.resource.address.state"
   },
   "constants": {
     "template": {
