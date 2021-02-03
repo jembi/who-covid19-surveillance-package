@@ -23,10 +23,14 @@
           "flatArray": {
             "type": "object",
             "properties": {
-              "response": {
+              "location": {
+                "type": "object"
+              },
+              "observations": {
                 "type": "object"
               }
-            }
+            },
+            "required": ["location"]
           }
         },
         "required": ["flatArray"]
@@ -35,7 +39,8 @@
     "required": ["requestBody", "lookupRequests"]
   },
   "inputMapping": {
-    "lookupRequests.flatArray": "resources"
+    "lookupRequests.flatArray": "data",
+    "requestBody.author": "author"
   },
   "requests": {
     "lookup": [
@@ -53,10 +58,10 @@
     ],
     "response": [
       {
-        "id": "bundler",
+        "id": "resource-resolver",
         "config": {
           "method": "POST",
-          "url": "http://localhost:3003/create-bundle",
+          "url": "http://localhost:3003/resource-resolver",
           "headers": {
             "Content-Type": "application/json"
           }

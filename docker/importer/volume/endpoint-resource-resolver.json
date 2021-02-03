@@ -21,13 +21,15 @@
             "type": "object"
           }
         },
-        "required": ["getLocation"]
+        "required": ["locationEndpoint"]
       }
     },
     "required": ["requestBody", "lookupRequests"]
   },
   "inputMapping": {
-    "lookupRequests.flatArray": "resources"
+    "requestBody.data": "data",
+    "requestBody.author": "author",
+    "lookupRequests.locationEndpoint.locationReference": "data.location.reference"
   },
   "requests": {
     "lookup": [

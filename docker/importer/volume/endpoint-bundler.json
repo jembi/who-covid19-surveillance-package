@@ -15,30 +15,18 @@
   "inputMapping": {
     "constants.resourceType": "resourceType",
     "constants.type": "type",
-    "lookupRequests.locationEndpoint.location": "entry[]+",
-    "lookupRequests.practitionerEndpoint.practitioner": "entry[]+",
+    "lookupRequests.compositionEndpoint.composition": "entry[]+",
     "lookupRequests.encounterEndpoint.encounter": "entry[]+",
     "lookupRequests.observationsEndpoint.observations": "entry[]+"
   },
   "requests": {
     "lookup": [
       {
-        "id": "locationEndpoint",
+        "id": "compositionEndpoint",
         "forwardExistingRequestBody": true,
         "config": {
           "method": "POST",
-          "url": "http://localhost:3003/create-location",
-          "headers": {
-            "Content-Type": "application/json"
-          }
-        }
-      },
-      {
-        "id": "practitionerEndpoint",
-        "forwardExistingRequestBody": true,
-        "config": {
-          "method": "POST",
-          "url": "http://localhost:3003/create-practitioner",
+          "url": "http://localhost:3003/create-composition",
           "headers": {
             "Content-Type": "application/json"
           }
