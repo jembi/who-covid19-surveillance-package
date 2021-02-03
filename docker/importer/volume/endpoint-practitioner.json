@@ -1,22 +1,81 @@
 {
-  "name": "FHIR - Orchestrate Practitioner Data into one resource",
-  "description": "",
+  "name": "FHIR - Resolve Practitioner",
+  "description": "Confirm that a Practitioner resource exists for the ID provided",
   "endpoint": {
-    "pattern": "/create-practitioner"
+    "pattern": "/get-practitioner"
   },
   "transformation": {
     "input": "JSON",
     "output": "JSON"
   },
-  "inputMapping": {
-    "constants.template": "practitioner"
-  },
-  "constants": {
-    "template": {
-      "resource": {
-        "resourceType": "Practitioner",
-        "name": []
+  "inputValidation": {
+    "type": "object",
+    "properties": {
+      "requestBody": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "practitioner": {
+                "type": "object",
+                "properties": {
+                  "reference": {
+                    "type": "string",
+                    "pattern": "Practitioner/*"
+                  }
+                },
+                "required": ["reference"]
+              }
+            },
+            "required": ["practitioner"]
+          }
+        },
+        "required": ["data"]
+      },
+      "lookupRequests": {
+        "type": "object",
+        "properties": {
+          "getLocation": {
+            "type": "object",
+            "properties": {
+              "entry": {
+                "type": "array",
+                "maximum": 1,
+                "minimum": 1,
+                "errorMessage": "If the entry value is missing check that the location search parameters are correct and that the location exists on HAPI FHIR"
+              }
+            },
+            "required": ["entry"]
+          }
+        },
+        "required": ["getLocation"]
       }
-    }
+    },
+    "required": ["requestBody", "lookupRequests"]
+  },
+  "inputMapping": {
+    "requestBody.data.practitioner.reference": "practitioner.reference"
+  },
+  "requests": {
+    "lookup": [
+      {
+        "id": "getPractitioner",
+        "config": {
+          "method": "GET",
+          "url": "http://hapi.fhir.org/baseR4/:practitionerReference",
+          "headers": {
+            "Accept": "application/fhir+json"
+          },
+          "params": {
+            "url": {
+              "practitionerReference": {
+                "path": "payload.data.practitioner.reference"
+              }
+            }
+          }
+        }
+      }
+    ]
   }
 }
