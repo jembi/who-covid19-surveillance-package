@@ -29,6 +29,7 @@
   "inputMapping": {
     "requestBody.data": "data",
     "requestBody.author": "author",
+    "requestBody.identifier": "identifier",
     "lookupRequests.locationEndpoint.locationReference": "data.location.reference"
   },
   "requests": {

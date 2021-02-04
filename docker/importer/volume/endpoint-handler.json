@@ -40,7 +40,8 @@
   },
   "inputMapping": {
     "lookupRequests.flatArray": "data",
-    "requestBody.author": "author"
+    "requestBody.author": "author",
+    "requestBody.identifier.value": "identifier"
   },
   "requests": {
     "lookup": [

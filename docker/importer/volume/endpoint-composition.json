@@ -8,15 +8,26 @@
     "input": "JSON",
     "output": "JSON"
   },
+  "inputTransforms": {
+    "createDate": "$substringBefore( $now(), 'T')"
+  },
+  "inputMapping": {
+    "constants.template": "composition",
+    "requestBody.author": "composition.resource.author[]+",
+    "requestBody.identifier": "composition.resource.identifier.value",
+    "transforms.createDate": "composition.resource.date"
+  },
   "constants": {
     "template": {
       "resource": {
         "resourceType": "Composition",
-        "meta": {
-          "profile": []
-        },
         "type": {
-          "coding": []
+          "coding": [
+            {
+              "code": "95412-3",
+              "system": "http://loinc.org"
+            }
+          ]
         },
         "status": "final",
         "identifier": {
