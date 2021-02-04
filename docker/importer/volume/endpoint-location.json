@@ -1,8 +1,8 @@
 {
-  "name": "FHIR - Orchestrate Location Data into one resource",
-  "description": "",
+  "name": "FHIR - Resolve Location",
+  "description": "Confirm that a Location resource exists for the search parameters provided",
   "endpoint": {
-    "pattern": "/create-location"
+    "pattern": "/get-location"
   },
   "transformation": {
     "input": "JSON",
@@ -14,7 +14,7 @@
       "requestBody": {
         "type": "object",
         "properties": {
-          "resources": {
+          "data": {
             "type": "object",
             "properties": {
               "location": {
@@ -33,7 +33,7 @@
             "required": ["location"]
           }
         },
-        "required": ["resources"]
+        "required": ["data"]
       },
       "lookupRequests": {
         "type": "object",
@@ -75,10 +75,10 @@
           "params": {
             "query": {
               "address-state": {
-                "path": "payload.resources.location.state"
+                "path": "payload.data.location.state"
               },
               "address-country": {
-                "path": "payload.resources.location.country"
+                "path": "payload.data.location.country"
               }
             }
           }
