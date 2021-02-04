@@ -13,6 +13,50 @@
   },
   "inputMapping": {
     "transforms.itemsObject.patinfo_idadmin0.answer.valueCoding.code": "location.country",
-    "transforms.itemsObject.patinfo_idadmin1.answer.valueCoding.code": "location.state"
+    "transforms.itemsObject.patinfo_idadmin1.answer.valueCoding.code": "location.state",
+    "transforms.itemsObject.patinfo_ageonset.answer.valueQuantity.value": "observations[0].value.valueQuantity",
+    "constants.ageCoding": "observations[0].coding",
+    "transforms.itemsObject.patinfo_sex.answer[].valueCoding": "observations[1].value.valueCodeableConcept.coding[]",
+    "constants.sexCoding": "observations[1].coding",
+    "transforms.itemsObject.Lab_date1.answer[].valueDate": "observations[2].value.valueDateTime",
+    "constants.labTestDateCoding": "observations[2].coding",
+    "transforms.itemsObject.patcourse_asymp.answer[].valueCoding": "observations[3].value.valueCodeableConcept.coding[]",
+    "constants.symptomsCoding": "observations[3].coding",
+    "transforms.itemsObject.patcourse_dateonset.answer[].valueDate": "observations[4].value.valueDateTime",
+    "constants.onsetDateCoding": "observations[4].coding",
+    "transforms.itemsObject.Comcond_any.answer[].valueCoding": "observations[5].value.valueCodeableConcept.coding[]",
+    "constants.comorbidityCoding": "observations[5].coding",
+    "transforms.itemsObject.expo_travel.answer[].valueCoding": "observations[6].value.valueCodeableConcept.coding[]",
+    "constants.travelCoding": "observations[6].coding"
+  },
+  "constants": {
+    "ageCoding": {
+      "code": "30525-0",
+      "system": "http://loinc.org"
+    },
+    "sexCoding": {
+      "code": "76689-9",
+      "system": "http://loinc.org"
+    },
+    "labTestDateCoding": {
+      "code": "lab-test-date",
+      "system": "http://test.org/obsCode"
+    },
+    "symptomsCoding": {
+      "code": "symptoms",
+      "system": "http://test.org/obsCode"
+    },
+    "onsetDateCoding": {
+      "code": "65222-2",
+      "system": "http://loinc.org"
+    },
+    "comorbidityCoding": {
+      "code": "75618-9",
+      "system": "http://loinc.org"
+    },
+    "travelCoding": {
+      "code": "96542-6",
+      "system": "http://loinc.org"
+    }
   }
 }

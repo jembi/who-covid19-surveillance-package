@@ -17,7 +17,12 @@
     "constants.type": "type",
     "lookupRequests.compositionEndpoint.composition": "entry[]+",
     "lookupRequests.encounterEndpoint.encounter": "entry[]+",
-    "lookupRequests.observationsEndpoint.observations": "entry[]+"
+    "lookupRequests.observationEndpoint.observation": {
+      "key": "entry[]",
+      "transform": {
+        "function": "appendArray"
+      }
+    }
   },
   "requests": {
     "lookup": [
@@ -46,9 +51,12 @@
       {
         "id": "observationEndpoint",
         "forwardExistingRequestBody": true,
+        "forEach": {
+          "items": "payload.data.observations"
+        },
         "config": {
           "method": "POST",
-          "url": "http://localhost:3003/create-observations",
+          "url": "http://localhost:3003/create-observation",
           "headers": {
             "Content-Type": "application/json"
           }
