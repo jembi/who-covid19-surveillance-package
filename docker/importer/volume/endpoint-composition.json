@@ -9,10 +9,12 @@
     "output": "JSON"
   },
   "inputTransforms": {
-    "createDate": "$substringBefore( $now(), 'T')"
+    "createDate": "$substringBefore( $now(), 'T')",
+    "compositionId": "'urn:uid:' & $substringAfter($string($random()), '0.')"
   },
   "inputMapping": {
     "constants.template": "composition",
+    "transforms.compositionId": "composition.fullUrl",
     "requestBody.author": "composition.resource.author[]+",
     "requestBody.identifier": "composition.resource.identifier.value",
     "transforms.createDate": "composition.resource.date"

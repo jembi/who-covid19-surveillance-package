@@ -10,6 +10,7 @@
   },
   "inputMapping": {
     "constants.template": "encounter",
+    "requestBody.data.encounter.id": "encounter.fullUrl",
     "requestBody.data.location.reference": "encounter.resource.location[0].location.reference"
   },
   "constants": {
