@@ -24,13 +24,52 @@
             "type": "object",
             "properties": {
               "location": {
-                "type": "object"
+                "type": "object",
+                "properties": {
+                  "country": {
+                    "type": "string"
+                  },
+                  "state": {
+                    "type": "string"
+                  }
+                },
+                "required": ["country", "state"]
+              },
+              "encounter": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                },
+                "required": ["id"]
               },
               "observations": {
-                "type": "array"
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "object"
+                    },
+                    "coding": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "system": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["code", "system"]
+                    }
+                  },
+                  "required": ["value", "coding"]
+                }
               }
             },
-            "required": ["location", "observations"]
+            "required": ["location", "encounter", "observations"]
           }
         },
         "required": ["flatArray"]
