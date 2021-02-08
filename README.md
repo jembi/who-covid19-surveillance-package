@@ -338,34 +338,6 @@ TODO: Channel config.
       }
     },
     {
-      "fullUrl": "http://test.org/fhir/Location/WhoCrLocationExample",
-      "resource": {
-        "resourceType": "Location",
-        "id": "WhoCrLocationExample",
-        "address": {
-          "country": "ZA",
-          "state": "KZN"
-        }
-      }
-    },
-    {
-      "fullUrl": "http://test.org/fhir/Practitioner/WhoCrPractitionerExample",
-      "resource": {
-        "resourceType": "Practitioner",
-        "id": "WhoCrPractitionerExample",
-        "name": [
-          {
-            "given": [
-              "Homer"
-            ]
-          },
-          {
-            "family": "Simpson"
-          }
-        ]
-      }
-    },
-    {
       "fullUrl": "http://test.org/fhir/Observation/WhoCrObservationAgeExample",
       "resource": {
         "resourceType": "Observation",
