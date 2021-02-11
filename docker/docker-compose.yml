@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   mapper:
-    image: jembi/openhim-mediator-mapping:v2.2.1
+    image: jembi/openhim-mediator-mapping:v2.2.2
     container_name: covid19-surveillance-mediator
     environment:
       - OPENHIM_URL=https://core:8080
