@@ -43,8 +43,8 @@ ENDPOINT_FILES.forEach(file => {
       res.on('end', () => {
         if (data) {
           data = JSON.parse(data)
-          if (data.error && data.error.match(/duplicate key error/).length) {
-            console.log('covid19-surveillance endpoint already exists')
+          if (data.error && data.error.includes("Duplicate error")) {
+            console.log(`Endpoint data from file < ${file} > already exists`)
             return
           }
           throw Error('covid19-surveillance endpoint creation failed')
