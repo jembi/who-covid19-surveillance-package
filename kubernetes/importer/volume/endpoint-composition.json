@@ -1,0 +1,91 @@
+{
+  "name": "FHIR - Orchestrate Composition Data into one resource",
+  "description": "",
+  "endpoint": {
+    "pattern": "/create-composition"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputTransforms": {
+    "createDate": "$substringBefore( $now(), 'T')",
+    "compositionId": "'urn:uid:' & $substringAfter($string($random()), '0.')"
+  },
+  "inputMapping": {
+    "constants.template": "composition",
+    "transforms.compositionId": "composition.fullUrl",
+    "requestBody.author": "composition.resource.author[]+",
+    "requestBody.identifier": "composition.resource.identifier.value",
+    "transforms.createDate": "composition.resource.date",
+    "requestBody.data.encounter.id": "composition.resource.encounter.reference",
+    "requestBody.data.observations[0].id": "composition.resource.section[0].entry[0].reference",
+    "requestBody.data.observations[1].id": "composition.resource.section[0].entry[1].reference",
+    "requestBody.data.observations[2].id": "composition.resource.section[1].entry[0].reference",
+    "requestBody.data.observations[3].id": "composition.resource.section[1].entry[1].reference",
+    "requestBody.data.observations[4].id": "composition.resource.section[1].entry[2].reference",
+    "requestBody.data.observations[5].id": "composition.resource.section[1].entry[3].reference",
+    "requestBody.data.observations[6].id": "composition.resource.section[2].entry[0].reference"
+
+  },
+  "constants": {
+    "template": {
+      "resource": {
+        "resourceType": "Composition",
+        "type": {
+          "coding": [
+            {
+              "code": "95412-3",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "status": "final",
+        "identifier": {
+          "system": "http://test.org/identifier/who-covid-19-case-report"
+        },
+        "encounter": {},
+        "author": [],
+        "title": "WHO COVID-19 Case Report",
+        "section": [
+          {
+            "title": "patient information",
+            "code": {
+              "coding": [
+                {
+                  "code": "patientinformation",
+                  "system": "http://test.org/sectionCode"
+                }
+              ]
+            },
+            "entry": []
+          },
+          {
+            "title": "clinical status",
+            "code": {
+              "coding": [
+                {
+                  "code": "clinicalStatus",
+                  "system": "http://test.org/sectionCode"
+                }
+              ]
+            },
+            "entry": []
+          },
+          {
+            "title": "exposure risk",
+            "code": {
+              "coding": [
+                {
+                  "code": "exposureRisk",
+                  "system": "http://test.org/sectionCode"
+                }
+              ]
+            },
+            "entry": []
+          }
+        ]
+      }
+    }
+  }
+}

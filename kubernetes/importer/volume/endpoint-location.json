@@ -1,0 +1,89 @@
+{
+  "name": "FHIR - Resolve Location",
+  "description": "Confirm that a Location resource exists for the search parameters provided",
+  "endpoint": {
+    "pattern": "/get-location"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputValidation": {
+    "type": "object",
+    "properties": {
+      "requestBody": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "location": {
+                "type": "object",
+                "properties": {
+                  "state": {
+                    "type": "string"
+                  },
+                  "country": {
+                    "type": "string"
+                  }
+                },
+                "required": ["state", "country"]
+              }
+            },
+            "required": ["location"]
+          }
+        },
+        "required": ["data"]
+      },
+      "lookupRequests": {
+        "type": "object",
+        "properties": {
+          "getLocation": {
+            "type": "object",
+            "properties": {
+              "entry": {
+                "type": "array",
+                "maximum": 1,
+                "minimum": 1,
+                "errorMessage": "If the entry value is missing check that the location search parameters are correct and that the location exists on HAPI FHIR"
+              }
+            },
+            "required": ["entry"]
+          }
+        },
+        "required": ["getLocation"]
+      }
+    },
+    "required": ["requestBody", "lookupRequests"]
+  },
+  "inputMapping": {
+    "transforms.locationReference": "locationReference"
+  },
+  "inputTransforms": {
+    "locationReference": "'Location/' & lookupRequests.getLocation.entry[0].resource.id"
+  },
+  "requests": {
+    "lookup": [
+      {
+        "id": "getLocation",
+        "config": {
+          "method": "GET",
+          "url": "http://hapi.fhir.org/baseR4/Location",
+          "headers": {
+            "Accept": "application/fhir+json"
+          },
+          "params": {
+            "query": {
+              "address-state": {
+                "path": "payload.data.location.state"
+              },
+              "address-country": {
+                "path": "payload.data.location.country"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}
