@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: covid19-surveillance-mapper-service
+  labels:
+    package: covid19surveillance
+spec:
+  type: LoadBalancer
+  selector:
+    component: covid19-surveillance-mapper
+  ports:
+    - name: covid19-surveillance-mapper-3003
+      port: 3003
+      targetPort: 3003

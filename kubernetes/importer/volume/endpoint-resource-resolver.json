@@ -1,0 +1,62 @@
+{
+  "name": "FHIR - Resolves Location and Practitioner references",
+  "description": "Endpoint to validate the incoming",
+  "endpoint": {
+    "pattern": "/resource-resolver"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputValidation": {
+    "type": "object",
+    "properties": {
+      "requestBody": {
+        "type": "object"
+      },
+      "lookupRequests": {
+        "type": "object",
+        "properties": {
+          "getLocation": {
+            "type": "object"
+          }
+        },
+        "required": ["locationEndpoint"]
+      }
+    },
+    "required": ["requestBody", "lookupRequests"]
+  },
+  "inputMapping": {
+    "requestBody.data": "data",
+    "requestBody.author": "author",
+    "requestBody.identifier": "identifier",
+    "lookupRequests.locationEndpoint.locationReference": "data.location.reference"
+  },
+  "requests": {
+    "lookup": [
+      {
+        "id": "locationEndpoint",
+        "forwardExistingRequestBody": true,
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/get-location",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ],
+    "response": [
+      {
+        "id": "bundler",
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/create-bundle",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ]
+  }
+}

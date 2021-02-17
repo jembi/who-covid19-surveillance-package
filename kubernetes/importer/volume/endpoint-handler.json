@@ -1,0 +1,112 @@
+{
+  "name": "FHIR - Covid-19 QuestionnaireResponse Orchestrator",
+  "description": "Endpoint to validate the incoming Covid-19 QuestionnaireResponse payload then transform to a usable format",
+  "endpoint": {
+    "pattern": "/covid19-surveillance"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputValidation": {
+    "type": "object",
+    "properties": {
+      "requestBody": {
+        "type": "object",
+        "properties": {
+        },
+        "required": []
+      },
+      "lookupRequests": {
+        "type": "object",
+        "properties": {
+          "flatArray": {
+            "type": "object",
+            "properties": {
+              "location": {
+                "type": "object",
+                "properties": {
+                  "country": {
+                    "type": "string"
+                  },
+                  "state": {
+                    "type": "string"
+                  }
+                },
+                "required": ["country", "state"]
+              },
+              "encounter": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                },
+                "required": ["id"]
+              },
+              "observations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "object"
+                    },
+                    "coding": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "system": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["code", "system"]
+                    }
+                  },
+                  "required": ["value", "coding"]
+                }
+              }
+            },
+            "required": ["location", "encounter", "observations"]
+          }
+        },
+        "required": ["flatArray"]
+      }
+    },
+    "required": ["requestBody", "lookupRequests"]
+  },
+  "inputMapping": {
+    "lookupRequests.flatArray": "data",
+    "requestBody.author": "author",
+    "requestBody.identifier.value": "identifier"
+  },
+  "requests": {
+    "lookup": [
+      {
+        "id": "flatArray",
+        "forwardExistingRequestBody": true,
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/flatten",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ],
+    "response": [
+      {
+        "id": "resource-resolver",
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/resource-resolver",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ]
+  }
+}

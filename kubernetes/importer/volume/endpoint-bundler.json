@@ -1,0 +1,79 @@
+{
+  "name": "FHIR - FHIR Resource Bundler",
+  "description": "Endpoint to orchestrate Bundle creation",
+  "endpoint": {
+    "pattern": "/create-bundle"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "constants": {
+    "resourceType": "Bundle",
+    "type": "document"
+  },
+  "inputMapping": {
+    "constants.resourceType": "resourceType",
+    "constants.type": "type",
+    "lookupRequests.compositionEndpoint.composition": "entry[]+",
+    "lookupRequests.encounterEndpoint.encounter": "entry[]+",
+    "lookupRequests.observationEndpoint.observation": {
+      "key": "entry[]",
+      "transform": {
+        "function": "appendArray"
+      }
+    }
+  },
+  "requests": {
+    "lookup": [
+      {
+        "id": "compositionEndpoint",
+        "forwardExistingRequestBody": true,
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/create-composition",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      },
+      {
+        "id": "encounterEndpoint",
+        "forwardExistingRequestBody": true,
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/create-encounter",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      },
+      {
+        "id": "observationEndpoint",
+        "forwardExistingRequestBody": true,
+        "forEach": {
+          "items": "payload.data.observations"
+        },
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/create-observation",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ],
+    "response": [
+      {
+        "id": "hapi-fhir",
+        "config": {
+          "method": "post",
+          "url": "http://hapi-fhir:8080/fhir",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ]
+  }
+}

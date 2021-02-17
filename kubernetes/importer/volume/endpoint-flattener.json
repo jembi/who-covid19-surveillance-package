@@ -1,0 +1,78 @@
+{
+  "name": "QuestionnaireResponse Flattener",
+  "description": "Flattens item array data from the Questionnaire Response",
+  "endpoint": {
+    "pattern": "/flatten"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputTransforms": {
+    "itemsObject": "(**.item){linkId: $exists(answer[0])? {'answer': answer[0], 'definition': definition, 'text': text}}",
+    "encounterId": "'urn:uid:' & $substringAfter($string($random()), '0.')",
+    "observationId0": "'urn:uid:' & $substringAfter($string($random()), '0.')",
+    "observationId1": "'urn:uid:' & $substringAfter($string($random()), '0.')",
+    "observationId2": "'urn:uid:' & $substringAfter($string($random()), '0.')",
+    "observationId3": "'urn:uid:' & $substringAfter($string($random()), '0.')",
+    "observationId4": "'urn:uid:' & $substringAfter($string($random()), '0.')",
+    "observationId5": "'urn:uid:' & $substringAfter($string($random()), '0.')",
+    "observationId6": "'urn:uid:' & $substringAfter($string($random()), '0.')"
+  },
+  "inputMapping": {
+    "transforms.itemsObject.patinfo_idadmin0.answer.valueCoding.code": "location.country",
+    "transforms.itemsObject.patinfo_idadmin1.answer.valueCoding.code": "location.state",
+    "transforms.encounterId":"encounter.id",
+    "transforms.observationId0":"observations[0].id",
+    "transforms.itemsObject.patinfo_ageonset.answer.valueQuantity.value": "observations[0].value.valueQuantity.value",
+    "constants.ageCoding": "observations[0].coding",
+    "transforms.observationId1":"observations[1].id",
+    "transforms.itemsObject.patinfo_sex.answer[].valueCoding": "observations[1].value.valueCodeableConcept.coding[]",
+    "constants.sexCoding": "observations[1].coding",
+    "transforms.observationId2":"observations[2].id",
+    "transforms.itemsObject.Lab_date1.answer[].valueDate": "observations[2].value.valueDateTime",
+    "constants.labTestDateCoding": "observations[2].coding",
+    "transforms.observationId3":"observations[3].id",
+    "transforms.itemsObject.patcourse_asymp.answer[].valueCoding": "observations[3].value.valueCodeableConcept.coding[]",
+    "constants.symptomsCoding": "observations[3].coding",
+    "transforms.observationId4":"observations[4].id",
+    "transforms.itemsObject.patcourse_dateonset.answer[].valueDate": "observations[4].value.valueDateTime",
+    "constants.onsetDateCoding": "observations[4].coding",
+    "transforms.observationId5":"observations[5].id",
+    "transforms.itemsObject.Comcond_any.answer[].valueCoding": "observations[5].value.valueCodeableConcept.coding[]",
+    "constants.comorbidityCoding": "observations[5].coding",
+    "transforms.observationId6":"observations[6].id",
+    "transforms.itemsObject.expo_travel.answer[].valueCoding": "observations[6].value.valueCodeableConcept.coding[]",
+    "constants.travelCoding": "observations[6].coding"
+  },
+  "constants": {
+    "ageCoding": {
+      "code": "30525-0",
+      "system": "http://loinc.org"
+    },
+    "sexCoding": {
+      "code": "76689-9",
+      "system": "http://loinc.org"
+    },
+    "labTestDateCoding": {
+      "code": "lab-test-date",
+      "system": "http://test.org/obsCode"
+    },
+    "symptomsCoding": {
+      "code": "symptoms",
+      "system": "http://test.org/obsCode"
+    },
+    "onsetDateCoding": {
+      "code": "65222-2",
+      "system": "http://loinc.org"
+    },
+    "comorbidityCoding": {
+      "code": "75618-9",
+      "system": "http://loinc.org"
+    },
+    "travelCoding": {
+      "code": "96542-6",
+      "system": "http://loinc.org"
+    }
+  }
+}

@@ -1,0 +1,3 @@
+resources:
+  - ./mapper/mapper-deployment.yaml
+  - ./mapper/mapper-service.yaml
