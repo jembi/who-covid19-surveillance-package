@@ -25,6 +25,26 @@
     "transforms.itemsObject.patinfo_idadmin1.answer.valueCoding.code": "location.state",
     "transforms.encounterId":"encounter.id",
     "transforms.observationId0":"observations[0].id",
+    "transforms.itemsObject.patinfo_ageonset.answer.valueQuantity.code": {
+      "key": "observations[0].value.valueQuantity",
+      "transform": {
+        "function": "mapCodes",
+        "parameters": {
+          "a": {
+            "code": "1734",
+            "system": "https://openconceptlab.org/orgs/CIEL/sources/CIEL/concepts"
+          },
+          "mo": {
+            "code": "1074",
+            "system": "https://openconceptlab.org/orgs/CIEL/sources/CIEL/concepts"
+          },
+          "d": {
+            "code": "1072",
+            "system": "https://openconceptlab.org/orgs/CIEL/sources/CIEL/concepts"
+          }
+        }
+      }
+    },
     "transforms.itemsObject.patinfo_ageonset.answer.valueQuantity.value": "observations[0].value.valueQuantity.value",
     "constants.ageCoding": "observations[0].coding",
     "transforms.observationId1":"observations[1].id",

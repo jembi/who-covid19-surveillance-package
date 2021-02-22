@@ -357,7 +357,9 @@ TODO: Channel config.
         },
         "status": "final",
         "valueQuantity": {
-          "value": 35
+          "value": 34,
+          "system": "https://openconceptlab.org/orgs/CIEL/sources/CIEL/concepts/",
+          "code": "1734"
         }
       }
     },
