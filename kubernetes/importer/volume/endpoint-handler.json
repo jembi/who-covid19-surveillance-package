@@ -79,8 +79,7 @@
   },
   "inputMapping": {
     "lookupRequests.flatArray": "data",
-    "requestBody.author": "author",
-    "requestBody.identifier.value": "identifier"
+    "requestBody.author": "author"
   },
   "requests": {
     "lookup": [

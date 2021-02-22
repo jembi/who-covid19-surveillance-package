@@ -20,6 +20,7 @@
     "observationId6": "'urn:uid:' & $substringAfter($string($random()), '0.')"
   },
   "inputMapping": {
+    "transforms.itemsObject.patinfo_ID.answer.valueString": "identifier",
     "transforms.itemsObject.patinfo_idadmin0.answer.valueCoding.code": "location.country",
     "transforms.itemsObject.patinfo_idadmin1.answer.valueCoding.code": "location.state",
     "transforms.encounterId":"encounter.id",
