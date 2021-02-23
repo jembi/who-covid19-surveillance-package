@@ -10,6 +10,10 @@ const resourcesPath = path.resolve(__dirname, 'fhirResources')
 
 const downloadResources = (cbk) => {
   const COVID19_IG_URL = process.env.COVID19_IG_URL || 'https://openhie.github.io/covid-ig'
+  
+  if (fs.existsSync())
+    fs.rmdirSync(resourcesPath)
+  
   fs.mkdirSync(resourcesPath)
   
   const resources = fs.createWriteStream(path.resolve(resourcesPath, 'fhir-resources.zip'))
@@ -31,8 +35,8 @@ const downloadResources = (cbk) => {
 }
 
 const postToFHIRServer = (files) => {
-  const HAPI_FHIR_HOSTNAME =
-    process.env.HAPI_FHIR_HOSTNAME || 'hapi-fhir'
+  const HAPI_FHIR_PATH =
+    process.env.HAPI_FHIR_PATH || 'hapi-fhir/hapi-fhir-jpaserver/fhir/'
   const HAPI_FHIR_PORT = process.env.HAPI_FHIR_PORT || 3447
 
   files.forEach(file => {
@@ -43,29 +47,24 @@ const postToFHIRServer = (files) => {
       protocol: process.env.COVID19_IG_PROTOCOL || 'http:',
       host: HAPI_FHIR_HOSTNAME,
       port: HAPI_FHIR_PORT,
-      path: `hapi-fhir-jpaserver/fhir/${resourceName}`,
+      path: `${HAPI_FHIR_PATH}/${resourceName}`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Content-Length': data.length,
+        'Content-Length': Buffer.byteLength(data),
       }
     }
   
     const req = http.request(options, (res) => {
       if (res.statusCode === 400) {
-        let data = ''
+        let responseData = ''
         res.on('data', (chunk) => {
-          data += chunk.toString()
+          responseData += chunk.toString()
         })
   
         res.on('end', () => {
-          if (data) {
-            data = JSON.parse(data)
-            if (data.error) {
-              console.log(data.error)
-              return
-            }
-            throw Error(`${resourceName} resource creation failed`)
+          if (responseData) {
+            throw Error(`${resourceName} resource creation failed: ${responseData}`)
           }
         })
   
