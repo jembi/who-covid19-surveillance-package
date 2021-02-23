@@ -40,7 +40,8 @@ services:
     image: jembi/instantohie-config-importer
     restart: on-failure
     environment:
-      HAPI_FHIR_PATH: 'hapi-fhir/hapi-fhir-jpaserver/fhir/'
+      HAPI_FHIR_PATH: 'hapi-fhir-jpaserver/fhir'
+      HAPI_FHIR_HOSTNAME: 'hapi-fhir'
       HAPI_FHIR_PORT: 3447
       COVID19_IG: 'https://openhie.github.io/covid-ig'
       COVID19_IG_PROTOCOL: 'http:'
