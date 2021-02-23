@@ -11,8 +11,8 @@ const resourcesPath = path.resolve(__dirname, 'fhirResources')
 const downloadResources = (cbk) => {
   const COVID19_IG_URL = process.env.COVID19_IG_URL || 'https://openhie.github.io/covid-ig'
   
-  if (fs.existsSync())
-    fs.rmdirSync(resourcesPath)
+  if (fs.existsSync(resourcesPath))
+    fs.rmdirSync(resourcesPath, { recursive: true })
   
   fs.mkdirSync(resourcesPath)
   
@@ -36,7 +36,8 @@ const downloadResources = (cbk) => {
 
 const postToFHIRServer = (files) => {
   const HAPI_FHIR_PATH =
-    process.env.HAPI_FHIR_PATH || 'hapi-fhir/hapi-fhir-jpaserver/fhir/'
+    process.env.HAPI_FHIR_PATH || 'hapi-fhir-jpaserver/fhir'
+  const HAPI_FHIR_HOSTNAME = process.env.HAPI_FHIR_HOSTNAME || 'hapi-fhir'
   const HAPI_FHIR_PORT = process.env.HAPI_FHIR_PORT || 3447
 
   files.forEach(file => {
