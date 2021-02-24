@@ -16,7 +16,7 @@
     "constants.template": "composition",
     "transforms.compositionId": "composition.fullUrl",
     "requestBody.author": "composition.resource.author[]+",
-    "requestBody.identifier": "composition.resource.identifier.value",
+    "requestBody.data.identifier": "composition.resource.identifier.value",
     "transforms.createDate": "composition.resource.date",
     "requestBody.data.encounter.id": "composition.resource.encounter.reference",
     "requestBody.data.observations[0].id": "composition.resource.section[0].entry[0].reference",

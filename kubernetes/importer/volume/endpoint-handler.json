@@ -14,8 +14,35 @@
       "requestBody": {
         "type": "object",
         "properties": {
+          "author": {
+            "type": "object",
+            "properties": {
+              "reference": {
+                "type": "string",
+                "pattern": "^Practitioner\/.*$"
+              }
+            }
+          },
+          "item": {
+            "type": "array",
+            "items":  {
+              "type": "object",
+              "properties": {
+                "linkId": {
+                  "type": "string"
+                },
+                "answer": {
+                  "type": "array"
+                },
+                "item": {
+                  "type": "array"
+                }
+              },
+              "required": ["linkId"]
+            }
+          }
         },
-        "required": []
+        "required": ["author", "item"]
       },
       "lookupRequests": {
         "type": "object",
@@ -23,6 +50,9 @@
           "flatArray": {
             "type": "object",
             "properties": {
+              "identifier": {
+                "type": "string"
+              },
               "location": {
                 "type": "object",
                 "properties": {
@@ -69,7 +99,7 @@
                 }
               }
             },
-            "required": ["location", "encounter", "observations"]
+            "required": ["identifier", "location", "encounter", "observations"]
           }
         },
         "required": ["flatArray"]
@@ -79,8 +109,7 @@
   },
   "inputMapping": {
     "lookupRequests.flatArray": "data",
-    "requestBody.author": "author",
-    "requestBody.identifier.value": "identifier"
+    "requestBody.author": "author"
   },
   "requests": {
     "lookup": [
