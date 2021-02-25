@@ -24,7 +24,7 @@ TODO: Channel config.
   "status": "completed",
   "authored": "2021-01-20T11:29:52+02:00",
   "author": {
-    "reference": "Practitioner/WhoCrPractitionerExample"
+    "reference": "Practitioner/1844391"
   },
   "item": [
     {
@@ -74,8 +74,8 @@ TODO: Channel config.
           "answer": [
             {
               "valueQuantity": {
-                "value": 34,
-                "code": "a",
+                "value": 11,
+                "code": "d",
                 "system": "http://unitsofmeasure.org"
               }
             }
@@ -118,7 +118,7 @@ TODO: Channel config.
                   "answer": [
                     {
                       "valueCoding": {
-                        "code": "ZA-KZN",
+                        "code": "KZN",
                         "system": "urn:iso:std:iso:3166:-2"
                       }
                     }
