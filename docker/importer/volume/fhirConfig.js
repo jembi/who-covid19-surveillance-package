@@ -57,7 +57,7 @@ const postToFHIRServer = (files) => {
     }
   
     const req = http.request(options, (res) => {
-      if (res.statusCode === 400) {
+      if (res.statusCode !== 201) {
         let responseData = ''
         res.on('data', (chunk) => {
           responseData += chunk.toString()
@@ -73,12 +73,6 @@ const postToFHIRServer = (files) => {
           throw Error(err)
         })
         return
-      }
-  
-      if (res.statusCode != 201) {
-        throw Error(
-          `Failed to create ${resourceName} resource: ${res.statusCode}`
-        )
       } else {
         console.log(`Successfully created ${resourceName} resource`)
       }
