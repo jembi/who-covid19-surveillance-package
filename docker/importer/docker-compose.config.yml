@@ -40,7 +40,7 @@ services:
     image: jembi/instantohie-config-importer
     restart: on-failure
     environment:
-      HAPI_FHIR_PATH: 'hapi-fhir-jpaserver/fhir'
+      HAPI_FHIR_PATH: '/fhir'
       HAPI_FHIR_HOSTNAME: 'hapi-fhir'
       HAPI_FHIR_PORT: 3447
       COVID19_IG: 'https://openhie.github.io/covid-ig'
@@ -49,7 +49,7 @@ services:
       - type: volume
         source: instant
         target: /instant
-    command: sh -c "wait-on -t 60000 http-get://hapi-fhir:3447/hapi-fhir-jpaserver && sleep 1 && node /instant/who-covid19-surveillance-package/docker/importer/volume/fhirConfig.js"
+    command: sh -c "wait-on -t 60000 http-get://hapi-fhir:3447 && sleep 1 && node /instant/who-covid19-surveillance-package/docker/importer/volume/fhirConfig.js"
 
 volumes:
   instant:

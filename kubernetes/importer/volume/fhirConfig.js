@@ -36,7 +36,7 @@ const downloadResources = (cbk) => {
 
 const postToFHIRServer = (files) => {
   const HAPI_FHIR_PATH =
-    process.env.HAPI_FHIR_PATH || 'hapi-fhir-jpaserver/fhir'
+    process.env.HAPI_FHIR_PATH || '/fhir'
   const HAPI_FHIR_HOSTNAME = process.env.HAPI_FHIR_HOSTNAME || 'hapi-fhir'
   const HAPI_FHIR_PORT = process.env.HAPI_FHIR_PORT || 3447
 
