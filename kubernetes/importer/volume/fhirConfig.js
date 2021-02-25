@@ -38,7 +38,7 @@ const postToFHIRServer = (files) => {
   const HAPI_FHIR_PATH =
     process.env.HAPI_FHIR_PATH || '/fhir'
   const HAPI_FHIR_HOSTNAME = process.env.HAPI_FHIR_HOSTNAME || 'hapi-fhir'
-  const HAPI_FHIR_PORT = process.env.HAPI_FHIR_PORT || 3447
+  const HAPI_FHIR_PORT = process.env.HAPI_FHIR_PORT || 8080
 
   files.forEach(file => {
     const resourceName = file.split(/\-/)[0]

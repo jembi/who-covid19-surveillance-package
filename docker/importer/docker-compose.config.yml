@@ -42,14 +42,14 @@ services:
     environment:
       HAPI_FHIR_PATH: '/fhir'
       HAPI_FHIR_HOSTNAME: 'hapi-fhir'
-      HAPI_FHIR_PORT: 3447
+      HAPI_FHIR_PORT: 8080
       COVID19_IG: 'https://openhie.github.io/covid-ig'
       COVID19_IG_PROTOCOL: 'http:'
     volumes:
       - type: volume
         source: instant
         target: /instant
-    command: sh -c "wait-on -t 60000 http-get://hapi-fhir:3447 && sleep 1 && node /instant/who-covid19-surveillance-package/docker/importer/volume/fhirConfig.js"
+    command: sh -c "wait-on -t 60000 http-get://hapi-fhir:8080 && sleep 1 && node /instant/who-covid19-surveillance-package/docker/importer/volume/fhirConfig.js"
 
 volumes:
   instant:
