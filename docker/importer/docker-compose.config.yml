@@ -43,7 +43,7 @@ services:
       HAPI_FHIR_PATH: '/fhir'
       HAPI_FHIR_HOSTNAME: 'hapi-fhir'
       HAPI_FHIR_PORT: 8080
-      COVID19_IG: 'https://openhie.github.io/covid-ig'
+      COVID19_IG_URL: 'https://openhie.github.io/covid-ig'
       COVID19_IG_PROTOCOL: 'http:'
     volumes:
       - type: volume
