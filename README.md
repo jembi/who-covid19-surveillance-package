@@ -8,7 +8,79 @@ To enable this package within the Instant OpenHIE, mount this project directory 
 
 The input message will be sent through the OpenHIM.
 
-TODO: Channel config.
+Below is the default OpenHIM channel configuration.
+
+```json
+{
+  "Channels": [
+    {
+      "methods": [
+        "GET",
+        "POST",
+        "DELETE",
+        "PUT",
+        "OPTIONS",
+        "HEAD",
+        "TRACE",
+        "CONNECT",
+        "PATCH"
+      ],
+      "type": "http",
+      "allow": [
+        "instant"
+      ],
+      "whitelist": [],
+      "authType": "private",
+      "matchContentTypes": [],
+      "properties": [],
+      "txViewAcl": [],
+      "txViewFullAcl": [],
+      "txRerunAcl": [],
+      "status": "enabled",
+      "rewriteUrls": false,
+      "addAutoRewriteRules": true,
+      "autoRetryEnabled": false,
+      "autoRetryPeriodMinutes": 60,
+      "routes": [
+        {
+          "type": "http",
+          "status": "enabled",
+          "forwardAuthHeader": false,
+          "name": "Generic Mapping Mediator",
+          "secured": false,
+          "host": "covid19-surveillance-mediator",
+          "port": 3003,
+          "path": "",
+          "pathTransform": "",
+          "primary": true,
+          "username": "",
+          "password": ""
+        }
+      ],
+      "requestBody": true,
+      "responseBody": true,
+      "rewriteUrlsConfig": [],
+      "name": "WHO Covid19 Case Reporting",
+      "description": "This Channel accepts QuestionnaireResponses and orchestrates that data through a configured mapping mediator. The Mapping mediator transforms the data into a FHIR Bundle and persists the data in the Instant Core HAPI-FHIR server",
+      "urlPattern": "^/covid19-surveillance$",
+      "matchContentRegex": null,
+      "matchContentXpath": null,
+      "matchContentValue": null,
+      "matchContentJson": null,
+      "pollingSchedule": null,
+      "tcpHost": null,
+      "tcpPort": null,
+      "updatedBy": {
+        "id": "60252ef81ea8680012c2ece5",
+        "name": "Super User"
+      },
+      "alerts": []
+    }
+  ]
+}
+```
+
+The channel is accessible on the endpoint <http://localhost:5001/covid19-surveillance>. Any client with the role **instant** can access the channel using basic authentication (`username and password`) or custom token authentication (`Authorization : Custom <Token>`)
 
 ### Input
 
@@ -526,3 +598,5 @@ TODO: Channel config.
   ]
 }
 ```
+
+The corresponding output will then be sent to a FHIR server.
