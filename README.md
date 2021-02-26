@@ -4,83 +4,46 @@ This package sets up a mapping mediator instance to map COVID-19 QuestionnaireRe
 
 To enable this package within the Instant OpenHIE, mount this project directory with your Instant OpenHIE start command. More details available on the [Instant OpenHIE docs site](https://openhie.github.io/instant/docs/how-to/creating-packages#how-to-execute-your-new-package)
 
+## Starting Up
+To mount the package into an Instant OpenHIE instance, clone the repository and run the following command
+
+### Docker
+
+```sh
+yarn docker:instant init core covid19surveillance -custom-package="<Path to package>"
+```
+
+### Kubernetes
+
+```sh
+yarn docker:instant init -t k8s core covid19surveillance --custom-package="<Path to package>"
+```
+
+**NB** The alias for the option ``--custom-package`` is ``-c``
+
+Once the package has been initialized, the following commands can be run to start, stop or destroy the instance.
+
+### Docker
+
+```sh
+yarn docker:instant up -t docker core covid19surveillance
+yarn docker:instant down -t docker core covid19surveillance
+yarn docker:instant destroy -t docker core covid19surveillance
+```
+
+### Kubernetes
+
+```sh
+yarn docker:instant up -t docker core covid19surveillance
+yarn docker:instant down -t docker core covid19surveillance
+yarn docker:instant destroy -t docker core covid19surveillance
+```
+
 ## Example message structures
 
 The input message will be sent through the OpenHIM.
 
-Below is the default OpenHIM channel configuration.
-
-```json
-{
-  "Channels": [
-    {
-      "methods": [
-        "GET",
-        "POST",
-        "DELETE",
-        "PUT",
-        "OPTIONS",
-        "HEAD",
-        "TRACE",
-        "CONNECT",
-        "PATCH"
-      ],
-      "type": "http",
-      "allow": [
-        "instant"
-      ],
-      "whitelist": [],
-      "authType": "private",
-      "matchContentTypes": [],
-      "properties": [],
-      "txViewAcl": [],
-      "txViewFullAcl": [],
-      "txRerunAcl": [],
-      "status": "enabled",
-      "rewriteUrls": false,
-      "addAutoRewriteRules": true,
-      "autoRetryEnabled": false,
-      "autoRetryPeriodMinutes": 60,
-      "routes": [
-        {
-          "type": "http",
-          "status": "enabled",
-          "forwardAuthHeader": false,
-          "name": "Generic Mapping Mediator",
-          "secured": false,
-          "host": "covid19-surveillance-mediator",
-          "port": 3003,
-          "path": "",
-          "pathTransform": "",
-          "primary": true,
-          "username": "",
-          "password": ""
-        }
-      ],
-      "requestBody": true,
-      "responseBody": true,
-      "rewriteUrlsConfig": [],
-      "name": "WHO Covid19 Case Reporting",
-      "description": "This Channel accepts QuestionnaireResponses and orchestrates that data through a configured mapping mediator. The Mapping mediator transforms the data into a FHIR Bundle and persists the data in the Instant Core HAPI-FHIR server",
-      "urlPattern": "^/covid19-surveillance$",
-      "matchContentRegex": null,
-      "matchContentXpath": null,
-      "matchContentValue": null,
-      "matchContentJson": null,
-      "pollingSchedule": null,
-      "tcpHost": null,
-      "tcpPort": null,
-      "updatedBy": {
-        "id": "60252ef81ea8680012c2ece5",
-        "name": "Super User"
-      },
-      "alerts": []
-    }
-  ]
-}
-```
-
-The channel is accessible on the endpoint <http://localhost:5001/covid19-surveillance>. Any client with the role **instant** can access the channel using basic authentication (`username and password`) or custom token authentication (`Authorization : Custom <Token>`)
+The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19-surveillance>. Any client with the role **instant** can access the channel using basic authentication (`username and password`) or custom token authentication (`Authorization : Custom <Token>`)
 
 ### Input
 
