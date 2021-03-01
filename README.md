@@ -1,14 +1,49 @@
 # WHO COVID-19 Surveillance Package
 
-This package sets up a mapping mediator instance to map COVID-19 QuestionnaireResponse FHIR resources to FHIR Bundles.
+This package sets up a mapping mediator instance to map COVID-19 QuestionnaireResponse FHIR resources to FHIR Bundles adhering to the [WHO-CR-COVID19](https://openhie.github.io/covid-ig/) implementation guide.
 
 To enable this package within the Instant OpenHIE, mount this project directory with your Instant OpenHIE start command. More details available on the [Instant OpenHIE docs site](https://openhie.github.io/instant/docs/how-to/creating-packages#how-to-execute-your-new-package)
+
+## Starting Up
+To mount the package into an Instant OpenHIE instance, clone the repository and run the following command
+
+### Docker
+
+```sh
+yarn docker:instant init core covid19surveillance -custom-package="<Path to package>"
+```
+
+### Kubernetes
+
+```sh
+yarn docker:instant init -t k8s core covid19surveillance --custom-package="<Path to package>"
+```
+
+**NB** The alias for the option ``--custom-package`` is ``-c``
+
+Once the package has been initialized, the following commands can be run to start, stop or destroy the instance.
+
+### Docker
+
+```sh
+yarn docker:instant up -t docker core covid19surveillance
+yarn docker:instant down -t docker core covid19surveillance
+yarn docker:instant destroy -t docker core covid19surveillance
+```
+
+### Kubernetes
+
+```sh
+yarn docker:instant up -t docker core covid19surveillance
+yarn docker:instant down -t docker core covid19surveillance
+yarn docker:instant destroy -t docker core covid19surveillance
+```
 
 ## Example message structures
 
 The input message will be sent through the OpenHIM.
 
-TODO: Channel config.
+The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19-surveillance>. Any client with the role **instant** can access the channel using basic authentication (`username and password`) or custom token authentication (`Authorization : Custom <Token>`)
 
 ### Input
 
@@ -526,3 +561,5 @@ TODO: Channel config.
   ]
 }
 ```
+
+The corresponding output will then be sent to a FHIR server.
