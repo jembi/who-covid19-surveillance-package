@@ -45,8 +45,8 @@ const postToFHIRServer = (file) => new Promise((resolve, reject) => {
     protocol: process.env.COVID19_IG_PROTOCOL || 'http:',
     host: HAPI_FHIR_HOSTNAME,
     port: HAPI_FHIR_PORT,
-    path: `${HAPI_FHIR_PATH}/${resourceName}`,
-    method: 'POST',
+    path: `${HAPI_FHIR_PATH}/${resourceName}/${JSON.parse(data).id}`,
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       'Content-Length': Buffer.byteLength(data),
