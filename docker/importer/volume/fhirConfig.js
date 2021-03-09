@@ -81,12 +81,44 @@ const postToFHIRServer = (file) => new Promise((resolve, reject) => {
   req.end()
 })
 
-downloadResources((err, files) => {
+const findMatch = ({file, resourceTypes}) => {
+  const regex = new RegExp(resourceTypes.join("|"), "g")
+  const match = file.match(regex)
+  return match ? match[0] : null
+}
+
+const buildResourceCollectionsObject = ({files, resourceTypes}) => {
+  const result = Object.create({ 'Other': [] })
+  resourceTypes.forEach(resourceType => {
+    result[resourceType] = []
+  })
+
+  files.forEach((file) => {
+    const match = findMatch({ file, resourceTypes })
+    result[match ? match : 'Other'].push(file)
+  })
+
+  return result
+}
+
+downloadResources(async (err, files) => {
   if (err) {
     console.error(err)
   } else {
-    Promise.all(files.map(postToFHIRServer))
-      .then(console.log)
-      .catch(console.error)
+    const resourceCollections = buildResourceCollectionsObject({
+      files,
+      resourceTypes: ['CodeSystem', 'ConceptMap', 'ValueSet', 'ImplementationGuide']
+    })
+
+    try {
+      await Promise.all(resourceCollections['ConceptMap'].map(postToFHIRServer))
+      await Promise.all(resourceCollections['CodeSystem'].map(postToFHIRServer))
+      await Promise.all(resourceCollections['ValueSet'].map(postToFHIRServer))
+      await Promise.all(resourceCollections['Other'].map(postToFHIRServer))
+      await Promise.all(resourceCollections['ImplementationGuide'].map(postToFHIRServer))
+      console.log('Posting of IG resources to Hapi FHIR successfully done')
+    } catch (err) {
+      console.log(err)
+    }
   }
 })
