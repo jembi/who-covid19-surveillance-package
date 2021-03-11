@@ -11,7 +11,7 @@ const HAPI_FHIR_PATH = process.env.HAPI_FHIR_PATH || '/fhir'
 const HAPI_FHIR_HOSTNAME = process.env.HAPI_FHIR_HOSTNAME || 'hapi-fhir'
 const HAPI_FHIR_PORT = process.env.HAPI_FHIR_PORT || 8080
 
-const downloadResources = (cbk) => {
+const downloadResources = (cb) => {
   const COVID19_IG_URL = process.env.COVID19_IG_URL || 'https://openhie.github.io/covid-ig'
   
   if (fs.existsSync(resourcesPath))
@@ -27,14 +27,14 @@ const downloadResources = (cbk) => {
       resources.close()
 
       const unzip = spawn('unzip', [path.resolve(resourcesPath, 'fhir-resources.zip'), '-d', resourcesPath])
-      unzip.stderr.on('data', cbk)
+      unzip.stderr.on('data', cb)
 
       unzip.on('close', () => {
         const allFiles = fs.readdirSync(resourcesPath) || []
-        return cbk(null, allFiles.filter(file => file.endsWith('.json')))
+        return cb(null, allFiles.filter(file => file.endsWith('.json')))
       })
     })
-  }).on('error', cbk)
+  }).on('error', cb)
 }
 
 const postToFHIRServer = (file) => new Promise((resolve, reject) => {
