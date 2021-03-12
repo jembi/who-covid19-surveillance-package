@@ -11,7 +11,7 @@ const HAPI_FHIR_PATH = process.env.HAPI_FHIR_PATH || '/fhir'
 const HAPI_FHIR_HOSTNAME = process.env.HAPI_FHIR_HOSTNAME || 'hapi-fhir'
 const HAPI_FHIR_PORT = process.env.HAPI_FHIR_PORT || 8080
 
-const downloadResources = (cbk) => {
+const downloadResources = (cb) => {
   const COVID19_IG_URL = process.env.COVID19_IG_URL || 'https://openhie.github.io/covid-ig'
   
   if (fs.existsSync(resourcesPath))
@@ -27,14 +27,14 @@ const downloadResources = (cbk) => {
       resources.close()
 
       const unzip = spawn('unzip', [path.resolve(resourcesPath, 'fhir-resources.zip'), '-d', resourcesPath])
-      unzip.stderr.on('data', cbk)
+      unzip.stderr.on('data', cb)
 
       unzip.on('close', () => {
         const allFiles = fs.readdirSync(resourcesPath) || []
-        return cbk(null, allFiles.filter(file => file.endsWith('.json')))
+        return cb(null, allFiles.filter(file => file.endsWith('.json')))
       })
     })
-  }).on('error', cbk)
+  }).on('error', cb)
 }
 
 const postToFHIRServer = (file) => new Promise((resolve, reject) => {
@@ -45,8 +45,8 @@ const postToFHIRServer = (file) => new Promise((resolve, reject) => {
     protocol: process.env.COVID19_IG_PROTOCOL || 'http:',
     host: HAPI_FHIR_HOSTNAME,
     port: HAPI_FHIR_PORT,
-    path: `${HAPI_FHIR_PATH}/${resourceName}`,
-    method: 'POST',
+    path: `${HAPI_FHIR_PATH}/${resourceName}/${JSON.parse(data).id}`,
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       'Content-Length': Buffer.byteLength(data),
@@ -81,12 +81,56 @@ const postToFHIRServer = (file) => new Promise((resolve, reject) => {
   req.end()
 })
 
-downloadResources((err, files) => {
+const findMatch = ({file, resourceTypes}) => {
+  const regex = new RegExp(resourceTypes.join("|"), "g")
+  const match = file.match(regex)
+  return match ? match[0] : null
+}
+
+const buildResourceCollectionsObject = ({files, resourceTypes}) => {
+  const result = Object.create({ 'Other': [] })
+  resourceTypes.forEach(resourceType => {
+    result[resourceType] = []
+  })
+
+  files.forEach((file) => {
+    const match = findMatch({ file, resourceTypes })
+    result[match ? match : 'Other'].push(file)
+  })
+
+  return result
+}
+
+downloadResources(async (err, files) => {
   if (err) {
     console.error(err)
   } else {
-    Promise.all(files.map(postToFHIRServer))
-      .then(console.log)
-      .catch(console.error)
+    const resourceCollections = buildResourceCollectionsObject({
+      files,
+      resourceTypes: [
+        'CodeSystem',
+        'ConceptMap',
+        'ValueSet',
+        'ImplementationGuide'
+      ]
+    })
+
+    try {
+      await sendResources(
+        resourceCollections['Other'].concat(
+          resourceCollections['ValueSet'],
+          resourceCollections['CodeSystem'],
+          resourceCollections['ConceptMap']
+        )
+      )
+      console.log('Posting of Resources resources to Hapi FHIR successfully done')
+    } catch (err) {
+      console.log(err)
+    }
   }
 })
+
+async function sendResources (resources) {
+  await postToFHIRServer(resources.pop())
+  await sendResources(resources)
+}
