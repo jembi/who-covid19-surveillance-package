@@ -107,18 +107,31 @@ downloadResources(async (err, files) => {
   } else {
     const resourceCollections = buildResourceCollectionsObject({
       files,
-      resourceTypes: ['CodeSystem', 'ConceptMap', 'ValueSet', 'ImplementationGuide']
+      resourceTypes: [
+        'CodeSystem',
+        'ConceptMap',
+        'ValueSet',
+        'ImplementationGuide'
+      ]
     })
 
     try {
-      await Promise.all(resourceCollections['ConceptMap'].map(postToFHIRServer))
-      await Promise.all(resourceCollections['CodeSystem'].map(postToFHIRServer))
-      await Promise.all(resourceCollections['ValueSet'].map(postToFHIRServer))
-      await Promise.all(resourceCollections['Other'].map(postToFHIRServer))
-      await Promise.all(resourceCollections['ImplementationGuide'].map(postToFHIRServer))
-      console.log('Posting of IG resources to Hapi FHIR successfully done')
+      await sendResources(
+        resourceCollections['ImplementationGuide'].concat(
+          resourceCollections['Other'],
+          resourceCollections['ValueSet'],
+          resourceCollections['CodeSystem'],
+          resourceCollections['ConceptMap']
+        )
+      )
+      console.log('Posting of Resources resources to Hapi FHIR successfully done')
     } catch (err) {
       console.log(err)
     }
   }
 })
+
+async function sendResources (resources) {
+  await postToFHIRServer(resources.pop())
+  await sendResources(resources)
+}
