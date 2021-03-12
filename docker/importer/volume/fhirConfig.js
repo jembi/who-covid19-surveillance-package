@@ -117,8 +117,7 @@ downloadResources(async (err, files) => {
 
     try {
       await sendResources(
-        resourceCollections['ImplementationGuide'].concat(
-          resourceCollections['Other'],
+        resourceCollections['Other'].concat(
           resourceCollections['ValueSet'],
           resourceCollections['CodeSystem'],
           resourceCollections['ConceptMap']
