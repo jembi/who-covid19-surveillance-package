@@ -131,6 +131,7 @@ downloadResources(async (err, files) => {
 })
 
 async function sendResources (resources) {
+  if (!resources.length) return
   await postToFHIRServer(resources.pop())
   await sendResources(resources)
 }
