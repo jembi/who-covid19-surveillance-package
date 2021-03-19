@@ -62,19 +62,18 @@ const postToFHIRServer = (file) => new Promise((resolve, reject) => {
 
       res.on('end', () => {
         if (responseData) {
-          reject(`${resourceName} resource creation failed: ${responseData}`)
+          reject(new Error(`${resourceName} resource creation failed: ${responseData}`))
         }
       })
 
       res.on('error', reject)
-      return
     } else {
       resolve(`Successfully created ${resourceName} resource`)
     }
   })
 
   req.on('error', (error) => {
-    reject('Failed to add resource: ', error)
+    reject(new Error(`Failed to add resource:  ${error}`))
   })
 
   req.write(data)
@@ -95,7 +94,7 @@ const buildResourceCollectionsObject = ({files, resourceTypes}) => {
 
   files.forEach((file) => {
     const match = findMatch({ file, resourceTypes })
-    result[match ? match : 'Other'].push(file)
+    result[match || 'Other'].push(file)
   })
 
   return result
@@ -117,10 +116,10 @@ downloadResources(async (err, files) => {
 
     try {
       await sendResources(
-        resourceCollections['Other'].concat(
-          resourceCollections['ValueSet'],
-          resourceCollections['CodeSystem'],
-          resourceCollections['ConceptMap']
+        resourceCollections.Other.concat(
+          resourceCollections.ValueSet,
+          resourceCollections.CodeSystem,
+          resourceCollections.ConceptMap
         )
       )
       console.log('Posting of Resources resources to Hapi FHIR successfully done')
