@@ -1,0 +1,74 @@
+{
+  "name": "FHIR - Resolve Location",
+  "description": "Confirm that a Location resource exists in Hapi Fhir, and if not create the resource",
+  "endpoint": {
+    "pattern": "/resolve-location"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputValidation": {
+    "type": "object",
+    "properties": {
+      "requestBody": {
+        "type": "object",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "enum": ["Location"]
+          },
+          "id": {"type": "string"}
+        },
+        "required": ["resourceType", "id"]
+      },
+      "lookupRequests": {
+        "type": "object",
+        "properties": {
+          "storeLocation": {
+            "type": "object",
+            "properties": {
+              "resourceType": {
+                "type": "string",
+                "enum": ["Location"],
+                "errorMessage": "Invalid resource type returned, expected 'Location'"
+              },
+              "id": {"type": "string"}
+            },
+            "required": ["resourceType", "id"]
+          }
+        },
+        "required": ["storeLocation"]
+      }
+    },
+    "required": ["requestBody", "lookupRequests"]
+  },
+  "inputMapping": {
+    "transforms.locationReference": "locationReference"
+  },
+  "inputTransforms": {
+    "locationReference": "'Location/' & lookupRequests.storeLocation.id"
+  },
+  "requests": {
+    "lookup": [
+      {
+        "id": "storeLocation",
+        "forwardExistingRequestBody": true,
+        "config": {
+          "method": "PUT",
+          "url": "http://hapi-fhir:8080/fhir/Location/:id",
+          "headers": {
+            "Accept": "application/fhir+json"
+          },
+          "params": {
+            "url": {
+              "id": {
+                "path": "payload.id"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}
