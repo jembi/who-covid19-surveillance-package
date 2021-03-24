@@ -10,7 +10,7 @@
   },
   "inputTransforms": {
     "createDate": "$substringBefore( $now(), 'T')",
-    "compositionId": "'urn:uid:' & $substringAfter($string($random()), '0.')"
+    "compositionId": "'urn:uuid:' & $substringAfter($string($random()), '0.')"
   },
   "inputMapping": {
     "constants.template": "composition",
@@ -85,6 +85,10 @@
             "entry": []
           }
         ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Composition"
       }
     }
   }
