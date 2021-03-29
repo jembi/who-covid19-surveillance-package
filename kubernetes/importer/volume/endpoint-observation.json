@@ -13,7 +13,9 @@
     "requestBody.value": "observation.resource",
     "requestBody.coding": "observation.resource.code.coding[]+",
     "constants.template.resource.resourceType": "observation.resource.resourceType",
-    "constants.template.resource.status": "observation.resource.status"
+    "constants.template.resource.status": "observation.resource.status",
+    "constants.template.request.method": "observation.request.method",
+    "constants.template.request.url": "observation.request.url"
   },
   "constants": {
     "template": {
@@ -23,6 +25,10 @@
           "coding": []
         },
         "status": "final"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
       }
     }
   }

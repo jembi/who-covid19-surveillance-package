@@ -10,7 +10,7 @@
   },
   "constants": {
     "resourceType": "Bundle",
-    "type": "document"
+    "type": "transaction"
   },
   "inputMapping": {
     "constants.resourceType": "resourceType",

@@ -10,7 +10,7 @@
   },
   "constants": {
     "resourceType": "Bundle",
-    "type": "document"
+    "type": "transaction"
   },
   "inputMapping": {
     "constants.resourceType": "resourceType",
@@ -68,7 +68,7 @@
         "id": "hapi-fhir",
         "config": {
           "method": "post",
-          "url": "http://hapi-fhir:8080/fhir/Bundle",
+          "url": "http://hapi-fhir:8080/fhir",
           "headers": {
             "Content-Type": "application/json"
           }
