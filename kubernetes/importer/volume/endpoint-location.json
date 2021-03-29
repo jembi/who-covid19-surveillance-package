@@ -1,5 +1,5 @@
 {
-  "name": "FHIR - Resolve Location",
+  "name": "FHIR - Get Location",
   "description": "Confirm that a Location resource exists for the search parameters provided",
   "endpoint": {
     "pattern": "/get-location"
@@ -41,14 +41,11 @@
           "getLocation": {
             "type": "object",
             "properties": {
-              "entry": {
-                "type": "array",
-                "maximum": 1,
-                "minimum": 1,
-                "errorMessage": "If the entry value is missing check that the location search parameters are correct and that the location exists on HAPI FHIR"
+              "total": {
+                "type": "number"
               }
             },
-            "required": ["entry"]
+            "required": ["total"]
           }
         },
         "required": ["getLocation"]
@@ -57,10 +54,46 @@
     "required": ["requestBody", "lookupRequests"]
   },
   "inputMapping": {
-    "transforms.locationReference": "locationReference"
+    "transforms.resourceType": "resourceType",
+    "transforms.locationId": "id",
+    "transforms.identifier": "identifier",
+    "transforms.status": "status",
+    "transforms.operationalStatus": "operationalStatus",
+    "transforms.name": "name",
+    "transforms.alias": "alias",
+    "transforms.description": "description",
+    "transforms.mode": "mode",
+    "transforms.type": "type",
+    "transforms.telecom": "telecom",
+    "transforms.address": "address",
+    "transforms.physicalType": "physicalType",
+    "transforms.position": "position",
+    "transforms.managingOrganization": "managingOrganization",
+    "transforms.partOf": "partOf",
+    "transforms.hoursOfOperation": "hoursOfOperation",
+    "transforms.availabilityExceptions": "availabilityExceptions",
+    "transforms.endpoint": "endpoint"
   },
   "inputTransforms": {
-    "locationReference": "'Location/' & lookupRequests.getLocation.entry[0].resource.id"
+    "resourceType": "$boolean(lookupRequests.getLocation.total) ? lookupRequests.getLocation.entry[0].resource.resourceType : 'Location'",
+    "locationId": "$boolean(lookupRequests.getLocation.total) ? lookupRequests.getLocation.entry[0].resource.id : 'covid19' & $substringAfter($string($random()), '0.')",
+    "identifier": "$boolean(lookupRequests.getLocation.total) ? lookupRequests.getLocation.entry[0].resource.identifier : null",
+    "status": "$boolean(lookupRequests.getLocation.total) ? lookupRequests.getLocation.entry[0].resource.status : null",
+    "operationalStatus": "$boolean(lookupRequests.getLocation.total) ? lookupRequests.getLocation.entry[0].resource.operationalStatus : null",
+    "name": "$boolean(lookupRequests.getLocation.total) ? lookupRequests.getLocation.entry[0].resource.name : null",
+    "alias": "$boolean(lookupRequests.getLocation.total) ? lookupRequests.getLocation.entry[0].resource.alias : null",
+    "description": "$boolean(lookupRequests.getLocation.total) ? lookupRequests.getLocation.entry[0].resource.description : null",
+    "mode": "$boolean(lookupRequests.getLocation.total) ? lookupRequests.getLocation.entry[0].resource.mode : null",
+    "type": "$boolean(lookupRequests.getLocation.total) ? lookupRequests.getLocation.entry[0].resource.type : null",
+    "telecom": "$boolean(lookupRequests.getLocation.total) ? lookupRequests.getLocation.entry[0].resource.telecom : null",
+    "address": "$boolean(lookupRequests.getLocation.total) ? lookupRequests.getLocation.entry[0].resource.address : {'state': requestBody.data.location.state, 'country': requestBody.data.location.country}",
+    "physicalType": "$boolean(lookupRequests.getLocation.total) ? lookupRequests.getLocation.entry[0].resource.physicalType : null",
+    "position": "$boolean(lookupRequests.getLocation.total) ? lookupRequests.getLocation.entry[0].resource.position : null",
+    "managingOrganization": "$boolean(lookupRequests.getLocation.total) ? lookupRequests.getLocation.entry[0].resource.managingOrganization : null",
+    "partOf": "$boolean(lookupRequests.getLocation.total) ? lookupRequests.getLocation.entry[0].resource.partOf : null",
+    "hoursOfOperation": "$boolean(lookupRequests.getLocation.total) ? lookupRequests.getLocation.entry[0].resource.hoursOfOperation : null",
+    "availabilityExceptions": "$boolean(lookupRequests.getLocation.total) ? lookupRequests.getLocation.entry[0].resource.availabilityExceptions : null",
+    "endpoint": "$boolean(lookupRequests.getLocation.total) ? lookupRequests.getLocation.entry[0].resource.endpoint : null"
   },
   "requests": {
     "lookup": [
@@ -68,9 +101,10 @@
         "id": "getLocation",
         "config": {
           "method": "GET",
-          "url": "http://hapi.fhir.org/baseR4/Location",
+          "url": "http://hapi-fhir:8080/fhir/Location",
           "headers": {
-            "Accept": "application/fhir+json"
+            "Accept": "application/fhir+json",
+            "Cache-Control": "no-cache"
           },
           "params": {
             "query": {
@@ -81,6 +115,19 @@
                 "path": "payload.data.location.country"
               }
             }
+          }
+        }
+      }
+    ],
+    "response": [
+      {
+        "id": "resolveLocation",
+        "primary": true,
+        "config": {
+          "method": "post",
+          "url": "http://localhost:3003/resolve-location",
+          "headers": {
+            "Content-Type": "application/json"
           }
         }
       }

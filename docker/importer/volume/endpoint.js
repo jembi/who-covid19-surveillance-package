@@ -16,7 +16,8 @@ const ENDPOINT_FILES = [
   'endpoint-bundler.json',
   'endpoint-composition.json',
   'endpoint-encounter.json',
-  'endpoint-observation.json'
+  'endpoint-observation.json',
+  'endpoint-location-resolver.json'
 ]
 
 ENDPOINT_FILES.forEach(file => {

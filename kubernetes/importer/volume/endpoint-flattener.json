@@ -10,14 +10,14 @@
   },
   "inputTransforms": {
     "itemsObject": "(**.item){linkId: $exists(answer[0])? {'answer': answer[0], 'definition': definition, 'text': text}}",
-    "encounterId": "'urn:uid:' & $substringAfter($string($random()), '0.')",
-    "observationId0": "'urn:uid:' & $substringAfter($string($random()), '0.')",
-    "observationId1": "'urn:uid:' & $substringAfter($string($random()), '0.')",
-    "observationId2": "'urn:uid:' & $substringAfter($string($random()), '0.')",
-    "observationId3": "'urn:uid:' & $substringAfter($string($random()), '0.')",
-    "observationId4": "'urn:uid:' & $substringAfter($string($random()), '0.')",
-    "observationId5": "'urn:uid:' & $substringAfter($string($random()), '0.')",
-    "observationId6": "'urn:uid:' & $substringAfter($string($random()), '0.')"
+    "encounterId": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId0": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId1": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId2": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId3": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId4": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId5": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId6": "'urn:uuid:' & $substringAfter($string($random()), '0.')"
   },
   "inputMapping": {
     "transforms.itemsObject.patinfo_ID.answer.valueString": "identifier",

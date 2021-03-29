@@ -254,7 +254,7 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
 {
   "resourceType": "Bundle",
   "id": "WhoCrBundleExample",
-  "type": "document",
+  "type": "transaction",
   "entry": [
     {
       "fullUrl": "http://test.org/fhir/Composition/WhoCrCompositionBasicExample",
@@ -351,6 +351,10 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
             ]
           }
         ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Composition"
       }
     },
     {
@@ -370,6 +374,10 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
           "code": "ACUTE",
           "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
         }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Encounter"
       }
     },
     {
@@ -396,6 +404,10 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
           "system": "https://openconceptlab.org/orgs/CIEL/sources/CIEL/concepts/",
           "code": "1734"
         }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
       }
     },
     {
@@ -425,6 +437,10 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
             }
           ]
         }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
       }
     },
     {
@@ -447,6 +463,10 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
         },
         "status": "final",
         "valueDateTime": "2021-01-18"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
       }
     },
     {
@@ -476,6 +496,10 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
             }
           ]
         }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
       }
     },
     {
@@ -498,6 +522,10 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
         },
         "status": "final",
         "valueDateTime": "2021-01-15"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
       }
     },
     {
@@ -527,6 +555,10 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
             }
           ]
         }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
       }
     },
     {
@@ -556,6 +588,10 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
             }
           ]
         }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
       }
     }
   ]
