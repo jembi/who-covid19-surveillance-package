@@ -14,9 +14,6 @@ configMapGenerator:
       - ./volume/endpoint-observation.json
       - ./volume/endpoint-resource-resolver.json
       - ./volume/endpoint.js
-  - name: covid19-surveillance-hapi-fhir-config-importer-configmap
-    files:
-      - ./volume/fhirConfig.js
 resources:
   - ./covid19-surveillance-mapper-config-importer-job.yaml
   - ./covid19-surveillance-endpoint-importer-job.yaml

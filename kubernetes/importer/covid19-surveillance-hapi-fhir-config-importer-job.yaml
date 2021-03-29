@@ -22,23 +22,12 @@ spec:
           args:
             - sh
             - -c
-            - wait-on -t 60000 https-get://hapi-fhir-server-service:8080 && node fhirConfig.js
+            - wait-on -t 60000 http-get://hapi-fhir-server-service:8080 && node index.js
           env:
-            - name: HAPI_FHIR_PATH
+            - name: HAPI_FHIR_BASE_URL
+              value: 'http://hapi-fhir-server-service:8080'
+            - name: IG_DEFINITIONS_URL
+              value: 'https://openhie.github.io/covid-ig/definitions.json.zip'
+            - name: HAPI_FHIR_BASE_PATH
               value: '/fhir'
-            - name: HAPI_FHIR_HOSTNAME
-              value: hapi-fhir-server-service
-            - name: HAPI_FHIR_PORT
-              value: '8080'
-            - name: COVID19_IG_URL
-              value: 'https://openhie.github.io/covid-ig'
-            - name: COVID19_IG_PROTOCOL
-              value: 'http:'
-          volumeMounts:
-            - mountPath: /importer
-              name: covid19-surveillance-hapi-fhir-config-importer-config
       restartPolicy: OnFailure
-      volumes:
-        - name: covid19-surveillance-hapi-fhir-config-importer-config
-          configMap:
-            name: covid19-surveillance-hapi-fhir-config-importer-configmap
