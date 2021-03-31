@@ -42,7 +42,7 @@ services:
     environment:
       HAPI_FHIR_BASE_PATH: '/fhir'
       HAPI_FHIR_BASE_URL: 'http://hapi-fhir:8080'
-      IG_DEFINITIONS_URL: 'https://openhie.github.io/covid-ig/defitions.json.zip'
+      IG_DEFINITIONS_URL: 'https://openhie.github.io/covid-ig/definitions.json.zip'
     command: sh -c "wait-on -t 60000 http-get://hapi-fhir:8080 && sleep 1 && node index.js"
 
 volumes:
