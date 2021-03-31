@@ -34,6 +34,16 @@ services:
         target: /instant
     # This command will only attempt to import the covid19-surveillance-mediator config when the uptime endpoint responds with 200
     command: sh -c "wait-on -t 60000 http-get://covid19-surveillance-mediator:3003/uptime && sleep 1 && node /instant/who-covid19-surveillance-package/docker/importer/volume/endpoint.js"
+  
+  hapi-fhir-config-importer:
+    container_name: hapi-fhir-config-importer
+    image: jembi/instantohie-hapi-fhir-ig-importer:1.0.0
+    restart: on-failure
+    environment:
+      HAPI_FHIR_BASE_PATH: '/fhir'
+      HAPI_FHIR_BASE_URL: 'http://hapi-fhir:8080'
+      IG_DEFINITIONS_URL: 'https://openhie.github.io/covid-ig/definitions.json.zip'
+    command: sh -c "wait-on -t 60000 http-get://hapi-fhir:8080 && sleep 1 && node index.js"
 
 volumes:
   instant:

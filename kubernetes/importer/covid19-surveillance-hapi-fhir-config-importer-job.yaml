@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: covid19-surveillance-hapi-fhir-config-importer-job
+  labels:
+    app.kubernetes.io/name: hapi-fhir-config-importer
+    app.kubernetes.io/instance: covid19-surveillance-hapi-fhir-config-importer-1
+    app.kubernetes.io/version: '0.1'
+    app.kubernetes.io/component: hapi-fhir-config-importer
+    package: covid19surveillance
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      initContainers:
+        - name: covid19-surveillance-check-hapi-fhir-status
+          image: busybox:1.28
+          command: ['sh', '-c', 'until telnet hapi-fhir-server-service 8080; do echo HAPI FHIR not running yet; sleep 10; done;']
+      containers:
+        - name: covid19-surveillance-hapi-fhir-config-importer
+          image: jembi/instantohie-hapi-fhir-ig-importer:1.0.0
+          args:
+            - sh
+            - -c
+            - wait-on -t 60000 http-get://hapi-fhir-server-service:8080 && node index.js
+          env:
+            - name: HAPI_FHIR_BASE_URL
+              value: 'http://hapi-fhir-server-service:8080'
+            - name: IG_DEFINITIONS_URL
+              value: 'https://openhie.github.io/covid-ig/definitions.json.zip'
+            - name: HAPI_FHIR_BASE_PATH
+              value: '/fhir'
+      restartPolicy: OnFailure
