@@ -37,7 +37,7 @@ services:
   
   hapi-fhir-config-importer:
     container_name: hapi-fhir-config-importer
-    image: jembi/instantohie-hapi-fhir-ig-importer:1.0.0
+    image: jembi/instantohie-hapi-fhir-ig-importer:1.0.1
     restart: on-failure
     environment:
       HAPI_FHIR_BASE_PATH: '/fhir'
