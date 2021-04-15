@@ -1,19 +1,19 @@
 configMapGenerator:
   - name: covid19-surveillance-mapper-config-importer-configmap
     files:
-      - ./volume/openhim-import.json
-      - ./volume/openhimConfig.js
+      - ./volume/openhim/openhim-import.json
+      - ./volume/openhim/openhimConfig.js
   - name: covid19-surveillance-endpoint-importer-configmap
     files:
-      - ./volume/endpoint-bundler.json
-      - ./volume/endpoint-composition.json
-      - ./volume/endpoint-encounter.json
-      - ./volume/endpoint-flattener.json
-      - ./volume/endpoint-handler.json
-      - ./volume/endpoint-location.json
-      - ./volume/endpoint-observation.json
-      - ./volume/endpoint-resource-resolver.json
-      - ./volume/endpoint.js
+      - ./volume/surveillance-mediator/endpoint-bundler.json
+      - ./volume/surveillance-mediator/endpoint-composition.json
+      - ./volume/surveillance-mediator/endpoint-encounter.json
+      - ./volume/surveillance-mediator/endpoint-flattener.json
+      - ./volume/surveillance-mediator/endpoint-handler.json
+      - ./volume/surveillance-mediator/endpoint-location.json
+      - ./volume/surveillance-mediator/endpoint-observation.json
+      - ./volume/surveillance-mediator/endpoint-resource-resolver.json
+      - ./volume/surveillance-mediator/endpoint.js
 resources:
   - ./covid19-surveillance-mapper-config-importer-job.yaml
   - ./covid19-surveillance-endpoint-importer-job.yaml
