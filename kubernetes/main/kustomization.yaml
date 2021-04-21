@@ -1,3 +1,5 @@
 resources:
   - ./mapper/mapper-deployment.yaml
   - ./mapper/mapper-service.yaml
+  - ./file-queue/file-queue-deployment.yaml
+  - ./file-queue/file-queue-service.yaml
