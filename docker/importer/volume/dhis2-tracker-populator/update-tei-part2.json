@@ -1,0 +1,38 @@
+{
+  "name": "Part 2 of Updating a DHIS2 Tracked Entity Instance",
+  "endpoint": {
+    "method": "POST",
+    "pattern": "/updateTrackedEntityInstance/:trackedEntityInstanceID"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputMapping": {
+    "requestBody.trackedEntityType": "trackedEntityType",
+    "requestBody.orgUnit": "orgUnit",
+    "requestBody.attributes": "attributes"
+  },
+  "requests": {
+    "response": [
+      {
+        "id": "dhis-trackedEntityInstances",
+        "config": {
+          "method": "PUT",
+          "url": "http://dhis-web:8080/api/trackedEntityInstances/:trackedEntityInstanceID",
+          "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "Basic YWRtaW46ZGlzdHJpY3Q="
+          },
+          "params": {
+            "url": {
+              "trackedEntityInstanceID": {
+                "path": "urlParams.trackedEntityInstanceID"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

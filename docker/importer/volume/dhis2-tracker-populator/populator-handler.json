@@ -1,0 +1,151 @@
+{
+  "name": "Populator Handler - Create/Update TEI, Enrollment, and Event",
+  "endpoint": {
+    "method": "POST",
+    "pattern": "/populator"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputMapping": {
+    "requestBody.program": "program",
+    "requestBody.attributes": "attributes",
+    "requestBody.trackedEntityType": "trackedEntityType",
+    "requestBody.event": "event",
+    "requestBody.enrollmentDate": "enrollmentDate",
+    "requestBody.incidentDate": "incidentDate",
+
+    "transforms.orgUnit": "orgUnit",
+    "transforms.eventDate": {
+      "key": "event.eventDate",
+      "transform": {
+        "function": "dateTimeToDate"
+      }
+    }
+  },
+  "inputTransforms": {
+    "trackedEntityInstanceID": "$exists(lookupRequests.getTrackedEntityInstance.trackedEntityInstances[0].trackedEntityInstance) ? lookupRequests.getTrackedEntityInstance.trackedEntityInstances[0].trackedEntityInstance : ''",
+    "eventDate": "$exists(requestBody.eventDate) ? requestBody.eventDate : $now()",
+    "orgUnit": "$exists(requestBody.orgUnit) ? requestBody.orgUnit : lookupRequests.getTrackedEntityInstance.trackedEntityInstances[0].orgUnit"
+  },
+  "inputValidation": {
+    "type": "object",
+    "properties": {
+      "requestBody": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "type": "array"
+          },
+          "orgUnit": {
+            "type": "string"
+          },
+          "teiIdentifier": {
+            "type": "string"
+          },
+          "event": {
+            "type": "object",
+            "properties": {
+              "programStage": {
+                "type": "string"
+              }
+            },
+            "required": ["programStage"]
+          },
+          "enrollmentDate": {
+            "type": "string"
+          },
+          "incidentDate": {
+            "type": "string"
+          },
+          "eventDate": {
+            "type": "string",
+            "pattern": "^(19|20)\\d\\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$"
+          }
+        },
+        "required": ["teiIdentifier"]
+      },
+      "lookupRequests": {
+        "type": "object",
+        "properties": {
+          "getTrackedEntityInstance": {
+            "type": "object",
+            "properties": {
+              "trackedEntityInstances": {
+                "type": "array",
+                "maxItems": 1,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "trackedEntityInstance": {
+                      "type": "string"
+                    },
+                    "orgUnit": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "required": ["trackedEntityInstances"]
+          }
+        },
+        "required": ["getTrackedEntityInstance"]
+      }
+    }
+  },
+  "requests": {
+    "response": [
+      {
+        "id": "trackedEntityInstanceHandler",
+        "config": {
+          "method": "POST",
+          "url": "http://populator:3003/trackedEntityInstance/:trackedEntityInstanceID",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "params": {
+            "url": {
+              "trackedEntityInstanceID": {
+                "path": "transforms.trackedEntityInstanceID"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "lookup": [
+      {
+        "id": "getTrackedEntityInstance",
+        "config": {
+          "method": "GET",
+          "url": "http://dhis-web:8080/api/trackedEntityInstances",
+          "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "Basic YWRtaW46ZGlzdHJpY3Q="
+          },
+          "params": {
+            "query": {
+              "ou": {
+                "path": "constants.topLevelOrgUnit"
+              },
+              "ouMode": {
+                "path": "constants.orgUnitSearchMode"
+              },
+              "filter": {
+                "path": "payload.teiIdentifier",
+                "prefix": "MCPQUTHX1Ze:EQ:",
+                "label": "^^^ This value is the DHIS2 TEI unique field UUID. It needs to be configured per DHIS2 instance"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "constants": {
+    "topLevelOrgUnit": "ImspTQPwCqd",
+    "orgUnitSearchMode": "DESCENDANTS"
+  }
+}
