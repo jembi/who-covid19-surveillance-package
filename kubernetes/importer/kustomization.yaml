@@ -15,6 +15,8 @@ configMapGenerator:
       - ./volume/surveillance-mediator/endpoint-resource-resolver.json
       - ./volume/surveillance-mediator/endpoint.js
 resources:
+  - ./dhis2-metadata-config-volume-claim.yaml
+  - ./dhis2-metadata-config-importer-job.yaml
   - ./covid19-surveillance-mapper-config-importer-job.yaml
   - ./covid19-surveillance-endpoint-importer-job.yaml
   - ./covid19-surveillance-hapi-fhir-config-importer-job.yaml
