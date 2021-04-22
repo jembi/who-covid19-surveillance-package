@@ -1,0 +1,129 @@
+{
+  "name": "Enrollment handler - Create/Update Enrollment",
+  "endpoint": {
+    "method": "POST",
+    "pattern": "/enrollmentHandler"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputMapping": {
+    "requestBody.orgUnit": "orgUnit",
+    "requestBody.program": "program",
+    "requestBody.trackedEntityInstance": "trackedEntityInstance",
+    "requestBody.event": "event",
+    "requestBody.enrollmentDate": "enrollmentDate",
+    "requestBody.incidentDate": "incidentDate"
+  },
+  "inputTransforms": {
+    "enrollmentID": "$exists(lookupRequests.getEnrollment.enrollments[0].enrollment) ? lookupRequests.getEnrollment.enrollments[0].enrollment : ''"
+  },
+  "inputValidation": {
+    "type": "object",
+    "properties": {
+      "requestBody": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "type": "array"
+          },
+          "orgUnit": {
+            "type": "string"
+          },
+          "event": {
+            "type": "object",
+            "properties": {
+              "programStage": {
+                "type": "string"
+              }
+            },
+            "required": ["programStage"]
+          },
+          "enrollmentDate": {
+            "type": "string"
+          },
+          "incidentDate": {
+            "type": "string"
+          }
+        },
+        "required": ["orgUnit", "program", "trackedEntityInstance"]
+      },
+      "lookupRequests": {
+        "type": "object",
+        "properties": {
+          "getEnrollment": {
+            "type": "object",
+            "properties": {
+              "enrollments": {
+                "type": "array",
+                "maxItems": 1,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "enrollment": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "required": ["enrollments"]
+          }
+        },
+        "required": ["getEnrollment"]
+      }
+    }
+  },
+  "requests": {
+    "lookup": [
+      {
+        "id": "getEnrollment",
+        "config": {
+          "method": "GET",
+          "url": "http://dhis-web:8080/api/enrollments.json",
+          "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "Basic YWRtaW46ZGlzdHJpY3Q="
+          },
+          "params": {
+            "query": {
+              "trackedEntityInstance": {
+                "path": "payload.trackedEntityInstance"
+              },
+              "ou": {
+                "path": "constants.topLevelOrgUnit"
+              },
+              "ouMode": {
+                "path": "constants.orgUnitSearchMode"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "response": [
+      {
+        "id": "enrollmentHandler",
+        "config": {
+          "method": "POST",
+          "url": "http://populator:3003/enrollment/:enrollmentID",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "params": {
+            "url": {
+              "enrollmentID": {
+                "path": "transforms.enrollmentID"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "constants": {
+    "topLevelOrgUnit": "ImspTQPwCqd",
+    "orgUnitSearchMode": "DESCENDANTS"
+  }
+}

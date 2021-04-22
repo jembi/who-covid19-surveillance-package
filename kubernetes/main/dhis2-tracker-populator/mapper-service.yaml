@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dhis2-tracker-populator-mapper-service
+  labels:
+    package: covid19surveillance
+spec:
+  type: LoadBalancer
+  selector:
+    component: dhis2-tracker-populator-mapper
+  ports:
+    - name: dhis2-tracker-populator-mapper-3033
+      port: 3033
+      targetPort: 3003

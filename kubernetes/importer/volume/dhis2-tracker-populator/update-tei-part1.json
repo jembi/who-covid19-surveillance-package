@@ -1,0 +1,93 @@
+{
+  "name": "Part 1 of Updating a DHIS2 Tracked Entity Instance",
+  "endpoint": {
+    "method": "POST",
+    "pattern": "/trackedEntityInstance/:trackedEntityInstanceID"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputMapping": {
+    "requestBody.orgUnit": "orgUnit",
+    "requestBody.event": "event",
+    "requestBody.program": "program",
+    "requestBody.enrollmentDate": "enrollmentDate",
+    "requestBody.incidentDate": "incidentDate",
+    "urlParams.trackedEntityInstanceID": "trackedEntityInstance"
+  },
+  "inputValidation": {
+    "type": "object",
+    "properties": {
+      "requestBody": {
+        "type": "object",
+        "properties": {
+          "enrollmentDate": {
+            "type": "string"
+          },
+          "incidentDate": {
+            "type": "string"
+          }
+        },
+        "required": ["orgUnit", "attributes", "event"]
+      },
+      "lookupRequests": {
+        "type": "object",
+        "properties": {
+          "updateTrackedEntityInstance": {
+            "type": "object",
+            "properties": {
+              "response": {
+                "type": "object",
+                "properties": {
+                  "body": {
+                    "type": "string",
+                    "pattern": "importCount\\S{15,35}updated\\S{1,7}1"
+                  }
+                },
+                "required": ["body"]
+              }
+            },
+            "required": ["response"]
+          }
+        },
+        "required": ["updateTrackedEntityInstance"]
+      }
+    },
+    "required": ["requestBody", "lookupRequests"]
+  },
+  "requests": {
+    "lookup": [
+      {
+        "id": "updateTrackedEntityInstance",
+        "forwardExistingRequestBody": true,
+        "config": {
+          "method": "POST",
+          "url": "http://populator:3003/updateTrackedEntityInstance/:trackedEntityInstanceID",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "params": {
+            "url": {
+              "trackedEntityInstanceID": {
+                "path": "urlParams.trackedEntityInstanceID"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "response": [
+      {
+        "id": "enrollmentHandler",
+        "config": {
+          "method": "POST",
+          "url": "http://populator:3003/enrollmentHandler",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ]
+  }
+}
