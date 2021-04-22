@@ -16,7 +16,7 @@ services:
     image: jembi/openhim-mediator-file-queue:latest
     container_name: file-queue
     volumes:
-      - file-queue-config:/opt/openhim-mediator-file-queue/config/mediator.json
+      - file-queue-config:/opt/openhim-mediator-file-queue/config
     environment:
       - SERVER_PORT=4002
       - API_URL=https://core:8080
