@@ -41,7 +41,7 @@ exports.verifyDhis2Configured = async () => {
       throw new Error('DHIS2 config issue!')
     }
   } catch (error) {
-    throw new Error(`DHIS2 issues!: ${error.message}`)
+    throw new Error(`DHIS2 issues: ${error.message}`)
   }
 }
 
