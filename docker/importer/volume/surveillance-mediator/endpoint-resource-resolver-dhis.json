@@ -18,16 +18,30 @@
     "required": ["requestBody"]
   },
   "inputMapping": {
-    "requestBody.identifier": "teiIdentifier",
+    "requestBody.data.identifier": "teiIdentifier",
     "constants.program": "program",
     "constants.orgUnit": "orgUnit",
     "constants.trackedEntityType": "trackedEntityType",
     "constants.status": "event.status",
     "constants.stage": "event.programStage",
-
+    "requestBody.data.observations[1].value.valueCodeableConcept.coding[0].code": {
+      "key": "attributes[]+",
+      "transform": {
+        "function": "mapCodes",
+        "parameters": {
+          "male": {
+            "attribute": "oindugucx72",
+            "value": "Male"
+          },
+          "female": {
+            "attribute": "oindugucx72",
+            "value": "Female"
+          }
+        }
+      }
+    },
     "transforms.patinfo_ID": "attributes[]+",
     "transforms.patinfo_ageonset": "attributes[]+",
-    "transforms.patinfo_sex": "attributes[]+",
     "transforms.caseId": "attributes[]+",
 
     "transforms.incidentDate": {
@@ -37,22 +51,76 @@
       }
     },
 
-    "transforms.patcourse_asymp": "event.dataValues[]+",
-    "transforms.Comcond_any": "event.dataValues[]+",
-    "transforms.patcourse_dateonset": "event.dataValues[]+",
-    "transforms.expo_travel": "event.dataValues[]+"
+    "requestBody.data.observations[3].value.valueCodeableConcept.coding[0].code": {
+      "key": "event.dataValues[]+",
+      "transform": {
+        "function": "mapCodes",
+        "parameters": {
+          "Y": {
+            "dataElement": "JGnHr6WI3AY",
+            "value": "Yes"
+          },
+          "N": {
+            "dataElement": "JGnHr6WI3AY",
+            "value": "No"
+          },
+          "U": {
+            "dataElement": "JGnHr6WI3AY",
+            "value": "Unknown"
+          }
+        }
+      }
+    },
+    "requestBody.data.observations[5].value.valueCodeableConcept.coding[0].code": {
+      "key": "event.dataValues[]+",
+      "transform": {
+        "function": "mapCodes",
+        "parameters": {
+          "Y": {
+            "dataElement": "sJeIFfhX8BE",
+            "value": "Yes"
+          },
+          "N": {
+            "dataElement": "sJeIFfhX8BE",
+            "value": "No"
+          },
+          "U": {
+            "dataElement": "sJeIFfhX8BE",
+            "value": "Unknown"
+          }
+        }
+      }
+    },
+    "requestBody.data.observations[6].value.valueCodeableConcept.coding[0].code": {
+      "key": "event.dataValues[]+",
+      "transform": {
+        "function": "mapCodes",
+        "parameters": {
+          "Y": {
+            "dataElement": "TzqawmlPkI5",
+            "value": "Yes"
+          },
+          "N": {
+            "dataElement": "TzqawmlPkI5",
+            "value": "No"
+          },
+          "U": {
+            "dataElement": "TzqawmlPkI5",
+            "value": "Unknown"
+          }
+        }
+      }
+    },
+    "transforms.patcourse_dateonset": "event.dataValues[]+"
   },
   "inputTransforms": {
-    "patinfo_ID": "{ 'attribute': constants.attributes.patinfo_ID, 'value': requestBody.identifier }",
-    "patinfo_ageonset": "{ 'attribute': constants.attributes.patinfo_ageonset, 'value': requestBody.observations[0].value.valueQuantity.value }",
-    "patinfo_sex": "{ 'attribute': constants.attributes.patinfo_sex, 'value': constants.sexMap[requestBody.observations[1].value.valueCodeableConcept.coding[].code] }",
+    "patinfo_ID": "{ 'attribute': constants.attributes.patinfo_ID, 'value': requestBody.data.identifier }",
+    "patinfo_ageonset": "{ 'attribute': constants.attributes.patinfo_ageonset, 'value': requestBody.data.observations[0].value.valueQuantity.value }",
     "caseId": "{ 'attribute': constants.attributes.caseId, 'value': $substringAfter($string($random()), '0.')}",
 
     "incidentDate": "$now()",
-    "patcourse_asymp": "{ 'dataElement': constants.dataElements.patcourse_asymp, 'value': constants.yesNoUnknownMap[requestBody.observations[3].value.valueCodeableConcept.coding[].code] }",
-    "Comcond_any": "{ 'dataElement': constants.dataElements.Comcond_any, 'value': constants.yesNoUnknownMap[requestBody.observations[5].value.valueCodeableConcept.coding[].code] }",
-    "patcourse_dateonset": "{ 'dataElement': constants.dataElements.patcourse_dateonset, 'value': requestBody.observations[4].value.valueDateTime }",
-    "expo_travel": "{ 'dataElement': constants.dataElements.expo_travel, 'value': constants.yesNoUnknownMap[requestBody.observations[6].value.valueCodeableConcept.coding[].code] }"
+
+    "patcourse_dateonset": "{ 'dataElement': constants.dataElements.patcourse_dateonset, 'value': requestBody.data.observations[4].value.valueDateTime }"
   },
   "requests": {
     "response": [
@@ -78,23 +146,10 @@
     "attributes": {
       "patinfo_ID": "he05i8FUwu3",
       "patinfo_ageonset": "Rv8WM2mTuS5",
-      "patinfo_sex": "oindugucx72",
       "caseId": "HAZ7VQ730yn"
     },
     "dataElements": {
-      "patcourse_asymp": "JGnHr6WI3AY",
-      "Comcond_any": "sJeIFfhX8BE",
-      "patcourse_dateonset": "s3eoonJ8OJb",
-      "expo_travel": "TzqawmlPkI5"
-    },
-    "sexMap": {
-      "male": "Male",
-      "female": "Female"
-    },
-    "yesNoUnknownMap": {
-      "Y": "Yes",
-      "N": "No",
-      "U": "Unknown"
+      "patcourse_dateonset": "s3eoonJ8OJb"
     }
   }
 }
