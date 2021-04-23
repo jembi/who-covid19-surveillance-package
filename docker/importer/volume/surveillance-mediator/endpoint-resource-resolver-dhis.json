@@ -24,6 +24,24 @@
     "constants.trackedEntityType": "trackedEntityType",
     "constants.status": "event.status",
     "constants.stage": "event.programStage",
+
+    "transforms.patinfo_ageonset": "attributes[0]",
+    "requestBody.data.observations[0].value.valueQuantity.code": {
+      "key": "attributes[0]",
+      "transform": {
+        "function": "mapCodes",
+        "parameters": {
+          "1072": {
+            "attribute": "Rv8WM2mTuS5",
+            "value": 0
+          },
+          "1074":{
+            "attribute": "Rv8WM2mTuS5",
+            "value": 0
+          }
+        }
+      }
+    },
     "requestBody.data.observations[1].value.valueCodeableConcept.coding[0].code": {
       "key": "attributes[]+",
       "transform": {
@@ -41,7 +59,6 @@
       }
     },
     "transforms.patinfo_ID": "attributes[]+",
-    "transforms.patinfo_ageonset": "attributes[]+",
 
     "transforms.incidentDate": {
       "key": "incidentDate",
