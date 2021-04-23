@@ -42,7 +42,7 @@
         "forwardExistingRequestBody": true,
         "config": {
           "method": "POST",
-          "url": "http://populator:3003/createEnrollment",
+          "url": "http://dhis2-tracker-populator-mediator:3003/createEnrollment",
           "headers": {
             "Content-Type": "application/json"
           }
@@ -54,7 +54,7 @@
         "id": "createEvent",
         "config": {
           "method": "POST",
-          "url": "http://populator:3003/event",
+          "url": "http://dhis2-tracker-populator-mediator:3003/event",
           "headers": {
             "Content-Type": "application/json"
           }

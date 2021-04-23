@@ -63,7 +63,7 @@
         "forwardExistingRequestBody": true,
         "config": {
           "method": "POST",
-          "url": "http://populator:3003/updateTrackedEntityInstance/:trackedEntityInstanceID",
+          "url": "http://dhis2-tracker-populator-mediator:3003/updateTrackedEntityInstance/:trackedEntityInstanceID",
           "headers": {
             "Content-Type": "application/json"
           },
@@ -82,7 +82,7 @@
         "id": "enrollmentHandler",
         "config": {
           "method": "POST",
-          "url": "http://populator:3003/enrollmentHandler",
+          "url": "http://dhis2-tracker-populator-mediator:3003/enrollmentHandler",
           "headers": {
             "Content-Type": "application/json"
           }
