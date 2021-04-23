@@ -130,7 +130,7 @@
         "id": "resource-resolver-fhir",
         "config": {
           "method": "POST",
-          "url": "http://localhost:3003/resource-resolver",
+          "url": "http://localhost:3003/resource-resolver-fhir",
           "headers": {
             "Content-Type": "application/json"
           }
