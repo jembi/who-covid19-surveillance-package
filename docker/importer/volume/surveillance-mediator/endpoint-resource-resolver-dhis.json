@@ -12,7 +12,22 @@
     "type": "object",
     "properties": {
       "requestBody": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "identifier": {
+                "type": "string"
+              },
+              "observations": {
+                "type": "array"
+              }
+            },
+            "required": ["identifier", "observations"]
+          }
+        },
+        "required": ["data"]
       }
     },
     "required": ["requestBody"]
