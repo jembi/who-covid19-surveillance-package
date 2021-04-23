@@ -42,7 +42,6 @@
     },
     "transforms.patinfo_ID": "attributes[]+",
     "transforms.patinfo_ageonset": "attributes[]+",
-    "transforms.caseId": "attributes[]+",
 
     "transforms.incidentDate": {
       "key": "incidentDate",
@@ -116,7 +115,6 @@
   "inputTransforms": {
     "patinfo_ID": "{ 'attribute': constants.attributes.patinfo_ID, 'value': requestBody.data.identifier }",
     "patinfo_ageonset": "{ 'attribute': constants.attributes.patinfo_ageonset, 'value': requestBody.data.observations[0].value.valueQuantity.value }",
-    "caseId": "{ 'attribute': constants.attributes.caseId, 'value': $substringAfter($string($random()), '0.')}",
 
     "incidentDate": "$now()",
 
@@ -145,8 +143,7 @@
     "status": "ACTIVE",
     "attributes": {
       "patinfo_ID": "he05i8FUwu3",
-      "patinfo_ageonset": "Rv8WM2mTuS5",
-      "caseId": "HAZ7VQ730yn"
+      "patinfo_ageonset": "Rv8WM2mTuS5"
     },
     "dataElements": {
       "patcourse_dateonset": "s3eoonJ8OJb"
