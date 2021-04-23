@@ -22,3 +22,22 @@ services:
       - MONGO_URL=mongodb://mongo-1:27017,mongo-2:27017,mongo-3:27017/dhis2-tracker-populator?replicaSet=mongo-set
       - PARSER_LIMIT=10mb
       - MEDIATOR_URN=dhis2-tracker-populator-mediator
+  
+  file-queue:
+    image: jembi/openhim-mediator-file-queue:latest
+    container_name: file-queue
+    volumes:
+      - file-queue-config:/opt/openhim-mediator-file-queue/config
+    environment:
+      - SERVER_PORT=4002
+      - API_URL=https://core:8080
+      - API_USERNAME=root@openhim.org
+      - API_PASSWORD=instant101
+      - HEARTBEAT=true
+      - LOG_LEVEL=info
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+      - TRUST_SELF_SIGNED=true
+
+volumes:
+  file-queue-config:
+    external: true

@@ -7,3 +7,6 @@ services:
   dhis2-tracker-populator-mediator:
     ports:
       - "3033:3003"
+  file-queue:
+    ports:
+      - "4002:4002"

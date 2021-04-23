@@ -1,5 +1,12 @@
+configMapGenerator:
+  - name: file-queue-configmap
+    files:
+      - ./file-queue/config/file-queue-mediator.json
+
 resources:
   - ./mapper/mapper-deployment.yaml
   - ./mapper/mapper-service.yaml
   - ./dhis2-tracker-populator/mapper-deployment.yaml
   - ./dhis2-tracker-populator/mapper-service.yaml
+  - ./file-queue/file-queue-deployment.yaml
+  - ./file-queue/file-queue-service.yaml
