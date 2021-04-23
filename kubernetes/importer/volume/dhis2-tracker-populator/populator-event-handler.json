@@ -116,7 +116,7 @@
               },
               "filter": {
                 "path": "payload.teiIdentifier",
-                "prefix": "MCPQUTHX1Ze:EQ:",
+                "prefix": "he05i8FUwu3:EQ:",
                 "label": "^^^ This value is the DHIS2 TEI unique field UUID. It need to be configured per DHIS2 instance"
               }
             }
