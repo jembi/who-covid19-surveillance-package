@@ -12,23 +12,53 @@
     "type": "object",
     "properties": {
       "requestBody": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "identifier": {
+                "type": "string"
+              },
+              "observations": {
+                "type": "array"
+              }
+            },
+            "required": ["identifier", "observations"]
+          }
+        },
+        "required": ["data"]
       }
     },
     "required": ["requestBody"]
   },
   "inputMapping": {
-    "requestBody.identifier": "teiIdentifier",
+    "requestBody.data.identifier": "teiIdentifier",
     "constants.program": "program",
     "constants.orgUnit": "orgUnit",
     "constants.trackedEntityType": "trackedEntityType",
     "constants.status": "event.status",
     "constants.stage": "event.programStage",
 
+    "transforms.patinfo_ageonset": "attributes[0]",
+    "requestBody.data.observations[0].value.valueQuantity.code": {
+      "key": "attributes[0]",
+      "transform": {
+        "function": "mapCodes",
+        "parameters": {
+          "1072": {
+            "attribute": "Rv8WM2mTuS5",
+            "value": 0
+          },
+          "1074":{
+            "attribute": "Rv8WM2mTuS5",
+            "value": 0
+          }
+        }
+      }
+    },
     "transforms.patinfo_ID": "attributes[]+",
-    "transforms.patinfo_ageonset": "attributes[]+",
     "transforms.patinfo_sex": "attributes[]+",
-    "transforms.caseId": "attributes[]+",
 
     "transforms.incidentDate": {
       "key": "incidentDate",
@@ -39,20 +69,20 @@
 
     "transforms.patcourse_asymp": "event.dataValues[]+",
     "transforms.Comcond_any": "event.dataValues[]+",
-    "transforms.patcourse_dateonset": "event.dataValues[]+",
-    "transforms.expo_travel": "event.dataValues[]+"
+    "transforms.expo_travel": "event.dataValues[]+",
+    "transforms.patcourse_dateonset": "event.dataValues[]+"
   },
   "inputTransforms": {
-    "patinfo_ID": "{ 'attribute': constants.attributes.patinfo_ID, 'value': requestBody.identifier }",
-    "patinfo_ageonset": "{ 'attribute': constants.attributes.patinfo_ageonset, 'value': requestBody.observations[0].value.valueQuantity.value }",
-    "patinfo_sex": "{ 'attribute': constants.attributes.patinfo_sex, 'value': constants.sexMap[requestBody.observations[1].value.valueCodeableConcept.coding[].code] }",
-    "caseId": "{ 'attribute': constants.attributes.caseId, 'value': $substringAfter($string($random()), '0.')}",
+    "patinfo_ID": "{ 'attribute': constants.attributes.patinfo_ID, 'value': requestBody.data.identifier }",
+    "patinfo_ageonset": "{ 'attribute': constants.attributes.patinfo_ageonset, 'value': requestBody.data.observations[0].value.valueQuantity.value }",
+    "patinfo_sex": "{ 'attribute': constants.attributes.patinfo_sex, 'value': $lookup(constants.sexMap, requestBody.data.observations[1].value.valueCodeableConcept.coding[0].code) }",
 
     "incidentDate": "$now()",
-    "patcourse_asymp": "{ 'dataElement': constants.dataElements.patcourse_asymp, 'value': constants.yesNoUnknownMap[requestBody.observations[3].value.valueCodeableConcept.coding[].code] }",
-    "Comcond_any": "{ 'dataElement': constants.dataElements.Comcond_any, 'value': constants.yesNoUnknownMap[requestBody.observations[5].value.valueCodeableConcept.coding[].code] }",
-    "patcourse_dateonset": "{ 'dataElement': constants.dataElements.patcourse_dateonset, 'value': requestBody.observations[4].value.valueDateTime }",
-    "expo_travel": "{ 'dataElement': constants.dataElements.expo_travel, 'value': constants.yesNoUnknownMap[requestBody.observations[6].value.valueCodeableConcept.coding[].code] }"
+
+    "patcourse_asymp": "{ 'dataElement': constants.dataElements.patcourse_asymp, 'value': $lookup(constants.yesNoUnknownMap, requestBody.data.observations[3].value.valueCodeableConcept.coding[0].code) }",
+    "Comcond_any": "{ 'dataElement': constants.dataElements.Comcond_any, 'value': $lookup(constants.yesNoUnknownMap, requestBody.data.observations[5].value.valueCodeableConcept.coding[0].code) }",
+    "expo_travel": "{ 'dataElement': constants.dataElements.expo_travel, 'value': $lookup(constants.yesNoUnknownMap, requestBody.data.observations[6].value.valueCodeableConcept.coding[0].code) }",
+    "patcourse_dateonset": "{ 'dataElement': constants.dataElements.patcourse_dateonset, 'value': requestBody.data.observations[4].value.valueDateTime }"
   },
   "requests": {
     "response": [
@@ -78,23 +108,22 @@
     "attributes": {
       "patinfo_ID": "he05i8FUwu3",
       "patinfo_ageonset": "Rv8WM2mTuS5",
-      "patinfo_sex": "oindugucx72",
-      "caseId": "HAZ7VQ730yn"
+      "patinfo_sex": "oindugucx72"
     },
     "dataElements": {
       "patcourse_asymp": "JGnHr6WI3AY",
       "Comcond_any": "sJeIFfhX8BE",
-      "patcourse_dateonset": "s3eoonJ8OJb",
-      "expo_travel": "TzqawmlPkI5"
-    },
-    "sexMap": {
-      "male": "Male",
-      "female": "Female"
+      "expo_travel": "TzqawmlPkI5",
+      "patcourse_dateonset": "s3eoonJ8OJb"
     },
     "yesNoUnknownMap": {
       "Y": "Yes",
       "N": "No",
       "U": "Unknown"
+    },
+    "sexMap": {
+      "male": "Male",
+      "female": "Female"
     }
   }
 }
