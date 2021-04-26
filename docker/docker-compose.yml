@@ -13,7 +13,7 @@ services:
       - MEDIATOR_URN=covid19-surveillance-mediator
 
   dhis2-tracker-populator-mediator:
-    image: jembi/openhim-mediator-mapping:v2.3.0
+    image: jembi/openhim-mediator-mapping:v2.3.1
     container_name: dhis2-tracker-populator-mediator
     environment:
       - OPENHIM_URL=https://core:8080
@@ -24,7 +24,7 @@ services:
       - MEDIATOR_URN=dhis2-tracker-populator-mediator
   
   file-queue:
-    image: jembi/openhim-mediator-file-queue:latest
+    image: jembi/openhim-mediator-file-queue:v4.0.3
     container_name: file-queue
     volumes:
       - file-queue-config:/opt/openhim-mediator-file-queue/config

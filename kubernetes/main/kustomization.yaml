@@ -1,7 +1,7 @@
 configMapGenerator:
   - name: file-queue-configmap
     files:
-      - ./file-queue/config/file-queue-mediator.json
+      - ./file-queue/config/mediator.json
 
 resources:
   - ./mapper/mapper-deployment.yaml

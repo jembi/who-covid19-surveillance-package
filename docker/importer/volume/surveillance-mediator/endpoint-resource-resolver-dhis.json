@@ -91,7 +91,7 @@
         "id": "dhis-file-queue",
         "config": {
           "method": "POST",
-          "url": "http://file-queue:4002/covid19-case-report",
+          "url": "http://file-queue:4002/populator",
           "headers": {
             "Content-Type": "application/json"
           }
