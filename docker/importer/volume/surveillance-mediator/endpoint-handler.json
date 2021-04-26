@@ -127,10 +127,20 @@
     ],
     "response": [
       {
-        "id": "resource-resolver",
+        "id": "resource-resolver-fhir",
         "config": {
           "method": "POST",
-          "url": "http://localhost:3003/resource-resolver",
+          "url": "http://localhost:3003/resource-resolver-fhir",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      },
+      {
+        "id": "resource-resolver-dhis",
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/resource-resolver-dhis",
           "headers": {
             "Content-Type": "application/json"
           }
