@@ -5,15 +5,15 @@ configMapGenerator:
       - ./volume/openhim/openhimConfig.js
   - name: covid19-surveillance-endpoint-importer-configmap
     files:
-      - ./volume/surveillance-mediator/endpoint-bundler.json
-      - ./volume/surveillance-mediator/endpoint-composition.json
-      - ./volume/surveillance-mediator/endpoint-encounter.json
-      - ./volume/surveillance-mediator/endpoint-flattener.json
-      - ./volume/surveillance-mediator/endpoint-handler.json
-      - ./volume/surveillance-mediator/endpoint-location.json
-      - ./volume/surveillance-mediator/endpoint-observation.json
-      - ./volume/surveillance-mediator/endpoint-resource-resolver.json
-      - ./volume/surveillance-mediator/endpoint.js
+      - ./volume/surveillance-mediator/case-report/endpoint-bundler.json
+      - ./volume/surveillance-mediator/case-report/endpoint-composition.json
+      - ./volume/surveillance-mediator/case-report/endpoint-encounter.json
+      - ./volume/surveillance-mediator/case-report/endpoint-flattener.json
+      - ./volume/surveillance-mediator/case-report/endpoint-handler.json
+      - ./volume/surveillance-mediator/case-report/endpoint-location.json
+      - ./volume/surveillance-mediator/case-report/endpoint-observation.json
+      - ./volume/surveillance-mediator/case-report/endpoint-resource-resolver.json
+      - ./volume/surveillance-mediator/case-report/endpoint.js
   - name: dhis2-tracker-populator-endpoint-importer-configmap
     files:
       - ./volume/dhis2-tracker-populator/create-enrollment-part1.json
