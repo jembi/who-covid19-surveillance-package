@@ -40,12 +40,18 @@
               "response": {
                 "type": "object",
                 "properties": {
-                  "body": {
-                    "type": "string",
-                    "pattern": "importCount\\S{15,35}updated\\S{1,7}1"
+                  "importCount": {
+                    "type": "object",
+                    "properties": {
+                      "updated": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 1
+                      }
+                    }
                   }
                 },
-                "required": ["body"]
+                "required": ["importCount"]
               }
             },
             "required": ["response"]
