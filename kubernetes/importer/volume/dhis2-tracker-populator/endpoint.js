@@ -5,20 +5,21 @@ const http = require('http')
 const path = require('path')
 
 const MEDIATOR_HOSTNAME =
-  process.env.MEDIATOR_HOST_NAME || 'covid19-surveillance-mediator'
+  process.env.MEDIATOR_HOST_NAME || 'dhis2-tracker-populator-mediator'
 const MEDIATOR_API_PORT = process.env.MEDIATOR_API_PORT || 3003
 
 const ENDPOINT_FILES = [
-  'endpoint-handler.json',
-  'endpoint-flattener.json',
-  'endpoint-resource-resolver.json',
-  'endpoint-location.json',
-  'endpoint-bundler.json',
-  'endpoint-composition.json',
-  'endpoint-encounter.json',
-  'endpoint-observation.json',
-  'endpoint-location-resolver.json',
-  'endpoint-resource-resolver-dhis.json'
+  "create-enrollment-part1.json",
+  "create-enrollment-part2.json",
+  "create-event.json",
+  "create-tei-enrollment-and-event.json",
+  "enrollment-handler.json",
+  "populator-event-handler.json",
+  "populator-handler.json",
+  "update-enrollment-part1.json",
+  "update-enrollment-part2.json",
+  "update-tei-part1.json",
+  "update-tei-part2.json"
 ]
 
 ENDPOINT_FILES.forEach(file => {

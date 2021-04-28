@@ -1,0 +1,132 @@
+{
+  "name": "Populator Event Handler - Create new event on existing TEI",
+  "endpoint": {
+    "method": "POST",
+    "pattern": "/populator-event"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputMapping": {
+    "requestBody.program": "program",
+    "requestBody.event": "event",
+
+    "transforms.trackedEntityInstanceID": "trackedEntityInstance",
+    "transforms.orgUnit": "orgUnit",
+    "transforms.eventDate": {
+      "key": "event.eventDate",
+      "transform": {
+        "function": "dateTimeToDate"
+      }
+    }
+  },
+  "inputTransforms": {
+    "trackedEntityInstanceID": "$exists(lookupRequests.getTrackedEntityInstance.trackedEntityInstances[0].trackedEntityInstance) ? lookupRequests.getTrackedEntityInstance.trackedEntityInstances[0].trackedEntityInstance : ''",
+    "eventDate": "$exists(requestBody.eventDate) ? requestBody.eventDate : $now()",
+    "orgUnit": "$exists(requestBody.orgUnit) ? requestBody.orgUnit : lookupRequests.getTrackedEntityInstance.trackedEntityInstances[0].orgUnit"
+  },
+  "inputValidation": {
+    "type": "object",
+    "properties": {
+      "requestBody": {
+        "type": "object",
+        "properties": {
+          "teiIdentifier": {
+            "type": "string"
+          },
+          "event": {
+            "type": "object",
+            "properties": {
+              "programStage": {
+                "type": "string"
+              }
+            },
+            "required": ["programStage"]
+          },
+          "eventDate": {
+            "type": "string",
+            "pattern": "^(19|20)\\d\\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$"
+          }
+        },
+        "required": ["teiIdentifier"]
+      },
+      "lookupRequests": {
+        "type": "object",
+        "properties": {
+          "getTrackedEntityInstance": {
+            "type": "object",
+            "properties": {
+              "trackedEntityInstances": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 1,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "trackedEntityInstance": {
+                      "type": "string"
+                    },
+                    "orgUnit": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["trackedEntityInstance", "orgUnit"]
+                },
+                "errorMessage": "Tracked Entity Instance not found, or multiple results returned"
+              }
+            },
+            "required": ["trackedEntityInstances"]
+          }
+        },
+        "required": ["getTrackedEntityInstance"]
+      }
+    }
+  },
+  "requests": {
+    "response": [
+      {
+        "id": "createEvent",
+        "config": {
+          "method": "POST",
+          "url": "http://dhis2-tracker-populator-mediator:3003/event",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ],
+    "lookup": [
+      {
+        "id": "getTrackedEntityInstance",
+        "config": {
+          "method": "GET",
+          "url": "http://dhis-web:8080/api/trackedEntityInstances",
+          "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "Basic YWRtaW46ZGlzdHJpY3Q="
+          },
+          "params": {
+            "query": {
+              "ou": {
+                "path": "constants.topLevelOrgUnit"
+              },
+              "ouMode": {
+                "path": "constants.orgUnitSearchMode"
+              },
+              "filter": {
+                "path": "payload.teiIdentifier",
+                "prefix": "he05i8FUwu3:EQ:",
+                "label": "^^^ This value is the DHIS2 TEI unique field UUID. It need to be configured per DHIS2 instance"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "constants": {
+    "topLevelOrgUnit": "ImspTQPwCqd",
+    "orgUnitSearchMode": "DESCENDANTS"
+  }
+}
