@@ -1,0 +1,97 @@
+{
+  "name": "Part 1 of Updating a DHIS2 Enrollment",
+  "endpoint": {
+    "method": "POST",
+    "pattern": "/enrollment/:enrollmentID"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputMapping": {
+    "requestBody.orgUnit": "orgUnit",
+    "requestBody.event": "event",
+    "requestBody.program": "program",
+    "requestBody.trackedEntityInstance": "trackedEntityInstance"
+  },
+  "inputValidation": {
+    "type": "object",
+    "properties": {
+      "requestBody": {
+        "type": "object",
+        "properties": {
+          "enrollmentDate": {
+            "type": "string"
+          },
+          "incidentDate": {
+            "type": "string"
+          }
+        },
+        "required": ["orgUnit", "event", "trackedEntityInstance"]
+      },
+      "lookupRequests": {
+        "type": "object",
+        "properties": {
+          "updateEnrollment": {
+            "type": "object",
+            "properties": {
+              "response": {
+                "type": "object",
+                "properties": {
+                  "importCount": {
+                    "type": "object",
+                    "properties": {
+                      "updated": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 1
+                      }
+                    }
+                  }
+                },
+                "required": ["importCount"]
+              }
+            },
+            "required": ["response"]
+          }
+        },
+        "required": ["updateEnrollment"]
+      }
+    },
+    "required": ["requestBody", "lookupRequests"]
+  },
+  "requests": {
+    "lookup": [
+      {
+        "id": "updateEnrollment",
+        "forwardExistingRequestBody": true,
+        "config": {
+          "method": "POST",
+          "url": "http://dhis2-tracker-populator-mediator:3003/updateEnrollment/:enrollmentID",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "params": {
+            "url": {
+              "enrollmentID": {
+                "path": "urlParams.enrollmentID"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "response": [
+      {
+        "id": "createEvent",
+        "config": {
+          "method": "POST",
+          "url": "http://dhis2-tracker-populator-mediator:3003/event",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ]
+  }
+}
