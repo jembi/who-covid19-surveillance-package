@@ -14,6 +14,17 @@ configMapGenerator:
       - ./volume/surveillance-mediator/case-report/endpoint-observation.json
       - ./volume/surveillance-mediator/case-report/endpoint-resource-resolver.json
       - ./volume/surveillance-mediator/case-report/endpoint.js
+  - name: covid19-lab-report-endpoint-importer-configmap
+    files:
+      - ./volume/surveillance-mediator/case-report/endpoint-bundler.json
+      - ./volume/surveillance-mediator/case-report/endpoint-disgnostic-report.json
+      - ./volume/surveillance-mediator/case-report/endpoint-encounter.json
+      - ./volume/surveillance-mediator/case-report/endpoint-flattener.json
+      - ./volume/surveillance-mediator/case-report/endpoint-handler.json
+      - ./volume/surveillance-mediator/case-report/endpoint-specimen.json
+      - ./volume/surveillance-mediator/case-report/endpoint-patient.json
+      - ./volume/surveillance-mediator/case-report/endpoint-resource-resolver.json
+      - ./volume/surveillance-mediator/case-report/endpoint.js
   - name: dhis2-tracker-populator-endpoint-importer-configmap
     files:
       - ./volume/dhis2-tracker-populator/create-enrollment-part1.json
@@ -32,5 +43,6 @@ resources:
   - ./dhis2-metadata-config-importer-job.yaml
   - ./covid19-surveillance-mapper-config-importer-job.yaml
   - ./covid19-surveillance-endpoint-importer-job.yaml
+  - ./covid19-lab-report-endpoint-importer-job.yaml
   - ./covid19-surveillance-hapi-fhir-config-importer-job.yaml
   - ./dhis2-tracker-populator-endpoint-importer-job.yaml

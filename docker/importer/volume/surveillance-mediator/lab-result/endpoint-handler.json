@@ -1,0 +1,187 @@
+{
+  "name": "FHIR - Covid-19 Lab Result QuestionnaireResponse Orchestrator",
+  "description": "Endpoint to validate the incoming Covid-19 Lab Result QuestionnaireResponse payload then transform to a usable format",
+  "endpoint": {
+    "pattern": "/lab-result"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputValidation": {
+    "type": "object",
+    "properties": {
+      "requestBody": {
+        "type": "object",
+        "properties": {
+          "author": {
+            "type": "object",
+            "properties": {
+              "reference": {
+                "type": "string",
+                "pattern": "^Practitioner\/.*$"
+              }
+            }
+          },
+          "item": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "linkId": {
+                  "type": "string"
+                },
+                "answer": {
+                  "type": "array"
+                },
+                "item": {
+                  "type": "array"
+                }
+              },
+              "required": [
+                "linkId"
+              ]
+            }
+          }
+        },
+        "required": [
+          "author",
+          "item"
+        ]
+      },
+      "lookupRequests": {
+        "type": "object",
+        "properties": {
+          "flatArray": {
+            "type": "object",
+            "properties": {
+              "specimen": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              },
+              "patient": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "county": {
+                    "type": "string"
+                  },
+                  "dob": {
+                    "type": "string"
+                  },
+                  "sex": {
+                    "type": "string",
+                    "enum": [
+                      "male",
+                      "female"
+                    ]
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "county",
+                  "dob",
+                  "sex"
+                ]
+              },
+              "organizations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "diagnosticReport": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "conclusion": {
+                    "type": "string"
+                  },
+                  "category": {
+                    "type": "string"
+                  },
+                  "effectiveDateTime": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "conclusion",
+                  "category",
+                  "effectiveDateTime"
+                ]
+              }
+            },
+            "required": [
+              "specimen",
+              "patient",
+              "organizations",
+              "diagnosticReport"
+            ]
+          }
+        },
+        "required": [
+          "flatArray"
+        ]
+      }
+    },
+    "required": [
+      "requestBody",
+      "lookupRequests"
+    ]
+  },
+  "inputMapping": {
+    "lookupRequests.flatArray": "data",
+    "requestBody.author": "author"
+  },
+  "requests": {
+    "lookup": [
+      {
+        "id": "flatArray",
+        "forwardExistingRequestBody": true,
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/flatten-lab-result",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ],
+    "response": [
+      {
+        "id": "resource-resolver-fhir-lab-result",
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/resource-resolver-lab-result",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ]
+  }
+}

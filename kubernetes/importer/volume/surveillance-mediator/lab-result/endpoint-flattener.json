@@ -1,0 +1,38 @@
+{
+  "name": "Lab Result QuestionnaireResponse Flattener",
+  "description": "Flattens item array data from the Questionnaire Response",
+  "endpoint": {
+    "pattern": "/flatten-lab-result"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputTransforms": {
+    "itemsObject": "(**.item){linkId: $exists(answer[0])? {'answer': answer[0], 'definition': definition, 'text': text}}",
+    "encounterInternalId": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "specimenInternalId": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "patientInternalId": "'urn:uuid:' & $substringAfter($string($random()), '0.')"
+  },
+  "inputMapping": {
+    "transforms.itemsObject.specimen_type.answer.valueString": "specimen.type",
+    "transforms.specimenInternalId": "specimen.internalId",
+
+    "transforms.itemsObject.patinfo_ID.answer.valueString": "patient.id",
+    "transforms.itemsObject.patinfo_name.answer.valueString": "patient.name",
+    "transforms.itemsObject.patinfo_idadmin1.answer.valueString": "patient.county",
+    "transforms.itemsObject.patinfo_dob.answer.valueDate": "patient.dob",
+    "transforms.itemsObject.patinfo_sex.answer[].valueCoding.code": "patient.sex",
+    "transforms.patientInternalId": "patient.internalId",
+
+    "transforms.itemsObject.ordering_clinic.answer.valueString": "organizations[0].name",
+    "transforms.itemsObject.testLab_id.answer.valueString": "organizations[1].id",
+
+    "transforms.itemsObject.labreport_ID.answer.valueString": "diagnosticReport.id",
+    "transforms.itemsObject.test_result.answer.valueString": "diagnosticReport.conclusion",
+    "transforms.itemsObject.test_type.answer.valueString": "diagnosticReport.category",
+    "transforms.itemsObject.Lab_date1.answer.valueDate": "diagnosticReport.effectiveDateTime",
+
+    "transforms.encounterInternalId": "encounter.internalId"
+  }
+}

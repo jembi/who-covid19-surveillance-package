@@ -33,7 +33,7 @@ services:
         source: instant
         target: /instant
     # This command will only attempt to import the covid19-surveillance-mediator config when the uptime endpoint responds with 200
-    command: sh -c "wait-on -t 60000 http-get://covid19-surveillance-mediator:3003/uptime && sleep 1 && node /instant/who-covid19-surveillance-package/docker/importer/volume/surveillance-mediator/case-report/endpoint.js"
+    command: sh -c "wait-on -t 60000 http-get://covid19-surveillance-mediator:3003/uptime && sleep 1 && node /instant/who-covid19-surveillance-package/docker/importer/volume/surveillance-mediator/case-report/endpoint.js && sleep 1 && node /instant/who-covid19-surveillance-package/docker/importer/volume/surveillance-mediator/lab-result/endpoint.js"
   
   # container for executing config import scripts for setting up initial config
   dhis2-tracker-populator-config-importer:

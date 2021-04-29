@@ -1,0 +1,85 @@
+{
+  "name": "FHIR - Lab Result - Orchestrate Diagnostic Report Data into one resource",
+  "description": "",
+  "endpoint": {
+    "pattern": "/create-diagnostic-report-lab-result"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputTransforms": {
+    "conclusionCode": "$lookup(constants.conclusionMap, requestBody.data.diagnosticReport.conclusion)"
+  },
+  "inputMapping": {
+    "constants.template": "diagnosticReport",
+    "requestBody.data.encounter.internalId": "diagnosticReport.resource.encounter.reference",
+    "requestBody.data.specimen.internalId": "diagnosticReport.resource.specimen[0].reference",
+    "requestBody.author": "diagnosticReport.resource.performer[]+",
+    "requestBody.data.organizations[1].reference": "diagnosticReport.resource.performer[1].reference",
+    "requestBody.data.patient.internalId": "diagnosticReport.resource.subject.reference",
+    "requestBody.data.diagnosticReport.effectiveDateTime": "diagnosticReport.resource.effectiveDateTime",
+    "transforms.conclusionCode": "diagnosticReport.resource.conclusionCode[]+",
+    "requestBody.data.diagnosticReport.category": "diagnosticReport.resource.category[0].text"
+  },
+  "constants": {
+    "template": {
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "status": "final",
+        "identifier": [],
+        "conclusionCode": [],
+        "code": {
+          "coding": [
+            {
+              "code": "11502-2",
+              "system": "http://loinc.org",
+              "display": "Laboratory report"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "VR",
+                "system": "https://www.hl7.org/fhir/valueset-diagnostic-service-sections.html",
+                "display": "Virology"
+              }
+            ]
+          }
+        ],
+        "specimen": [],
+        "performer": [],
+        "subject": {},
+        "encounter": {}
+      },
+      "request": {
+        "method": "POST",
+        "url": "DiagnosticReport"
+      }
+    },
+    "conclusionMap": {
+      "Negative": {
+        "coding": [
+          {
+            "code": "NEG",
+            "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+            "display": "Negative"
+          }
+        ],
+        "text": "Negative result for Covid19"
+      },
+      "Positive": {
+        "coding": [
+          {
+            "code": "POS",
+            "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+            "display": "Positive"
+          }
+        ],
+        "text": "Positive result for Covid19"
+      }
+    }
+  }
+}

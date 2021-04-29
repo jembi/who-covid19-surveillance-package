@@ -1,0 +1,144 @@
+{
+  "name": "FHIR - Resolves Patient, Organization and Practitioner references",
+  "description": "Endpoint to validate the incoming",
+  "endpoint": {
+    "pattern": "/resource-resolver-lab-result"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputValidation": {
+    "type": "object",
+    "properties": {
+      "requestBody": {
+        "type": "object"
+      },
+      "lookupRequests": {
+        "type": "object",
+        "properties": {
+          "organisationClinicEndpoint": {
+            "type": "object",
+            "properties": {
+              "entry": {
+                "type": "array",
+                "maxItems": 1,
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "resource": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["id"]
+                    }
+                  },
+                  "required": ["resource"]
+                }
+              }
+            },
+            "required": ["entry"]
+          },
+          "organisationLabEndpoint": {
+            "type": "object",
+            "properties": {
+              "entry": {
+                "type": "array",
+                "maxItems": 1,
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "resource": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["id"]
+                    }
+                  },
+                  "required": ["resource"]
+                }
+              }
+            },
+            "required": ["entry"]
+          }
+        },
+        "required": [
+          "organisationClinicEndpoint",
+          "organisationLabEndpoint"
+        ]
+      }
+    },
+    "required": [
+      "requestBody",
+      "lookupRequests"
+    ]
+  },
+  "inputTransforms": {
+    "clinicRef": "'Organization/' & lookupRequests.organisationClinicEndpoint.entry[0].resource.id",
+    "labRef": "'Organization/' & lookupRequests.organisationLabEndpoint.entry[0].resource.id"
+  },
+  "inputMapping": {
+    "requestBody.data": "data",
+    "requestBody.author": "author",
+    "transforms.clinicRef": "data.organizations[0].reference",
+    "transforms.labRef": "data.organizations[1].reference"
+  },
+  "requests": {
+    "lookup": [
+      {
+        "id": "organisationClinicEndpoint",
+        "config": {
+          "method": "GET",
+          "url": " http://hapi-fhir:8080/fhir/Organization",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "params": {
+            "query": {
+              "name": {
+                "path": "payload.data.organizations[0].name"
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "organisationLabEndpoint",
+        "config": {
+          "method": "GET",
+          "url": " http://hapi-fhir:8080/fhir/Organization",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "params": {
+            "query": {
+              "identifier": {
+                "path": "payload.data.organizations[1].id"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "response": [
+      {
+        "id": "bundler",
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/create-bundle-lab-result",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ]
+  }
+}
