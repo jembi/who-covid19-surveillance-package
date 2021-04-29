@@ -15,7 +15,7 @@ spec:
       initContainers:
         - name: covid19-surveillance-check-mapper-status
           image: busybox:1.28
-          command: ['sh', '-c', 'until telnet mapper-service 3003; do echo Mapping mediator not running yet; sleep 10; done;']
+          command: ['sh', '-c', 'until telnet covid19-surveillance-mapper-service 3003; do echo Mapping mediator not running yet; sleep 10; done;']
       containers:
         - name: covid19-surveillance-endpoint-importer
           image: jembi/instantohie-config-importer

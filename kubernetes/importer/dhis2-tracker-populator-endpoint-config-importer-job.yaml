@@ -15,7 +15,7 @@ spec:
       initContainers:
         - name: dhis2-tracker-populator-check-mapper-status
           image: busybox:1.28
-          command: ['sh', '-c', 'until telnet mapper-service 3003; do echo Mapping mediator not running yet; sleep 10; done;']
+          command: ['sh', '-c', 'until telnet dhis2-tracker-populator-mapper-service 3003; do echo Mapping mediator not running yet; sleep 10; done;']
       containers:
         - name: dhis2-tracker-populator-endpoint-importer
           image: jembi/instantohie-config-importer

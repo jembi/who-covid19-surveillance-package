@@ -164,7 +164,7 @@
         "forwardExistingRequestBody": true,
         "config": {
           "method": "POST",
-          "url": "http://covid19-surveillance-mapper-service:3003/flatten-lab-result",
+          "url": "http://localhost:3003/flatten-lab-result",
           "headers": {
             "Content-Type": "application/json"
           }
@@ -176,7 +176,7 @@
         "id": "resource-resolver-fhir-lab-result",
         "config": {
           "method": "POST",
-          "url": "http://covid19-surveillance-mapper-service:3003/resource-resolver-lab-result",
+          "url": "http://localhost:3003/resource-resolver-lab-result",
           "headers": {
             "Content-Type": "application/json"
           }

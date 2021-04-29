@@ -133,7 +133,7 @@
         "id": "bundler",
         "config": {
           "method": "POST",
-          "url": "http://covid19-surveillance-mapper-service:3003/create-bundle-lab-result",
+          "url": "http://locahost:3003/create-bundle-lab-result",
           "headers": {
             "Content-Type": "application/json"
           }
