@@ -138,7 +138,7 @@
       "responseBody": true,
       "rewriteUrlsConfig": [],
       "name": "Lab Report (QuestionnaireResponse)",
-      "urlPattern": "^/lab-report$",
+      "urlPattern": "^/lab-result$",
       "matchContentRegex": null,
       "matchContentXpath": null,
       "matchContentValue": null,
@@ -212,7 +212,7 @@
       "tcpHost": null,
       "tcpPort": null,
       "alerts": [],
-      "name": "Lab Report (Bundle)"
+      "name": "Lab Result (Bundle)"
     }
   ],
   "Mediators": [
