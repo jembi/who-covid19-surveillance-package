@@ -27,7 +27,7 @@
         "forwardExistingRequestBody": true,
         "config": {
           "method": "POST",
-          "url": "http://localhost:3003/create-encounter-lab-result",
+          "url": "http://covid19-surveillance-mapper-service:3003/create-encounter-lab-result",
           "headers": {
             "Content-Type": "application/json"
           }
@@ -38,7 +38,7 @@
         "forwardExistingRequestBody": true,
         "config": {
           "method": "POST",
-          "url": "http://localhost:3003/create-specimen-lab-result",
+          "url": "http://covid19-surveillance-mapper-service:3003/create-specimen-lab-result",
           "headers": {
             "Content-Type": "application/json"
           }
@@ -49,7 +49,7 @@
         "forwardExistingRequestBody": true,
         "config": {
           "method": "POST",
-          "url": "http://localhost:3003/create-diagnostic-report-lab-result",
+          "url": "http://covid19-surveillance-mapper-service:3003/create-diagnostic-report-lab-result",
           "headers": {
             "Content-Type": "application/json"
           }
@@ -60,7 +60,7 @@
         "forwardExistingRequestBody": true,
         "config": {
           "method": "POST",
-          "url": "http://localhost:3003/create-patient-lab-result",
+          "url": "http://covid19-surveillance-mapper-service:3003/create-patient-lab-result",
           "headers": {
             "Content-Type": "application/json"
           }
@@ -72,7 +72,7 @@
         "id": "hapi-fhir",
         "config": {
           "method": "post",
-          "url": "http://hapi-fhir:8080/fhir",
+          "url": "http://hapi-fhir-server-service:8080/fhir",
           "headers": {
             "Content-Type": "application/json"
           }

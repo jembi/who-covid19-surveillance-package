@@ -97,7 +97,7 @@
         "id": "organisationClinicEndpoint",
         "config": {
           "method": "GET",
-          "url": " http://hapi-fhir:8080/fhir/Organization",
+          "url": " http://hapi-fhir-server-service:8080/fhir/Organization",
           "headers": {
             "Content-Type": "application/json"
           },
@@ -114,7 +114,7 @@
         "id": "organisationLabEndpoint",
         "config": {
           "method": "GET",
-          "url": " http://hapi-fhir:8080/fhir/Organization",
+          "url": " http://hapi-fhir-server-service:8080/fhir/Organization",
           "headers": {
             "Content-Type": "application/json"
           },
@@ -133,7 +133,7 @@
         "id": "bundler",
         "config": {
           "method": "POST",
-          "url": "http://localhost:3003/create-bundle-lab-result",
+          "url": "http://covid19-surveillance-mapper-service:3003/create-bundle-lab-result",
           "headers": {
             "Content-Type": "application/json"
           }
