@@ -39,7 +39,7 @@ yarn docker:instant down -t docker core covid19surveillance
 yarn docker:instant destroy -t docker core covid19surveillance
 ```
 
-## Example message structures
+## Example Coivd19 Surveillance Message Structures
 
 The input message will be sent through the OpenHIM.
 
@@ -599,3 +599,153 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
 ```
 
 The corresponding output will then be sent to a FHIR server.
+
+## Example Lab Result Message Structure
+
+This flow makes some assumptions about the existing HAPI FHIR instance:
+
+- A Practitioner resource exists with FHIR ID `doc123`
+- An Organization resource exists with the identifier `123456`
+- An Organization resource exists with the name `KEMRI Clinic`
+
+These assumptions are made as we do not yet support the client registry and facility registry responsibilities.
+
+### Input
+
+```json
+{
+  "resourceType": "QuestionnaireResponse",
+  "id": "WhoLrQuestionnaireResponse",
+  "identifier": {
+    "system": "http://test.org/response-id",
+    "value": "1111"
+  },
+  "questionnaire": "http://openhie.github.io/covid-19/Questionnaire/WhoLrQuestionnaire",
+  "status": "completed",
+  "authored": "2021-01-20T11:29:52+02:00",
+  "author": {
+    "reference": "Practitioner/doc123"
+  },
+  "item": [
+    {
+      "linkId": "labreport_ID",
+      "text": "Unique lab result identifier:",
+      "answer": [
+        {
+          "valueString": "123456789"
+        }
+      ]
+    },
+    {
+      "linkId": "testLab_id",
+      "text": "Lab that conducted the test:",
+      "answer": [
+        {
+          "valueString": "123456"
+        }
+      ]
+    },
+    {
+      "linkId": "section_patient_info",
+      "text": "Patient information",
+      "item": [
+        {
+          "linkId": "patinfo_ID",
+          "text": "Patient unique ID:",
+          "answer": [
+            {
+              "valueString": "123456789"
+            }
+          ]
+        },
+        {
+          "linkId": "patinfo_name",
+          "text": "Patient Name:",
+          "answer": [
+            {
+              "valueString": "Rob Stark"
+            }
+          ]
+        },
+        {
+          "linkId": "patinfo_idadmin1",
+          "text": "Patient County:",
+          "answer": [
+            {
+              "valueString": "City of Cape Town"
+            }
+          ]
+        },
+        {
+          "linkId": "patinfo_dob",
+          "text": "Date of Birth:",
+          "answer": [
+            {
+              "valueDate": "2021-01-20"
+            }
+          ]
+        },
+        {
+          "linkId": "patinfo_sex",
+          "text": "Sex at birth:",
+          "answer": [
+            {
+              "valueCoding": {
+                "code": "male",
+                "system": "http://hl7.org/fhir/administrative-gender"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "Lab_date1",
+      "text": "Lab Confirmation Test Date:",
+      "answer": [
+        {
+          "valueDate": "2021-01-20"
+        }
+      ]
+    },
+    {
+      "linkId": "test_result",
+      "text": "Overall Result:",
+      "answer": [
+        {
+          "valueString": "Positive"
+        }
+      ]
+    },
+    {
+      "linkId": "ordering_clinic",
+      "text": "Clinic that requested the test:",
+      "answer": [
+        {
+          "valueString": "KEMRI Clinic"
+        }
+      ]
+    },
+    {
+      "linkId": "test_type",
+      "text": "Type of Test:",
+      "answer": [
+        {
+          "valueString": "COVID-19 PCR TEST"
+        }
+      ]
+    },
+    {
+      "linkId": "specimen_type",
+      "text": "Sample Type:",
+      "answer": [
+        {
+          "valueString": "Respiratory Swab"
+        }
+      ]
+    }
+  ]
+}
+
+
+```
