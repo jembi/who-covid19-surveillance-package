@@ -20,14 +20,19 @@
     "requestBody.data.patient.internalId": "diagnosticReport.resource.subject.reference",
     "requestBody.data.diagnosticReport.effectiveDateTime": "diagnosticReport.resource.effectiveDateTime",
     "transforms.conclusionCode": "diagnosticReport.resource.conclusionCode[]+",
-    "requestBody.data.diagnosticReport.category": "diagnosticReport.resource.category[0].text"
+    "requestBody.data.diagnosticReport.category": "diagnosticReport.resource.category[0].text",
+    "requestBody.data.diagnosticReport.id": "diagnosticReport.resource.identifier[0].value"
   },
   "constants": {
     "template": {
       "resource": {
         "resourceType": "DiagnosticReport",
         "status": "final",
-        "identifier": [],
+        "identifier": [
+          {
+            "system": "http://example.org/"
+          }
+        ],
         "conclusionCode": [],
         "code": {
           "coding": [
