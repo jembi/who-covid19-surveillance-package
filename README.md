@@ -5,6 +5,7 @@ This package sets up a mapping mediator instance to map COVID-19 QuestionnaireRe
 To enable this package within the Instant OpenHIE, mount this project directory with your Instant OpenHIE start command. More details available on the [Instant OpenHIE docs site](https://openhie.github.io/instant/docs/how-to/creating-packages#how-to-execute-your-new-package)
 
 ## Starting Up
+
 To mount the package into an Instant OpenHIE instance, clone the repository and run the following command
 
 ### Docker
@@ -38,6 +39,16 @@ yarn docker:instant up -t docker core covid19surveillance
 yarn docker:instant down -t docker core covid19surveillance
 yarn docker:instant destroy -t docker core covid19surveillance
 ```
+
+## DHIS2
+
+This package contains a DHIS2 Tracker Populator mediator which interacts with a preconfigured DHIS2 instance. This package also contains scripts for configuring the DHIS2 instance for this usecase.
+The DHIS2 metadata config is imported automatically on the `init` command. The import scripts will import the specified metadata into the existing DHIS2 instance that is setup by the `health-management-information-system` package in the Instant OpenHIE project.
+
+### Mediator
+
+The DHIS2 Tracker Populator Mediator will be spun up automatically and configured with the necessary endpoints via config and importer scripts in Docker or Kubernetes respectively.
+To send data to DHIS2, a Case Report QuestionnaireResponse can be sent to the OpenHIM transactions endpoint at the path `/covid19-surveillance` - the mediator will route this data through the surveillance mediator which will map the data into a format accepted by the Tracker Populator. The surveillance mediator will send the request to the Tracker Populator Mediator directly (as well as to HAPI-FHIR).
 
 ## Example Coivd19 Surveillance Message Structures
 
@@ -746,6 +757,4 @@ These assumptions are made as we do not yet support the client registry and faci
     }
   ]
 }
-
-
 ```
