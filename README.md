@@ -50,6 +50,13 @@ The DHIS2 metadata config is imported automatically on the `init` command. The i
 The DHIS2 Tracker Populator Mediator will be spun up automatically and configured with the necessary endpoints via config and importer scripts in Docker or Kubernetes respectively.
 To send data to DHIS2, a Case Report QuestionnaireResponse can be sent to the OpenHIM transactions endpoint at the path `/covid19-surveillance` - the mediator will route this data through the surveillance mediator which will map the data into a format accepted by the Tracker Populator. The surveillance mediator will send the request to the Tracker Populator Mediator directly (as well as to HAPI-FHIR).
 
+The Covid19 Surveillance Mediator contains an endpoint that transforms the data into the format used by the Tracker Populator. This schema is where the input data is assigned to the specified DHIS2 Data Element or Attribute field. To create this kind of mapping in your own instance, you would require metadata admin access to your DHIS2 package to complete the schema.
+
+The DHIS2 Tracker Populator Mediator has a fairly generic flow to add data into DHIS2. The only DHIS2 instance specific details needed here are a few high level DHIS2 UIDs relating to the program. The UIDs needed are as follows:
+
+- Top Level Organisation unit - in this package: `ImspTQPwCqd`
+- A Tracked Entity Identifier (a unique Tracked Entity Attribute) - in this package: `he05i8FUwu3`
+
 ## Example Coivd19 Surveillance Message Structures
 
 The input message will be sent through the OpenHIM.
