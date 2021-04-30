@@ -43,6 +43,6 @@ resources:
   - ./dhis2-metadata-config-importer-job.yaml
   - ./covid19-surveillance-mapper-config-importer-job.yaml
   - ./covid19-surveillance-endpoint-importer-job.yaml
-  - ./covid19-lab-report-endpoint-importer-job.yaml
+  - ./covid19-lab-result-endpoint-importer-job.yaml
   - ./covid19-surveillance-hapi-fhir-config-importer-job.yaml
-  - ./dhis2-tracker-populator-endpoint-importer-job.yaml
+  - ./dhis2-tracker-populator-endpoint-config-importer-job.yaml
