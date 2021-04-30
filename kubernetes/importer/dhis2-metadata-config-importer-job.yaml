@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: dhis2-metadata-config-importer-job
+  labels:
+    app.kubernetes.io/name: metadata-importer
+    app.kubernetes.io/instance: dhis2-metadata-config-importer-importer-1
+    app.kubernetes.io/version: '0.1'
+    app.kubernetes.io/component: metatdata-importer
+    package: covid19surveillance
+spec:
+  backoffLimit: 5
+  template:
+    metadata:
+      labels:
+        component: dhis-metadata-config-importer
+    spec:
+      initContainers:
+        - name: check-config-files-exist
+          image: busybox:1.28
+          command: ['sh', '-c', 'until [[ -f "./importer/metadata.json.gz" ]]; do echo "sleep 5"; sleep 5; done;']
+          volumeMounts:
+            - name: dhis2-metadata-config-volume
+              mountPath: /importer
+        - name: covid19-surveillance-check-dhis2-status
+          image: busybox:1.28
+          command: ['sh', '-c', 'until curl -I http://dhis-web:8081/dhis-web-commons/security/login.action; do echo DHIS2 not running yet; sleep 20; done;']
+      containers:
+        - name: dhis2-metadata-config-importer
+          image: jembi/instantohie-config-importer
+          args:
+            - sh
+            - -c
+            - wait-on -t 120000 http-get://dhis-web:8081/dhis-web-commons/security/login.action && node -e 'require("./metadata.js").importMetaData()'
+          volumeMounts:
+            - name: dhis2-metadata-config-volume
+              mountPath: /importer
+      restartPolicy: OnFailure
+      volumes:
+        - name: dhis2-metadata-config-volume
+          persistentVolumeClaim:
+            claimName: dhis-metadata-config-volume-claim

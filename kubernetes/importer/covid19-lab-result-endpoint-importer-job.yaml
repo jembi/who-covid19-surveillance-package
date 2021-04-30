@@ -1,10 +1,10 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: covid19-surveillance-endpoint-importer-job
+  name: covid19-lab-result-endpoint-importer-job
   labels:
     app.kubernetes.io/name: endpoint-importer
-    app.kubernetes.io/instance: covid19-surveillance-mapper-endpoint-importer-1
+    app.kubernetes.io/instance: covid19-lab-report-mapper-endpoint-importer-1
     app.kubernetes.io/version: '0.1'
     app.kubernetes.io/component: endpoint-importer
     package: covid19surveillance
@@ -13,11 +13,11 @@ spec:
   template:
     spec:
       initContainers:
-        - name: covid19-surveillance-check-mapper-status
+        - name: covid19-lab-report-check-mapper-status
           image: busybox:1.28
           command: ['sh', '-c', 'until telnet covid19-surveillance-mapper-service 3003; do echo Mapping mediator not running yet; sleep 10; done;']
       containers:
-        - name: covid19-surveillance-endpoint-importer
+        - name: covid19-lab-report-endpoint-importer
           image: jembi/instantohie-config-importer
           args:
             - sh
@@ -30,9 +30,9 @@ spec:
               value: '3003'
           volumeMounts:
             - mountPath: /importer
-              name: covid19-surveillance-endpoint-importer
+              name: covid19-lab-report-endpoint-importer
       restartPolicy: OnFailure
       volumes:
-        - name: covid19-surveillance-endpoint-importer
+        - name: covid19-lab-report-endpoint-importer
           configMap:
-            name: covid19-surveillance-endpoint-importer-configmap
+            name: covid19-lab-report-endpoint-importer-configmap

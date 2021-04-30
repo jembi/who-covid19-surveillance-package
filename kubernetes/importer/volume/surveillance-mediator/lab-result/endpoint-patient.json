@@ -1,0 +1,38 @@
+{
+  "name": "FHIR - Lab Result - Orchestrate Patient Data into one resource",
+  "description": "",
+  "endpoint": {
+    "pattern": "/create-patient-lab-result"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputMapping": {
+    "constants.template": "patient",
+    "requestBody.data.patient.internalId": "patient.fullUrl",
+    "requestBody.data.patient.id": "patient.resource.identifier[0].value",
+    "requestBody.data.patient.name": "patient.resource.name[0].text",
+    "requestBody.data.patient.county": "patient.resource.address[0].district",
+    "requestBody.data.patient.dob": "patient.resource.birthDate",
+    "requestBody.data.patient.sex": "patient.resource.gender"
+    },
+  "constants": {
+    "template": {
+      "resource": {
+        "resourceType": "Patient",
+        "identifier": [
+          {
+            "system": "http://example.org/"
+          }
+        ],
+        "name": [],
+        "address": []
+      },
+      "request": {
+        "method": "POST",
+        "url": "Patient"
+      }
+    }
+  }
+}

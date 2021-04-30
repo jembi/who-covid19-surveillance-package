@@ -6,7 +6,7 @@ const path = require('path')
 
 const OPENHIM_API_HOSTNAME = process.env.OPENHIM_API_HOSTNAME || 'openhim-core'
 const OPENHIM_API_PASSWORD =
-  process.env.OPENHIM_API_PASSWORD || 'openhim-password'
+  process.env.OPENHIM_API_PASSWORD || 'instant101'
 const OPENHIM_API_PORT = process.env.OPENHIM_API_PORT || 8080
 const OPENHIM_API_USERNAME =
   process.env.OPENHIM_API_USERNAME || 'root@openhim.org'

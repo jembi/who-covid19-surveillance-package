@@ -1,0 +1,83 @@
+{
+  "name": "FHIR - Lab Result FHIR Resource Bundler",
+  "description": "Endpoint to orchestrate Bundle creation",
+  "endpoint": {
+    "pattern": "/create-bundle-lab-result"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "constants": {
+    "resourceType": "Bundle",
+    "type": "transaction"
+  },
+  "inputMapping": {
+    "constants.resourceType": "resourceType",
+    "constants.type": "type",
+    "lookupRequests.encounterEndpoint.encounter": "entry[]+",
+    "lookupRequests.specimenEndpoint.specimen": "entry[]+",
+    "lookupRequests.patientEndpoint.patient": "entry[]+",
+    "lookupRequests.diagnosticReportEndpoint.diagnosticReport": "entry[]+"
+  },
+  "requests": {
+    "lookup": [
+      {
+        "id": "encounterEndpoint",
+        "forwardExistingRequestBody": true,
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/create-encounter-lab-result",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      },
+      {
+        "id": "specimenEndpoint",
+        "forwardExistingRequestBody": true,
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/create-specimen-lab-result",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      },
+      {
+        "id": "diagnosticReportEndpoint",
+        "forwardExistingRequestBody": true,
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/create-diagnostic-report-lab-result",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      },
+      {
+        "id": "patientEndpoint",
+        "forwardExistingRequestBody": true,
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/create-patient-lab-result",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ],
+    "response": [
+      {
+        "id": "hapi-fhir",
+        "config": {
+          "method": "post",
+          "url": "http://hapi-fhir-server-service:8080/fhir",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ]
+  }
+}

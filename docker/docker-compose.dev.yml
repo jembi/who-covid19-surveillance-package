@@ -4,3 +4,9 @@ services:
   mapper:
     ports:
       - "3003:3003"
+  dhis2-tracker-populator-mediator:
+    ports:
+      - "3033:3003"
+  file-queue:
+    ports:
+      - "4002:4002"

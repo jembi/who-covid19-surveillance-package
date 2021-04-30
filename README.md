@@ -5,6 +5,7 @@ This package sets up a mapping mediator instance to map COVID-19 QuestionnaireRe
 To enable this package within the Instant OpenHIE, mount this project directory with your Instant OpenHIE start command. More details available on the [Instant OpenHIE docs site](https://openhie.github.io/instant/docs/how-to/creating-packages#how-to-execute-your-new-package)
 
 ## Starting Up
+
 To mount the package into an Instant OpenHIE instance, clone the repository and run the following command
 
 ### Docker
@@ -39,7 +40,24 @@ yarn docker:instant down -t docker core covid19surveillance
 yarn docker:instant destroy -t docker core covid19surveillance
 ```
 
-## Example message structures
+## DHIS2
+
+This package contains a DHIS2 Tracker Populator mediator which interacts with a preconfigured DHIS2 instance. This package also contains scripts for configuring the DHIS2 instance for this usecase.
+The DHIS2 metadata config is imported automatically on the `init` command. The import scripts will import the specified metadata into the existing DHIS2 instance that is setup by the `health-management-information-system` package in the Instant OpenHIE project.
+
+### Mediator
+
+The DHIS2 Tracker Populator Mediator will be spun up automatically and configured with the necessary endpoints via config and importer scripts in Docker or Kubernetes respectively.
+To send data to DHIS2, a Case Report QuestionnaireResponse can be sent to the OpenHIM transactions endpoint at the path `/covid19-surveillance` - the mediator will route this data through the surveillance mediator which will map the data into a format accepted by the Tracker Populator. The surveillance mediator will send the request to the Tracker Populator Mediator directly (as well as to HAPI-FHIR).
+
+The Covid19 Surveillance Mediator contains an endpoint that transforms the data into the format used by the Tracker Populator. This schema is where the input data is assigned to the specified DHIS2 Data Element or Attribute field. To create this kind of mapping in your own instance, you would require metadata admin access to your DHIS2 package to complete the schema.
+
+The DHIS2 Tracker Populator Mediator has a fairly generic flow to add data into DHIS2. The only DHIS2 instance specific details needed here are a few high level DHIS2 UIDs relating to the program. The UIDs needed are as follows:
+
+- Top Level Organisation unit - in this package: `ImspTQPwCqd`
+- A Tracked Entity Identifier (a unique Tracked Entity Attribute) - in this package: `he05i8FUwu3`
+
+## Example Coivd19 Surveillance Message Structures
 
 The input message will be sent through the OpenHIM.
 
@@ -599,3 +617,151 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
 ```
 
 The corresponding output will then be sent to a FHIR server.
+
+## Example Lab Result Message Structure
+
+This flow makes some assumptions about the existing HAPI FHIR instance:
+
+- A Practitioner resource exists with FHIR ID `doc123`
+- An Organization resource exists with the identifier `123456`
+- An Organization resource exists with the name `KEMRI Clinic`
+
+These assumptions are made as we do not yet support the client registry and facility registry responsibilities.
+
+### Input
+
+```json
+{
+  "resourceType": "QuestionnaireResponse",
+  "id": "WhoLrQuestionnaireResponse",
+  "identifier": {
+    "system": "http://test.org/response-id",
+    "value": "1111"
+  },
+  "questionnaire": "http://openhie.github.io/covid-19/Questionnaire/WhoLrQuestionnaire",
+  "status": "completed",
+  "authored": "2021-01-20T11:29:52+02:00",
+  "author": {
+    "reference": "Practitioner/doc123"
+  },
+  "item": [
+    {
+      "linkId": "labreport_ID",
+      "text": "Unique lab result identifier:",
+      "answer": [
+        {
+          "valueString": "123456789"
+        }
+      ]
+    },
+    {
+      "linkId": "testLab_id",
+      "text": "Lab that conducted the test:",
+      "answer": [
+        {
+          "valueString": "123456"
+        }
+      ]
+    },
+    {
+      "linkId": "section_patient_info",
+      "text": "Patient information",
+      "item": [
+        {
+          "linkId": "patinfo_ID",
+          "text": "Patient unique ID:",
+          "answer": [
+            {
+              "valueString": "123456789"
+            }
+          ]
+        },
+        {
+          "linkId": "patinfo_name",
+          "text": "Patient Name:",
+          "answer": [
+            {
+              "valueString": "Rob Stark"
+            }
+          ]
+        },
+        {
+          "linkId": "patinfo_idadmin1",
+          "text": "Patient County:",
+          "answer": [
+            {
+              "valueString": "City of Cape Town"
+            }
+          ]
+        },
+        {
+          "linkId": "patinfo_dob",
+          "text": "Date of Birth:",
+          "answer": [
+            {
+              "valueDate": "2021-01-20"
+            }
+          ]
+        },
+        {
+          "linkId": "patinfo_sex",
+          "text": "Sex at birth:",
+          "answer": [
+            {
+              "valueCoding": {
+                "code": "male",
+                "system": "http://hl7.org/fhir/administrative-gender"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "Lab_date1",
+      "text": "Lab Confirmation Test Date:",
+      "answer": [
+        {
+          "valueDate": "2021-01-20"
+        }
+      ]
+    },
+    {
+      "linkId": "test_result",
+      "text": "Overall Result:",
+      "answer": [
+        {
+          "valueString": "Positive"
+        }
+      ]
+    },
+    {
+      "linkId": "ordering_clinic",
+      "text": "Clinic that requested the test:",
+      "answer": [
+        {
+          "valueString": "KEMRI Clinic"
+        }
+      ]
+    },
+    {
+      "linkId": "test_type",
+      "text": "Type of Test:",
+      "answer": [
+        {
+          "valueString": "COVID-19 PCR TEST"
+        }
+      ]
+    },
+    {
+      "linkId": "specimen_type",
+      "text": "Sample Type:",
+      "answer": [
+        {
+          "valueString": "Respiratory Swab"
+        }
+      ]
+    }
+  ]
+}
+```

@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: dhis2-tracker-populator-endpoint-importer-job
+  labels:
+    app.kubernetes.io/name: endpoint-importer
+    app.kubernetes.io/instance: dhis2-tracker-populator-endpoint-importer-1
+    app.kubernetes.io/version: '0.1'
+    app.kubernetes.io/component: endpoint-importer
+    package: covid19surveillance
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      initContainers:
+        - name: dhis2-tracker-populator-check-mapper-status
+          image: busybox:1.28
+          command: ['sh', '-c', 'until telnet dhis2-tracker-populator-mapper-service 3003; do echo Mapping mediator not running yet; sleep 10; done;']
+      containers:
+        - name: dhis2-tracker-populator-endpoint-importer
+          image: jembi/instantohie-config-importer
+          args:
+            - sh
+            - -c
+            - wait-on -t 60000 http-get://dhis2-tracker-populator-mapper-service:3003/uptime && node endpoint.js
+          env:
+            - name: MEDIATOR_HOST_NAME
+              value: 'dhis2-tracker-populator-mapper-service'
+            - name: MEDIATOR_API_PORT
+              value: '3003'
+          volumeMounts:
+            - mountPath: /importer
+              name: dhis2-tracker-populator-endpoint-importer
+      restartPolicy: OnFailure
+      volumes:
+        - name: dhis2-tracker-populator-endpoint-importer
+          configMap:
+            name: dhis2-tracker-populator-endpoint-importer-configmap
