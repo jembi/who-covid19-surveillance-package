@@ -39,7 +39,6 @@ configMapGenerator:
       - ./volume/dhis2-tracker-populator/update-tei-part1.json
       - ./volume/dhis2-tracker-populator/update-tei-part2.json
 resources:
-  - ./dhis2-metadata-config-volume-claim.yaml
   - ./dhis2-metadata-config-importer-job.yaml
   - ./covid19-surveillance-mapper-config-importer-job.yaml
   - ./covid19-surveillance-endpoint-importer-job.yaml
