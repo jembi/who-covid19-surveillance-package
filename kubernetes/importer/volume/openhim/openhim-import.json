@@ -215,27 +215,5 @@
       "name": "Lab Result (Bundle)"
     }
   ],
-  "Mediators": [
-    {
-      "urn": "covid19-surveillance-mediator",
-      "version": "2.2.2",
-      "name": "Mapping Mediator",
-      "description": "Generic OpenHIM Mapping Mediator",
-      "endpoints": [
-        {
-          "type": "http",
-          "status": "enabled",
-          "forwardAuthHeader": false,
-          "name": "Generic Mapping Mediator",
-          "host": "covid19-surveillance-mapper-service",
-          "port": 3003
-        }
-      ],
-      "defaultChannelConfig": [],
-      "configDefs": [],
-      "_lastHeartbeat": "2021-02-11T14:09:33.740Z",
-      "_uptime": 0
-    }
-  ],
   "ContactGroups": []
 }

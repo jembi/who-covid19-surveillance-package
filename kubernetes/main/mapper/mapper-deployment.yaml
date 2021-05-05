@@ -34,6 +34,8 @@ spec:
               value: mongodb://mongo-0.mongo-service,mongo-1.mongo-service,mongo-2.mongo-service/mapping-mediator?replicaSet=mongo-set
             - name: PARSER_LIMIT
               value: 10mb
+            - name: MEDIATOR_URN
+              value: covid19-surveillance-mediator
           resources:
             limits:
               memory: "2Gi"
