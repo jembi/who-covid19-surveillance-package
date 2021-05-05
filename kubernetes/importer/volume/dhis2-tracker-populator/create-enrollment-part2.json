@@ -21,7 +21,7 @@
         "id": "dhis-create-enrollment",
         "config": {
           "method": "POST",
-          "url": "http://dhis-web:8080/api/enrollments",
+          "url": "http://dhis-web:8081/api/enrollments",
           "headers": {
             "Content-Type": "application/json",
             "Authorization": "Basic YWRtaW46ZGlzdHJpY3Q="

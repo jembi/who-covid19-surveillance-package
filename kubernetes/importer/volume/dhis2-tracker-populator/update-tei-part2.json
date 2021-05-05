@@ -19,7 +19,7 @@
         "id": "dhis-trackedEntityInstances",
         "config": {
           "method": "PUT",
-          "url": "http://dhis-web:8080/api/trackedEntityInstances/:trackedEntityInstanceID",
+          "url": "http://dhis-web:8081/api/trackedEntityInstances/:trackedEntityInstanceID",
           "headers": {
             "Content-Type": "application/json",
             "Authorization": "Basic YWRtaW46ZGlzdHJpY3Q="

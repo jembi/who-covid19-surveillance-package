@@ -21,7 +21,7 @@
         "id": "dhis-update-enrollment",
         "config": {
           "method": "PUT",
-          "url": "http://dhis-web:8080/api/enrollments/:enrollmentID",
+          "url": "http://dhis-web:8081/api/enrollments/:enrollmentID",
           "headers": {
             "Content-Type": "application/json",
             "Authorization": "Basic YWRtaW46ZGlzdHJpY3Q="

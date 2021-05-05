@@ -81,7 +81,7 @@
         "id": "getEnrollment",
         "config": {
           "method": "GET",
-          "url": "http://dhis-web:8080/api/enrollments.json",
+          "url": "http://dhis-web:8081/api/enrollments.json",
           "headers": {
             "Content-Type": "application/json",
             "Authorization": "Basic YWRtaW46ZGlzdHJpY3Q="

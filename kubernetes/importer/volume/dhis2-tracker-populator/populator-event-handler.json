@@ -101,7 +101,7 @@
         "id": "getTrackedEntityInstance",
         "config": {
           "method": "GET",
-          "url": "http://dhis-web:8080/api/trackedEntityInstances",
+          "url": "http://dhis-web:8081/api/trackedEntityInstances",
           "headers": {
             "Content-Type": "application/json",
             "Authorization": "Basic YWRtaW46ZGlzdHJpY3Q="

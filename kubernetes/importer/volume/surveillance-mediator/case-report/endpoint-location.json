@@ -101,7 +101,7 @@
         "id": "getLocation",
         "config": {
           "method": "GET",
-          "url": "http://hapi-fhir:8080/fhir/Location",
+          "url": "http://hapi-fhir-server-service:8080/fhir/Location",
           "headers": {
             "Accept": "application/fhir+json",
             "Cache-Control": "no-cache"
