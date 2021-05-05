@@ -78,7 +78,7 @@
       {
         "name": "DHIS2 Tracker Populator",
         "path": "/populator",
-        "url": "http://dhis2-tracker-populator-mediator:3003",
+        "url": "http://dhis2-tracker-populator-service:3033",
         "paused": false,
         "parallel": 2,
         "updateTx": true,

@@ -67,7 +67,7 @@
         "forwardExistingRequestBody": true,
         "config": {
           "method": "POST",
-          "url": "http://dhis2-tracker-populator-mediator:3003/updateEnrollment/:enrollmentID",
+          "url": "http://localhost:3003/updateEnrollment/:enrollmentID",
           "headers": {
             "Content-Type": "application/json"
           },
@@ -86,7 +86,7 @@
         "id": "createEvent",
         "config": {
           "method": "POST",
-          "url": "http://dhis2-tracker-populator-mediator:3003/event",
+          "url": "http://localhost:3003/event",
           "headers": {
             "Content-Type": "application/json"
           }

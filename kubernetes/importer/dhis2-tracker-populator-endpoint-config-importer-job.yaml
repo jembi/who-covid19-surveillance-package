@@ -15,19 +15,19 @@ spec:
       initContainers:
         - name: dhis2-tracker-populator-check-mapper-status
           image: busybox:1.28
-          command: ['sh', '-c', 'until telnet dhis2-tracker-populator-mapper-service 3003; do echo Mapping mediator not running yet; sleep 10; done;']
+          command: ['sh', '-c', 'until telnet dhis2-tracker-populator-mapper-service 3033; do echo Mapping mediator not running yet; sleep 10; done;']
       containers:
         - name: dhis2-tracker-populator-endpoint-importer
           image: jembi/instantohie-config-importer
           args:
             - sh
             - -c
-            - wait-on -t 60000 http-get://dhis2-tracker-populator-mapper-service:3003/uptime && node endpoint.js
+            - wait-on -t 60000 http-get://dhis2-tracker-populator-mapper-service:3033/uptime && node endpoint.js
           env:
             - name: MEDIATOR_HOST_NAME
               value: 'dhis2-tracker-populator-mapper-service'
             - name: MEDIATOR_API_PORT
-              value: '3003'
+              value: '3033'
           volumeMounts:
             - mountPath: /importer
               name: dhis2-tracker-populator-endpoint-importer

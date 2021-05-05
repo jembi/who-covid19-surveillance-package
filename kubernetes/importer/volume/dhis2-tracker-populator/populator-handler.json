@@ -101,7 +101,7 @@
         "id": "trackedEntityInstanceHandler",
         "config": {
           "method": "POST",
-          "url": "http://dhis2-tracker-populator-mediator:3003/trackedEntityInstance/:trackedEntityInstanceID",
+          "url": "http://localhost:3003/trackedEntityInstance/:trackedEntityInstanceID",
           "headers": {
             "Content-Type": "application/json"
           },

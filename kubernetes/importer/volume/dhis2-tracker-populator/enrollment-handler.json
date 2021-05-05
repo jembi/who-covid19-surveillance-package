@@ -107,7 +107,7 @@
         "id": "enrollmentHandler",
         "config": {
           "method": "POST",
-          "url": "http://dhis2-tracker-populator-mediator:3003/enrollment/:enrollmentID",
+          "url": "http://localhost:3003/enrollment/:enrollmentID",
           "headers": {
             "Content-Type": "application/json"
           },
