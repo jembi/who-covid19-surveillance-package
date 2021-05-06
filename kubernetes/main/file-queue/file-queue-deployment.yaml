@@ -28,11 +28,11 @@ spec:
         ports:
           - containerPort: 4002
         env:
-          - name: OPENHIM_URL
+          - name: API_URL
             value: https://openhim-core-service:8082
-          - name: OPENHIM_USERNAME
+          - name: API_USERNAME
             value: root@openhim.org
-          - name: OPENHIM_PASSWORD
+          - name: API_PASSWORD
             value: instant101
           - name: SERVER_PORT
             value: '4002'
@@ -42,17 +42,13 @@ spec:
             value: info
           - name: NODE_TLS_REJECT_UNAUTHORIZED
             value: '0'
-          - name: TRUST_SELF-SIGNED
+          - name: TRUST_SELF_SIGNED
             value: 'true'
         volumeMounts:
-          - name: file-queue-volume
-            mountPath: /opt/openhim-mediator-file-queue/queue
           - name: file-queue-config-map
             mountPath: /opt/openhim-mediator-file-queue/config
       restartPolicy: Always
       volumes:
-        - name: file-queue-volume
-          emptyDir: {}
         - name: file-queue-config-map
           configMap:
             name: file-queue-configmap

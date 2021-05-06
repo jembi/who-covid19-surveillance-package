@@ -16,15 +16,9 @@ spec:
         component: dhis-metadata-config-importer
     spec:
       initContainers:
-        - name: check-config-files-exist
-          image: busybox:1.28
-          command: ['sh', '-c', 'until [[ -f "./importer/metadata.json.gz" ]]; do echo "sleep 5"; sleep 5; done;']
-          volumeMounts:
-            - name: dhis2-metadata-config-volume
-              mountPath: /importer
         - name: covid19-surveillance-check-dhis2-status
           image: busybox:1.28
-          command: ['sh', '-c', 'until curl -I http://dhis-web:8081/dhis-web-commons/security/login.action; do echo DHIS2 not running yet; sleep 20; done;']
+          command: ['sh', '-c', 'until telnet dhis-web 8081; do echo Mapping mediator not running yet; sleep 10; done;']
       containers:
         - name: dhis2-metadata-config-importer
           image: jembi/instantohie-config-importer
@@ -38,5 +32,5 @@ spec:
       restartPolicy: OnFailure
       volumes:
         - name: dhis2-metadata-config-volume
-          persistentVolumeClaim:
-            claimName: dhis-metadata-config-volume-claim
+          configMap:
+            name: dhis2-metadata-configmap
