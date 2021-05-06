@@ -1,0 +1,55 @@
+{
+  "name": "Lab Result Specimen",
+  "description": "Creates Specimen Resource",
+  "endpoint": {
+    "pattern": "/create-specimen-lab-result"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputTransforms": {
+    "coding": "$lookup(constants.specimenMap, requestBody.data.specimen.type)"
+  },
+  "inputMapping": {
+    "constants.template": "specimen",
+    "requestBody.data.specimen.internalId": "specimen.fullUrl",
+    "transforms.coding": "specimen.resource.type.coding[]+"
+  },
+  "constants": {
+    "specimenMap": {
+      "Respiratory Swab": {
+        "code": "LP208441-8",
+        "system": "http://loinc.org",
+        "display": "Upper Respiratory Specimen"
+      },
+      "Lower respiratory specimen": {
+        "code": "LP201886-1",
+        "system": "http://loinc.org",
+        "display": "Lower respiratory specimen"
+      },
+      "Blood": {
+        "code": "LA17759-4",
+        "system": "http://loinc.org",
+        "display": "Blood"
+      },
+      "Plasma": {
+        "code": "LA17760-2",
+        "system": "http://loinc.org",
+        "display": "Plasma"
+      }
+    },
+    "template": {
+      "resource": {
+        "resourceType": "Specimen",
+        "type": {
+          "coding": []
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Specimen"
+      }
+    }
+  }
+}

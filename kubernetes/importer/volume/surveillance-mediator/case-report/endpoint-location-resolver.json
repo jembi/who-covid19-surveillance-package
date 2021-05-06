@@ -56,7 +56,7 @@
         "forwardExistingRequestBody": true,
         "config": {
           "method": "PUT",
-          "url": "http://hapi-fhir:8080/fhir/Location/:id",
+          "url": "http://hapi-fhir-server-service:8080/fhir/Location/:id",
           "headers": {
             "Accept": "application/fhir+json"
           },

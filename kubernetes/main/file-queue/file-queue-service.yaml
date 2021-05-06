@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: covid19-surveillance-file-queue-service
   labels:
-    package: covid19-surveillance
+    package: covid19surveillance
 spec:
   type: LoadBalancer
   selector:

@@ -2,7 +2,7 @@
   "name": "FHIR - Resolves Location and Practitioner references",
   "description": "Endpoint to validate the incoming",
   "endpoint": {
-    "pattern": "/resource-resolver"
+    "pattern": "/resource-resolver-fhir"
   },
   "transformation": {
     "input": "JSON",

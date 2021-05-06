@@ -62,7 +62,7 @@
           "forwardAuthHeader": false,
           "name": "Generic Mapping Mediator",
           "secured": false,
-          "host": "covid19-surveillance-mediator",
+          "host": "covid19-surveillance-mapper-service",
           "port": 3003,
           "path": "",
           "pathTransform": "",
@@ -89,28 +89,130 @@
         "name": "Super User"
       },
       "alerts": []
-    }
-  ],
-  "Mediators": [
+    },
     {
-      "urn": "covid19-surveillance-mediator",
-      "version": "2.2.2",
-      "name": "Mapping Mediator",
-      "description": "Generic OpenHIM Mapping Mediator",
-      "endpoints": [
+      "methods": [
+        "GET",
+        "POST",
+        "DELETE",
+        "PUT",
+        "OPTIONS",
+        "HEAD",
+        "TRACE",
+        "CONNECT",
+        "PATCH"
+      ],
+      "type": "http",
+      "allow": [
+        "instant"
+      ],
+      "whitelist": [],
+      "authType": "private",
+      "matchContentTypes": [],
+      "properties": [],
+      "txViewAcl": [],
+      "txViewFullAcl": [],
+      "txRerunAcl": [],
+      "status": "enabled",
+      "rewriteUrls": false,
+      "addAutoRewriteRules": true,
+      "autoRetryEnabled": false,
+      "autoRetryPeriodMinutes": 60,
+      "routes": [
         {
           "type": "http",
           "status": "enabled",
           "forwardAuthHeader": false,
-          "name": "Generic Mapping Mediator",
-          "host": "covid19-surveillance-mediator",
-          "port": 3003
+          "name": "Covid19 Surveillance Mediator",
+          "secured": false,
+          "host": "covid19-surveillance-mapper-service",
+          "port": 3003,
+          "path": "",
+          "pathTransform": "",
+          "primary": true,
+          "username": "",
+          "password": ""
         }
       ],
-      "defaultChannelConfig": [],
-      "configDefs": [],
-      "_lastHeartbeat": "2021-02-11T14:09:33.740Z",
-      "_uptime": 0
+      "requestBody": true,
+      "responseBody": true,
+      "rewriteUrlsConfig": [],
+      "name": "Lab Report (QuestionnaireResponse)",
+      "urlPattern": "^/lab-result$",
+      "matchContentRegex": null,
+      "matchContentXpath": null,
+      "matchContentValue": null,
+      "matchContentJson": null,
+      "pollingSchedule": null,
+      "tcpHost": null,
+      "tcpPort": null,
+      "updatedBy": {
+        "id": "60865efbefb2c000138191ae",
+        "name": "Super User"
+      },
+      "alerts": []
+    },
+    {
+      "methods": [
+        "GET",
+        "POST",
+        "DELETE",
+        "PUT",
+        "OPTIONS",
+        "HEAD",
+        "TRACE",
+        "CONNECT",
+        "PATCH"
+      ],
+      "type": "http",
+      "allow": [
+        "instant"
+      ],
+      "whitelist": [],
+      "authType": "private",
+      "matchContentTypes": [],
+      "properties": [],
+      "txViewAcl": [],
+      "txViewFullAcl": [],
+      "txRerunAcl": [],
+      "status": "enabled",
+      "rewriteUrls": false,
+      "addAutoRewriteRules": true,
+      "autoRetryEnabled": false,
+      "autoRetryPeriodMinutes": 60,
+      "updatedBy": {
+        "id": "60865efbefb2c000138191ae",
+        "name": "Super User"
+      },
+      "routes": [
+        {
+          "type": "http",
+          "status": "enabled",
+          "forwardAuthHeader": false,
+          "name": "Lab Report HAPI FHIR",
+          "secured": false,
+          "host": "hapi-fhir-server-service",
+          "port": 8080,
+          "path": "/fhir/.*",
+          "pathTransform": "",
+          "primary": true,
+          "username": "",
+          "password": ""
+        }
+      ],
+      "requestBody": true,
+      "responseBody": true,
+      "rewriteUrlsConfig": [],
+      "urlPattern": "^/bundle/.*$",
+      "matchContentRegex": null,
+      "matchContentXpath": null,
+      "matchContentValue": null,
+      "matchContentJson": null,
+      "pollingSchedule": null,
+      "tcpHost": null,
+      "tcpPort": null,
+      "alerts": [],
+      "name": "Lab Result (Bundle)"
     }
   ],
   "ContactGroups": []

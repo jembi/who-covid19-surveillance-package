@@ -1,0 +1,65 @@
+{
+  "name": "Part 1 of Creating a DHIS2 Program Enrollment for a Tracked Entity Instance",
+  "endpoint": {
+    "method": "POST",
+    "pattern": "/enrollment/"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputMapping": {
+    "requestBody.trackedEntityInstance": "trackedEntityInstance",
+    "requestBody.orgUnit": "orgUnit",
+    "requestBody.program": "program",
+    "requestBody.programStage": "programStage",
+    "requestBody.event": "event"
+  },
+  "inputValidation": {
+    "type": "object",
+    "properties": {
+      "requestBody": {
+        "type": "object",
+        "properties": {
+          "trackedEntityInstance": {
+            "type": "string"
+          },
+          "orgUnit": {
+            "type": "string"
+          },
+          "program": {
+            "type": "string"
+          }
+        },
+        "required": ["orgUnit", "trackedEntityInstance", "program"]
+      }
+    }
+  },
+  "requests": {
+    "lookup": [
+      {
+        "id": "createEnrollment",
+        "forwardExistingRequestBody": true,
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/createEnrollment",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ],
+    "response": [
+      {
+        "id": "createEvent",
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/event",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "name": "Part 2 of Updating a DHIS2 Enrollment",
+  "endpoint": {
+    "method": "POST",
+    "pattern": "/updateEnrollment/:enrollmentID"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputMapping": {
+    "requestBody.trackedEntityInstance": "trackedEntityInstance",
+    "requestBody.orgUnit": "orgUnit",
+    "requestBody.program": "program",
+    "requestBody.enrollmentDate": "enrollmentDate",
+    "requestBody.incidentDate": "incidentDate"
+  },
+  "requests": {
+    "response": [
+      {
+        "id": "dhis-update-enrollment",
+        "config": {
+          "method": "PUT",
+          "url": "http://dhis-web:8081/api/enrollments/:enrollmentID",
+          "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "Basic YWRtaW46ZGlzdHJpY3Q="
+          },
+          "params": {
+            "url": {
+              "enrollmentID": {
+                "path": "urlParams.enrollmentID"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

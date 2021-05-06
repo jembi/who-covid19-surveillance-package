@@ -1,13 +1,13 @@
 {
   "urn": "urn:uuid:a15c3d48-0686-4c9b-b375-f68d2f244a33",
-  "version": "3.0.0",
+  "version": "4.0.3",
   "name": "file-queue",
   "description": "Async file queue mediator for the OpenHIM",
   "defaultChannelConfig": [],
   "endpoints": [
     {
       "name": "File queue",
-      "host": "localhost",
+      "host": "file-queue",
       "path": "/workers/test",
       "port": "4002",
       "primary": true,
@@ -74,6 +74,17 @@
     }
   ],
   "config": {
-    "endpoints": []
+    "endpoints": [
+      {
+        "name": "DHIS2 Tracker Populator",
+        "path": "/populator",
+        "url": "http://dhis2-tracker-populator-mapper-service:3033",
+        "paused": false,
+        "parallel": 2,
+        "updateTx": true,
+        "forwardMetadata": true,
+        "disableAutoChannelManagement": false
+      }
+    ]
   }
 }

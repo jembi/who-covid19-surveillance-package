@@ -1,0 +1,81 @@
+{
+  "name": "Create a DHIS2 Tracked Entity Instance, Enrollment and Event",
+  "endpoint": {
+    "method": "POST",
+    "pattern": "/trackedEntityInstance/"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputMapping": {
+    "requestBody.event": "enrollments[0].events[0]",
+    "requestBody.orgUnit": [
+      "orgUnit",
+      "enrollments[0].orgUnit",
+      "enrollments[0].events[0].orgUnit"
+    ],
+    "requestBody.program": [
+      "enrollments[0].program",
+      "enrollments[0].events[0].program"
+    ],
+    "requestBody.eventDate": "enrollments[0].events[0].eventDate",
+    "requestBody.trackedEntityType": "trackedEntityType",
+    "requestBody.attributes": "attributes",
+    "requestBody.enrollmentDate": "enrollments[0].enrollmentDate",
+    "requestBody.incidentDate": "enrollments[0].incidentDate"
+  },
+  "inputValidation": {
+    "type": "object",
+    "properties": {
+      "requestBody": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "type": "array"
+          },
+          "orgUnit": {
+            "type": "string"
+          },
+          "event": {
+            "type": "object",
+            "properties": {
+              "programStage": {
+                "type": "string"
+              }
+            },
+            "required": ["programStage"]
+          },
+          "enrollmentDate": {
+            "type": ["string", "null"]
+          },
+          "incidentDate": {
+            "type": ["string", "null"]
+          }
+        },
+        "required": [
+          "orgUnit",
+          "attributes",
+          "event",
+          "program",
+          "trackedEntityType"
+        ]
+      }
+    }
+  },
+  "requests": {
+    "response": [
+      {
+        "id": "dhis-create-tei-enrollment-and-event",
+        "config": {
+          "method": "POST",
+          "url": "http://dhis-web:8081/api/trackedEntityInstances",
+          "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "Basic YWRtaW46ZGlzdHJpY3Q="
+          }
+        }
+      }
+    ]
+  }
+}

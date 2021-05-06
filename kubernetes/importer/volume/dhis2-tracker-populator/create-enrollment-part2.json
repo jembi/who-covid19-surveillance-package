@@ -1,0 +1,33 @@
+{
+  "name": "Part 2 of Creating a DHIS2 Program Enrollment for a Tracked Entity Instance",
+  "endpoint": {
+    "method": "POST",
+    "pattern": "/createEnrollment"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputMapping": {
+    "requestBody.trackedEntityInstance": "trackedEntityInstance",
+    "requestBody.orgUnit": "orgUnit",
+    "requestBody.program": "program",
+    "requestBody.enrollmentDate": "enrollmentDate",
+    "requestBody.incidentDate": "incidentDate"
+  },
+  "requests": {
+    "response": [
+      {
+        "id": "dhis-create-enrollment",
+        "config": {
+          "method": "POST",
+          "url": "http://dhis-web:8081/api/enrollments",
+          "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "Basic YWRtaW46ZGlzdHJpY3Q="
+          }
+        }
+      }
+    ]
+  }
+}
