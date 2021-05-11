@@ -1,0 +1,198 @@
+{
+  "resourceType": "QuestionnaireResponse",
+  "id": "WhoCrQuestionnaireResponseBasic",
+  "identifier": {
+    "system": "http://test.org/response-id",
+    "value": "1111"
+  },
+  "questionnaire": "http://openhie.github.io/covid-19/Questionnaire/WhoCrQuestionnaireCovid19Surveillance",
+  "status": "completed",
+  "authored": "2021-01-20T11:29:52+02:00",
+  "author": {
+    "reference": "Practitioner/doc1234"
+  },
+  "item": [
+    {
+      "linkId": "report_country",
+      "text": "Reporting country:",
+      "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.report.country",
+      "answer": [
+        {
+          "valueCoding": {
+            "code": "ZA",
+            "system": "http://hl7.org/fhir/ValueSet/iso3166-1-2"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "report_test_reason",
+      "text": "Why tested for COVID-19:",
+      "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.report.testReason",
+      "answer": [
+        {
+          "valueCoding": {
+            "code": "CASE_CONTACT",
+            "system": "http://openhie.github.io/covid-19/CodeSystem/WhoCrCodeSystemReasonForTesting"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "section_patient_info",
+      "text": "Patient information",
+      "item": [
+        {
+          "linkId": "patinfo_ID",
+          "text": "Unique Case Identifier (used in country):",
+          "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.patientInfo.caseId",
+          "answer": [
+            {
+              "valueString": "1234567"
+            }
+          ]
+        },
+        {
+          "linkId": "patinfo_ageonset",
+          "text": "Age (use days if <1 month, months if <1 year):",
+          "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.patientInfo.onsetAge",
+          "answer": [
+            {
+              "valueQuantity": {
+                "value": 11,
+                "code": "a",
+                "system": "http://unitsofmeasure.org"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "patinfo_sex",
+          "text": "Sex at birth:",
+          "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.patientInfo.birthSex",
+          "answer": [
+            {
+              "valueCoding": {
+                "code": "male",
+                "system": "http://hl7.org/fhir/administrative-gender"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "patinfo_placediagnosed",
+          "text": "Place where the case was diagnosed:",
+          "item": [
+            {
+              "linkId": "patinfo_idadmin0",
+              "text": "Country:",
+              "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.patientInfo.identified.country",
+              "answer": [
+                {
+                  "valueCoding": {
+                    "code": "ZA",
+                    "system": "http://hl7.org/fhir/ValueSet/iso3166-1-2"
+                  }
+                }
+              ],
+              "item": [
+                {
+                  "linkId": "patinfo_idadmin1",
+                  "text": "Admin Level 1 (province):",
+                  "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.patientInfo.identified.subnational",
+                  "answer": [
+                    {
+                      "valueCoding": {
+                        "code": "WC",
+                        "system": "urn:iso:std:iso:3166:-2"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "section_clinical_status",
+      "text": "Clinical Status",
+      "item": [
+        {
+          "linkId": "Lab_date1",
+          "text": "Date of first laboratory confirmation test:",
+          "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.clinicalStatus.lab.confirmedDate",
+          "answer": [
+            {
+              "valueDate": "2021-01-20"
+            }
+          ]
+        },
+        {
+          "linkId": "patcourse_asymp",
+          "text": "Any symptoms or signs at time of specimen collection that resulted in first laboratory confirmation?",
+          "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.clinicalStatus.patientCourse.asymptomatic",
+          "answer": [
+            {
+              "valueCoding": {
+                "code": "Y",
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "patcourse_dateonset",
+              "text": "Date of onset of symptoms:",
+              "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.clinicalStatus.patientCourse.onsetDate",
+              "answer": [
+                {
+                  "valueDate": "2021-01-15"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "section_comorbidity",
+          "text": "Underlying conditions and comorbidity:",
+          "item": [
+            {
+              "linkId": "Comcond_any",
+              "text": "Any underlying conditions?",
+              "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.clinicalStatus.comorbidities.any",
+              "answer": [
+                {
+                  "valueCoding": {
+                    "code": "N",
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "section_exposure_risk",
+      "text": "Exposure risk in the 14 days prior to symptom onset (prior to testing if asymptomatic)",
+      "item": [
+        {
+          "linkId": "expo_travel",
+          "text": "Has the case travelled in the 14 days prior to symptom onset?",
+          "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.exposure.travel.hasTravelled",
+          "answer": [
+            {
+              "valueCoding": {
+                "code": "N",
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
