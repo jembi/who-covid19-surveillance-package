@@ -41,6 +41,27 @@ const practitioner = JSON.parse(
   fs.readFileSync(`${__dirname}/resources/practitioner.json`, 'utf8')
 )
 
+/*
+  Ensure the Practitioner and Organization references in the Lab result and Case report questionnaireResponses point
+  to the organizations and practitioner that will be created for use in the tests. The resources created
+  during the tests are deleted afterwards.
+  The identifier and name for the Organizations created below are randomized to enable the tests
+  to be run successfully multiple times. Not doing so will cause the tests to fail after the first run.
+  FHIR does caching on requests and this causes failures as the organization references
+  will be pointing to resources that would have been deleted.
+*/
+const organization1Name = `Test Clinic ${Math.random()}`
+const organization2Identifier = `Test Organization ${Math.random()}`
+const practitionerId = `TestPractitioner${Math.random()}`
+
+organization1.name = organization1Name
+organization2.identifier.value = organization2Identifier
+practitioner.id = practitionerId
+
+labResultQuestionnaireResponse.item[1].answer[0].valueString = organization2Identifier
+labResultQuestionnaireResponse.item[5].answer[0].valueString = organization1Name
+labResultQuestionnaireResponse.author.reference = `Practitioner/${practitionerId}`
+caseReportQuestionnaireResponse.author.reference = `Practitioner/${practitionerId}`
 
 exports.verifyDhis2Configured = async () => {
   const options = {
@@ -219,7 +240,6 @@ exports.ensurePractitionerExists = async () => {
   if (response.status != 201) throw Error('Test Practitioner resource not created')
   console.log('The test Practitioner that send the reports has been created');
 }
-
 
 exports.verifyCovid19CaseReportInFhir = async () => {
   if (
