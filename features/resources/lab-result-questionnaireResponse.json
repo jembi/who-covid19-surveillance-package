@@ -1,133 +1,133 @@
 {
-    "resourceType": "QuestionnaireResponse",
-    "id": "WhoLrQuestionnaireResponse",
-    "identifier": {
-      "system": "http://test.org/response-id",
-      "value": "1111"
+  "resourceType": "QuestionnaireResponse",
+  "id": "WhoLrQuestionnaireResponse",
+  "identifier": {
+    "system": "http://test.org/response-id",
+    "value": "1111"
+  },
+  "questionnaire": "http://openhie.github.io/covid-19/Questionnaire/WhoLrQuestionnaire",
+  "status": "completed",
+  "authored": "2021-01-20T11:29:52+02:00",
+  "author": {
+    "reference": "Practitioner/doc1234"
+  },
+  "item": [
+    {
+      "linkId": "labreport_ID",
+      "text": "Unique lab result identifier:",
+      "answer": [
+        {
+          "valueString": "12345678"
+        }
+      ]
     },
-    "questionnaire": "http://openhie.github.io/covid-19/Questionnaire/WhoLrQuestionnaire",
-    "status": "completed",
-    "authored": "2021-01-20T11:29:52+02:00",
-    "author": {
-      "reference": "Practitioner/doc1234"
+    {
+      "linkId": "testLab_id",
+      "text": "Lab that conducted the test:",
+      "answer": [
+        {
+          "valueString": "123456789"
+        }
+      ]
     },
-    "item": [
-      {
-        "linkId": "labreport_ID",
-        "text": "Unique lab result identifier:",
-        "answer": [
-          {
-            "valueString": "12345678"
-          }
-        ]
-      },
-      {
-        "linkId": "testLab_id",
-        "text": "Lab that conducted the test:",
-        "answer": [
-          {
-            "valueString": "12345678"
-          }
-        ]
-      },
-      {
-        "linkId": "section_patient_info",
-        "text": "Patient information",
-        "item": [
-          {
-            "linkId": "patinfo_ID",
-            "text": "Patient unique ID:",
-            "answer": [
-              {
-                "valueString": "123456"
+    {
+      "linkId": "section_patient_info",
+      "text": "Patient information",
+      "item": [
+        {
+          "linkId": "patinfo_ID",
+          "text": "Patient unique ID:",
+          "answer": [
+            {
+              "valueString": "123456"
+            }
+          ]
+        },
+        {
+          "linkId": "patinfo_name",
+          "text": "Patient Name:",
+          "answer": [
+            {
+              "valueString": "Rob Stark"
+            }
+          ]
+        },
+        {
+          "linkId": "patinfo_idadmin1",
+          "text": "Patient County:",
+          "answer": [
+            {
+              "valueString": "City of Cape Town"
+            }
+          ]
+        },
+        {
+          "linkId": "patinfo_dob",
+          "text": "Date of Birth:",
+          "answer": [
+            {
+              "valueDate": "2021-01-20"
+            }
+          ]
+        },
+        {
+          "linkId": "patinfo_sex",
+          "text": "Sex at birth:",
+          "answer": [
+            {
+              "valueCoding": {
+                "code": "male",
+                "system": "http://hl7.org/fhir/administrative-gender"
               }
-            ]
-          },
-          {
-            "linkId": "patinfo_name",
-            "text": "Patient Name:",
-            "answer": [
-              {
-                "valueString": "Rob Stark"
-              }
-            ]
-          },
-          {
-            "linkId": "patinfo_idadmin1",
-            "text": "Patient County:",
-            "answer": [
-              {
-                "valueString": "City of Cape Town"
-              }
-            ]
-          },
-          {
-            "linkId": "patinfo_dob",
-            "text": "Date of Birth:",
-            "answer": [
-              {
-                "valueDate": "2021-01-20"
-              }
-            ]
-          },
-          {
-            "linkId": "patinfo_sex",
-            "text": "Sex at birth:",
-            "answer": [
-              {
-                "valueCoding": {
-                  "code": "male",
-                  "system": "http://hl7.org/fhir/administrative-gender"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "linkId": "Lab_date1",
-        "text": "Lab Confirmation Test Date:",
-        "answer": [
-          {
-            "valueDate": "2021-01-20"
-          }
-        ]
-      },
-      {
-        "linkId": "test_result",
-        "text": "Overall Result:",
-        "answer": [
-          {
-            "valueString": "Positive"
-          }
-        ]
-      },
-      {
-        "linkId": "ordering_clinic",
-        "text": "Clinic that requested the test:",
-        "answer": [
-          {
-            "valueString": "KEMRI Clinic123"
-          }
-        ]
-      },
-      {
-        "linkId": "test_type",
-        "text": "Type of Test:",
-        "answer": [
-          {
-            "valueString": "COVID-19 PCR TEST"
-          }
-        ]
-      },
-      {
-        "linkId": "specimen_type",
-        "text": "Sample Type:",
-        "answer": [
-          {
-            "valueString": "Respiratory Swab"
-          }
-        ]
-      }
-    ]
-  }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "Lab_date1",
+      "text": "Lab Confirmation Test Date:",
+      "answer": [
+        {
+          "valueDate": "2021-01-20"
+        }
+      ]
+    },
+    {
+      "linkId": "test_result",
+      "text": "Overall Result:",
+      "answer": [
+        {
+          "valueString": "Positive"
+        }
+      ]
+    },
+    {
+      "linkId": "ordering_clinic",
+      "text": "Clinic that requested the test:",
+      "answer": [
+        {
+          "valueString": "KEMRI Clinic1234"
+        }
+      ]
+    },
+    {
+      "linkId": "test_type",
+      "text": "Type of Test:",
+      "answer": [
+        {
+          "valueString": "COVID-19 PCR TEST"
+        }
+      ]
+    },
+    {
+      "linkId": "specimen_type",
+      "text": "Sample Type:",
+      "answer": [
+        {
+          "valueString": "Respiratory Swab"
+        }
+      ]
+    }
+  ]
+}
