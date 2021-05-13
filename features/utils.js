@@ -23,7 +23,7 @@ const authHeader = new Buffer.from(
 const patientId = '12305759751'
 const patientId2 = '1234567'
 const programId = 'uYjxkTbwRNf'
-let trackedEntityId, trackedEntityId2, fhirBundleCaseReport, fhirBundleLabResult, organizationsBundle
+let trackedEntityId, trackedEntityId2, fhirBundleCaseReport, fhirBundleLabResult, organizationsBundle, locationExists
 
 const caseReportQuestionnaireResponse = JSON.parse(
   fs.readFileSync(`${__dirname}/resources/case-report-questionnaireResponse.json`, 'utf8')
@@ -205,6 +205,16 @@ exports.sendCovid19CaseReport = async () => {
     }
   })
 
+  /*
+    Sending a case report creates a Location resource if one does not exist.
+    Check if one exists and if test create one it should be removed afterwards
+  */
+  const locationResponse = await sendRequest(`fhir/Location?address-state=WC&address-country=ZA`, {}, 'GET')
+  if (
+    locationResponse.status == 200 &&
+    locationResponse.data.total
+  ) locationExists = true
+
   if (response.status == 200 && response.data.trackedEntityInstances.length) {
     throw Error('Test Covid19 Case report already exists')
   }
@@ -318,6 +328,13 @@ exports.cleanupCovid19CaseReport = async () => {
   if (deleteResources.status != 200) {
     throw Error('Covid19 Case report clean up failed in FHIR')
   }
+  if (!locationExists) {
+    const locationResponse = await sendRequest(`fhir/Location?address-state=WC&address-country=ZA`, {}, 'DELETE')
+    if (
+      locationResponse.status != 200
+    ) throw Error('Covid19 Case report location not deleted')
+  }
+
   console.log('The test Covid19 Case report has been removed from the FHIR server')
 }
 
