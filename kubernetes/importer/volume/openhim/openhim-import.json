@@ -213,6 +213,69 @@
       "tcpPort": null,
       "alerts": [],
       "name": "Lab Result (Bundle)"
+    },
+    {
+      "methods": [
+        "GET",
+        "POST",
+        "DELETE",
+        "PUT",
+        "OPTIONS",
+        "HEAD",
+        "TRACE",
+        "CONNECT",
+        "PATCH"
+      ],
+      "type": "http",
+      "allow": [
+        "instant"
+      ],
+      "whitelist": [],
+      "authType": "private",
+      "matchContentTypes": [],
+      "properties": [],
+      "txViewAcl": [],
+      "txViewFullAcl": [],
+      "txRerunAcl": [],
+      "status": "enabled",
+      "rewriteUrls": false,
+      "addAutoRewriteRules": true,
+      "autoRetryEnabled": false,
+      "autoRetryPeriodMinutes": 60,
+      "routes": [
+        {
+          "type": "http",
+          "status": "enabled",
+          "forwardAuthHeader": false,
+          "name": "Generic Mapping Mediator",
+          "secured": false,
+          "host": "covid19-surveillance-mediator",
+          "port": 3003,
+          "path": "",
+          "pathTransform": "",
+          "primary": true,
+          "username": "",
+          "password": ""
+        }
+      ],
+      "requestBody": true,
+      "responseBody": true,
+      "rewriteUrlsConfig": [],
+      "name": "WHO Covid19 Case Outcome (QuestionnaireResponse)",
+      "description": "This Channel accepts QuestionnaireResponses and orchestrates that data through a configured mapping mediator. The Mapping mediator transforms the data and persists the data in the Instant Core HAPI-FHIR server and DHIS2 server",
+      "urlPattern": "^/case-outcome$",
+      "matchContentRegex": null,
+      "matchContentXpath": null,
+      "matchContentValue": null,
+      "matchContentJson": null,
+      "pollingSchedule": null,
+      "tcpHost": null,
+      "tcpPort": null,
+      "updatedBy": {
+        "id": "60865efbefb2c000138191ae",
+        "name": "Super User"
+      },
+      "alerts": []
     }
   ],
   "ContactGroups": []
