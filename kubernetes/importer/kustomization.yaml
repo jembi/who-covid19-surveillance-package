@@ -27,6 +27,16 @@ configMapGenerator:
       - ./volume/surveillance-mediator/lab-result/endpoint-patient.json
       - ./volume/surveillance-mediator/lab-result/endpoint-resource-resolver.json
       - ./volume/surveillance-mediator/lab-result/endpoint.js
+ - name: covid19-case-outcome-endpoint-importer-configmap
+    files:
+      - ./volume/surveillance-mediator/case-outcome/endpoint-bundler.json
+      - ./volume/surveillance-mediator/case-outcome/endpoint-composition.json
+      - ./volume/surveillance-mediator/case-outcome/endpoint-encounter-resolver.json
+      - ./volume/surveillance-mediator/case-outcome/endpoint-encounter.json
+      - ./volume/surveillance-mediator/case-outcome/endpoint-flattener.json
+      - ./volume/surveillance-mediator/case-outcome/endpoint-handler.json
+      - ./volume/surveillance-mediator/case-outcome/endpoint-observation.json
+      - ./volume/surveillance-mediator/case-outcome/endpoint.js
   - name: dhis2-tracker-populator-endpoint-importer-configmap
     files:
       - ./volume/dhis2-tracker-populator/create-enrollment-part1.json
@@ -46,5 +56,6 @@ resources:
   - ./covid19-surveillance-mapper-config-importer-job.yaml
   - ./covid19-surveillance-endpoint-importer-job.yaml
   - ./covid19-lab-result-endpoint-importer-job.yaml
+  - ./covid19-case-outcome-endpoint-importer-job.yaml
   - ./covid19-surveillance-hapi-fhir-config-importer-job.yaml
   - ./dhis2-tracker-populator-endpoint-config-importer-job.yaml
