@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: covid19-case-outcome-endpoint-importer-job
+  labels:
+    app.kubernetes.io/name: endpoint-importer
+    app.kubernetes.io/instance: covid19-case-outcome-mapper-endpoint-importer-1
+    app.kubernetes.io/version: '0.1'
+    app.kubernetes.io/component: endpoint-importer
+    package: covid19surveillance
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      initContainers:
+        - name: covid19-case-outcome-check-mapper-status
+          image: busybox:1.28
+          command: ['sh', '-c', 'until telnet covid19-surveillance-mapper-service 3003; do echo Mapping mediator not running yet; sleep 10; done;']
+      containers:
+        - name: covid19-case-outcome-endpoint-importer
+          image: jembi/instantohie-config-importer
+          args:
+            - sh
+            - -c
+            - wait-on -t 60000 http-get://covid19-surveillance-mapper-service:3003/uptime && node endpoint.js
+          env:
+            - name: MEDIATOR_HOST_NAME
+              value: 'covid19-surveillance-mapper-service'
+            - name: MEDIATOR_API_PORT
+              value: '3003'
+          volumeMounts:
+            - mountPath: /importer
+              name: covid19-case-outcome-endpoint-importer
+      restartPolicy: OnFailure
+      volumes:
+        - name: covid19-case-outcome-endpoint-importer
+          configMap:
+            name: covid19-case-outcome-endpoint-importer-configmap
