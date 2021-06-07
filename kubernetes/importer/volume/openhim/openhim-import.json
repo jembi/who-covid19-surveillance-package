@@ -249,7 +249,7 @@
           "forwardAuthHeader": false,
           "name": "Generic Mapping Mediator",
           "secured": false,
-          "host": "covid19-surveillance-mediator",
+          "host": "covid19-surveillance-mapper-service",
           "port": 3003,
           "path": "",
           "pathTransform": "",
