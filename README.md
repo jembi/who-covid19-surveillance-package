@@ -765,3 +765,443 @@ These assumptions are made as we do not yet support the client registry and faci
   ]
 }
 ```
+
+## Example - Case Outcome Message Structure
+
+The input message will be sent through the OpenHIM and then it will be sent to FHIR and DHIS2.
+
+The OpenHIM channel is accessible on the endpoint <http://localhost:5001/case-outcome>. Any client with the role **instant** can access the channel using basic authentication (`username and password`) or custom token authentication (`Authorization : Custom <Token>`)
+
+This flow makes some assumptions about the existing HAPI FHIR instance:
+
+- A Practitioner resource exists with FHIR ID `doc1452`
+
+These assumptions are made as we do not yet support the client registry responsibilities.
+
+### Input
+
+```json
+{
+  "resourceType": "QuestionnaireResponse",
+  "id": "WhoCoQuestionnaireResponse",
+  "identifier": {
+    "system": "http://test.org/response-id",
+    "value": "1111"
+  },
+  "questionnaire": "http://openhie.github.io/covid-19/Questionnaire/WhoCoQuestionnaire",
+  "status": "completed",
+  "authored": "2021-01-20T11:29:52+02:00",
+  "author": {
+    "reference": "Practitioner/doc1452"
+  },
+  "item": [
+    {
+      "linkId": "patinfo_ID",
+      "text": "Unique Case Identifier",
+      "answer": [
+        {
+          "valueString": "123456789"
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_report_date",
+      "text": "Date of re-submission for this report",
+      "answer": [
+        {
+          "valueDateTime": "2021-05-13"
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_date_of_outcome",
+      "text": "Date of Release from isolation/hospital or Date of Death",
+      "answer": [
+        {
+          "valueDateTime": "2021-05-13"
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_asymp",
+      "text": "Developed symptoms after time of specimen collection",
+      "answer": [
+        {
+          "valueCoding": {
+            "code": "Y",
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_asymp_date",
+      "text": "Date of onset of symptoms/signs of illness",
+      "answer": [
+        {
+          "valueDateTime": "2021-05-13"
+        }
+      ]
+    },
+    {
+      "linkId": "patcourse_admit",
+      "text": "Admission to hospital (may have been previously reported)",
+      "answer": [
+        {
+          "valueCoding": {
+            "code": "Y",
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "admission_date",
+      "text": "First date of admission to hospital",
+      "answer": [
+        {
+          "valueDateTime": "2021-05-13"
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_patcourse_icu",
+      "text": "Did the case receive care in an intensive care unit (ICU)",
+      "answer": [
+        {
+          "valueCoding": {
+            "code": "N",
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_patcourse_vent",
+      "text": "Did the case receive ventilation",
+      "answer": [
+        {
+          "valueCoding": {
+            "code": "UNK",
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_patcourse_ecmo",
+      "text": "Did the case receive extracorporeal membrane oxygenation",
+      "answer": [
+        {
+          "valueCoding": {
+            "code": "Y",
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_patcourse_status",
+      "text": "Health Outcome",
+      "answer": [
+        {
+          "valueCoding": {
+            "code": "other",
+            "system": "http://openhie.github.io/covid-19/CodeSystem/WhoCoHealthOutcome"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_patcourse_status_other",
+      "text": "If other, please explain",
+      "answer": [
+        {
+          "valueString": "N/A"
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_lab_date",
+      "text": "If released from hospital /isolation, date of last laboratory test",
+      "answer": [
+        {
+          "valueDateTime": "2021-05-13"
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_lab_result",
+      "text": "Results of last test",
+      "answer": [
+        {
+          "valueCoding": {
+            "code": "positive",
+            "system": "http://openhie.github.io/covid-19/CodeSystem/WhoCoPositiveNegativeUnknown"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_contacts_followed",
+      "text": "Total number of contacts followed for this case",
+      "answer": [
+        {
+          "valueInteger": 5
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Corresponding Output that will be stored in the FHIR server
+
+```json
+{
+  "resourceType": "Bundle",
+  "type": "transaction",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Composition",
+        "type": {"coding": [{"code": "95412-3", "system": "http://loinc.org"}]},
+        "status": "final",
+        "identifier": {
+          "system": "http://test.org/identifier/who-covid-19-case-outcome",
+          "value": "123456789"
+        },
+        "encounter": {"reference": "urn:uuid:94976331728655"},
+        "author": [{"reference": "Practitioner/1844391y"}],
+        "title": "WHO COVID-19 Case Outcome",
+        "section": [
+          {
+            "title": "clinical status",
+            "code": {
+              "coding": [
+                {
+                  "code": "clinicalStatus",
+                  "system": "http://test.org/sectionCode"
+                }
+              ]
+            },
+            "entry": [
+              {"reference": "urn:uuid:94976331728655"},
+              {"reference": "urn:uuid:203155906139894"},
+              {"reference": "urn:uuid:455719316166893"},
+              {"reference": "urn:uuid:222214635598315"},
+              {"reference": "urn:uuid:388170145026748"},
+              {"reference": "urn:uuid:346620203461778"},
+              {"reference": "urn:uuid:949258897864128"},
+              {"reference": "urn:uuid:648726946521651"},
+              {"reference": "urn:uuid:02063039706351"},
+              {"reference": "urn:uuid:678524501114971"},
+              {"reference": "urn:uuid:392692899557129"},
+              {"reference": "urn:uuid:924867647670974"}
+            ]
+          },
+          {
+            "title": "exposure risk",
+            "code": {
+              "coding": [
+                {
+                  "code": "exposureRisk",
+                  "system": "http://test.org/sectionCode"
+                }
+              ]
+            },
+            "entry": [{"reference": "urn:uuid:298020334930571"}]
+          }
+        ]
+      },
+      "request": {"method": "POST", "url": "Composition"},
+      "fullUrl": "urn:uuid:418322796048621"
+    },
+    {
+      "resource": {
+        "resourceType": "Encounter",
+        "class": {
+          "code": "ACUTE",
+          "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+        },
+        "status": "finished",
+        "period": {"end": "2021-05-13"}
+      },
+      "request": {"method": "POST", "url": "Encounter"},
+      "fullUrl": "urn:uuid:94976331728655"
+    },
+    {
+      "resource": {
+        "resourceType": "Encounter",
+        "class": {
+          "code": "ACUTE",
+          "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+        },
+        "status": "in-progress",
+        "period": {"start": "2021-05-13"}
+      },
+      "request": {"method": "POST", "url": "Encounter"},
+      "fullUrl": "urn:uuid:203155906139894"
+    },
+    {
+      "fullUrl": "urn:uuid:455719316166893",
+      "resource": {
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "Y",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+            }
+          ]
+        },
+        "code": {"coding": [{"code": "66421-9", "system": "http://loinc.org"}]},
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": {"method": "POST", "url": "Observation"}
+    },
+    {
+      "fullUrl": "urn:uuid:222214635598315",
+      "resource": {
+        "effectiveDateTime": "2021-05-13",
+        "code": {"coding": [{"code": "65222-2", "system": "http://loinc.org"}]},
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": {"method": "POST", "url": "Observation"}
+    },
+    {
+      "fullUrl": "urn:uuid:388170145026748",
+      "resource": {
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "Y",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+            }
+          ]
+        },
+        "code": {"coding": [{"code": "77974-4", "system": "http://loinc.org"}]},
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": {"method": "POST", "url": "Observation"}
+    },
+    {
+      "fullUrl": "urn:uuid:346620203461778",
+      "resource": {
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "N",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+            }
+          ]
+        },
+        "code": {"coding": [{"code": "95420-6", "system": "http://loinc.org"}]},
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": {"method": "POST", "url": "Observation"}
+    },
+    {
+      "fullUrl": "urn:uuid:949258897864128",
+      "resource": {
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "UNK",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+            }
+          ]
+        },
+        "code": {"coding": [{"code": "96539-2", "system": "http://loinc.org"}]},
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": {"method": "POST", "url": "Observation"}
+    },
+    {
+      "fullUrl": "urn:uuid:648726946521651",
+      "resource": {
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "Y",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+            }
+          ]
+        },
+        "code": {"coding": [{"code": "96540-0", "system": "http://loinc.org"}]},
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": {"method": "POST", "url": "Observation"}
+    },
+    {
+      "fullUrl": "urn:uuid:02063039706351",
+      "resource": {
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "other",
+              "system": "http://openhie.github.io/covid-19/CodeSystem/WhoCoHealthOutcome"
+            }
+          ]
+        },
+        "code": {"coding": [{"code": "91541-3", "system": "http://loinc.org"}]},
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": {"method": "POST", "url": "Observation"}
+    },
+    {
+      "fullUrl": "urn:uuid:678524501114971",
+      "resource": {
+        "valueString": "N/A",
+        "code": {"coding": [{"code": "91541-3", "system": "http://loinc.org"}]},
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": {"method": "POST", "url": "Observation"}
+    },
+    {
+      "fullUrl": "urn:uuid:392692899557129",
+      "resource": {
+        "effectiveDateTime": "2021-05-13",
+        "code": {"coding": [{"code": "96550-9", "system": "http://loinc.org"}]},
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": {"method": "POST", "url": "Observation"}
+    },
+    {
+      "fullUrl": "urn:uuid:924867647670974",
+      "resource": {
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "positive",
+              "system": "http://openhie.github.io/covid-19/CodeSystem/WhoCoPositiveNegativeUnknown"
+            }
+          ]
+        },
+        "code": {"coding": [{"code": "96552-5", "system": "http://loinc.org"}]},
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": {"method": "POST", "url": "Observation"}
+    },
+    {
+      "fullUrl": "urn:uuid:298020334930571",
+      "resource": {
+        "valueInteger": 5,
+        "code": {"coding": [{"code": "96551-7", "system": "http://loinc.org"}]},
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": {"method": "POST", "url": "Observation"}
+    }
+  ]
+}
+```
