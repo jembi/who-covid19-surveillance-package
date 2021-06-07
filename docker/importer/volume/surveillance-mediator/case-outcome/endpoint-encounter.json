@@ -1,0 +1,32 @@
+{
+  "name": "FHIR - Orchestrate Case Outcome Encounter Data into one resource",
+  "description": "",
+  "endpoint": {
+    "pattern": "/create-encounter-case-outcome"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputMapping": {
+    "constants.template": "encounter",
+    "requestBody.id": "encounter.fullUrl",
+    "requestBody.status": "encounter.resource.status",
+    "requestBody.period": "encounter.resource.period"
+  },
+  "constants": {
+    "template": {
+      "resource": {
+        "resourceType": "Encounter",
+        "class": {
+          "code": "ACUTE",
+          "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Encounter"
+      }
+    }
+  }
+}
