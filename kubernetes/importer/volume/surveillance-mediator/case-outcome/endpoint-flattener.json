@@ -20,9 +20,7 @@
     "observationId5": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
     "observationId6": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
     "observationId7": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
-    "observationId8": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
-    "observationId9": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
-    "observationId10": "'urn:uuid:' & $substringAfter($string($random()), '0.')"
+    "observationId8": "'urn:uuid:' & $substringAfter($string($random()), '0.')"
   },
   "inputMapping": {
     "transforms.itemsObject.patinfo_ID.answer.valueString": "identifier",
@@ -36,59 +34,49 @@
     "transforms.itemsObject.admission_date.answer.valueDateTime": "encounters[1].period.start",
     "constants.admission_date_encounter_status": "encounters[1].status",
 
-    "transforms.observationId0":"observations[0].id",
+    "transforms.observationId0": "observations[0].id",
     "transforms.itemsObject.outcome_asymp.answer[].valueCoding": "observations[0].value.valueCodeableConcept.coding[]",
     "constants.outcomeAsympCoding": "observations[0].coding",
+    "transforms.itemsObject.outcome_asymp_date.answer[].valueDateTime": "observations[0].value.effectiveDateTime",
 
     "transforms.observationId1":"observations[1].id",
-    "transforms.itemsObject.outcome_asymp_date.answer[].valueDateTime": "observations[1].value.effectiveDateTime",
-    "constants.outcomeAsympDateCoding": "observations[1].coding",
+    "transforms.itemsObject.patcourse_admit.answer[].valueCoding": "observations[1].value.valueCodeableConcept.coding[]",
+    "constants.patcourseAdmitCoding": "observations[1].coding",
 
     "transforms.observationId2":"observations[2].id",
-    "transforms.itemsObject.patcourse_admit.answer[].valueCoding": "observations[2].value.valueCodeableConcept.coding[]",
-    "constants.patcourseAdmitCoding": "observations[2].coding",
+    "transforms.itemsObject.outcome_patcourse_icu.answer[].valueCoding": "observations[2].value.valueCodeableConcept.coding[]",
+    "constants.patcourseICUCoding": "observations[2].coding",
 
     "transforms.observationId3":"observations[3].id",
-    "transforms.itemsObject.outcome_patcourse_icu.answer[].valueCoding": "observations[3].value.valueCodeableConcept.coding[]",
-    "constants.patcourseICUCoding": "observations[3].coding",
+    "transforms.itemsObject.outcome_patcourse_vent.answer[].valueCoding": "observations[3].value.valueCodeableConcept.coding[]",
+    "constants.patcourseVentCoding": "observations[3].coding",
 
     "transforms.observationId4":"observations[4].id",
-    "transforms.itemsObject.outcome_patcourse_vent.answer[].valueCoding": "observations[4].value.valueCodeableConcept.coding[]",
-    "constants.patcourseVentCoding": "observations[4].coding",
+    "transforms.itemsObject.outcome_patcourse_ecmo.answer[].valueCoding": "observations[4].value.valueCodeableConcept.coding[]",
+    "constants.patcourseECMOCoding": "observations[4].coding",
 
-    "transforms.observationId5":"observations[5].id",
-    "transforms.itemsObject.outcome_patcourse_ecmo.answer[].valueCoding": "observations[5].value.valueCodeableConcept.coding[]",
-    "constants.patcourseECMOCoding": "observations[5].coding",
+    "transforms.observationId5": "observations[5].id",
+    "transforms.itemsObject.outcome_patcourse_status.answer[].valueCoding": "observations[5].value.valueCodeableConcept.coding[]",
+    "constants.patcourseStatusCoding": "observations[5].coding",
 
-    "transforms.observationId6":"observations[6].id",
-    "transforms.itemsObject.outcome_patcourse_status.answer[].valueCoding": "observations[6].value.valueCodeableConcept.coding[]",
-    "constants.patcourseStatusCoding": "observations[6].coding",
+    "transforms.observationId6": "observations[6].id",
+    "transforms.itemsObject.outcome_patcourse_status_other.answer[].valueString": "observations[6].value.valueString",
+    "constants.patcourseStatusOtherCoding": "observations[6].coding",
 
     "transforms.observationId7":"observations[7].id",
-    "transforms.itemsObject.outcome_patcourse_status_other.answer[].valueString": "observations[7].value.valueString",
-    "constants.patcourseStatusOtherCoding": "observations[7].coding",
+    "transforms.itemsObject.outcome_lab_date.answer[].valueDateTime": "observations[7].value.effectiveDateTime",
+    "transforms.itemsObject.outcome_lab_result.answer[].valueCoding": "observations[7].value.valueCodeableConcept.coding[]",
+    "constants.outcomeLabResultCoding": "observations[7].coding",
 
     "transforms.observationId8":"observations[8].id",
-    "transforms.itemsObject.outcome_lab_date.answer[].valueDateTime": "observations[8].value.effectiveDateTime",
-    "constants.outcomeLabDateCoding": "observations[8].coding",
-
-    "transforms.observationId9":"observations[9].id",
-    "transforms.itemsObject.outcome_lab_result.answer[].valueCoding": "observations[9].value.valueCodeableConcept.coding[]",
-    "constants.outcomeLabResultCoding": "observations[9].coding",
-
-    "transforms.observationId10":"observations[10].id",
-    "transforms.itemsObject.outcome_contacts_followed.answer[].valueInteger": "observations[10].value.valueInteger",
-    "constants.outcomeContactsFollowedCoding": "observations[10].coding"
+    "transforms.itemsObject.outcome_contacts_followed.answer[].valueInteger": "observations[8].value.valueInteger",
+    "constants.outcomeContactsFollowedCoding": "observations[8].coding"
   },
   "constants": {
     "date_of_outcome_encounter_status": "finished",
     "admission_date_encounter_status": "in-progress",
     "outcomeAsympCoding": {
       "code": "66421-9",
-      "system": "http://loinc.org"
-    },
-    "outcomeAsympDateCoding": {
-      "code": "65222-2",
       "system": "http://loinc.org"
     },
     "patcourseAdmitCoding": {
@@ -113,10 +101,6 @@
     },
     "patcourseStatusOtherCoding": {
       "code": "91541-3",
-      "system": "http://loinc.org"
-    },
-    "outcomeLabDateCoding": {
-      "code": "96550-9",
       "system": "http://loinc.org"
     },
     "outcomeLabResultCoding": {
