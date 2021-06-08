@@ -30,9 +30,7 @@
     "requestBody.data.observations[5].id": "composition.resource.section[0].entry[7].reference",
     "requestBody.data.observations[6].id": "composition.resource.section[0].entry[8].reference",
     "requestBody.data.observations[7].id": "composition.resource.section[0].entry[9].reference",
-    "requestBody.data.observations[8].id": "composition.resource.section[0].entry[10].reference",
-    "requestBody.data.observations[9].id": "composition.resource.section[0].entry[11].reference",
-    "requestBody.data.observations[10].id": "composition.resource.section[1].entry[0].reference"
+    "requestBody.data.observations[8].id": "composition.resource.section[1].entry[0].reference"
   },
   "constants": {
     "template": {
