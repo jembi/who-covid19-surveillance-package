@@ -32,6 +32,7 @@
 
     "transforms.encounterId1": "encounters[1].id",
     "transforms.itemsObject.admission_date.answer.valueDateTime": "encounters[1].period.start",
+    "transforms.itemsObject.outcome_date_of_outcome.answer[].valueDateTime": "encounters[1].period.end",
     "constants.admission_date_encounter_status": "encounters[1].status",
 
     "transforms.observationId0": "observations[0].id",
@@ -75,7 +76,7 @@
   },
   "constants": {
     "date_of_outcome_encounter_status": "finished",
-    "admission_date_encounter_status": "in-progress",
+    "admission_date_encounter_status": "finished",
     "outcomeAsympCoding": {
       "code": "66421-9",
       "system": "http://loinc.org"
