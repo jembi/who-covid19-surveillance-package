@@ -11,6 +11,7 @@
   "inputMapping": {
     "requestBody.id": "observation.fullUrl",
     "requestBody.value": "observation.resource",
+    "requestBody.effectiveDateTime": "observation.resource.effectiveDateTime",
     "requestBody.coding": "observation.resource.code.coding[]+",
     "constants.template.resource.resourceType": "observation.resource.resourceType",
     "constants.template.resource.status": "observation.resource.status",
