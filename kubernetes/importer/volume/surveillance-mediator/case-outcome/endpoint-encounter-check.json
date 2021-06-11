@@ -16,6 +16,6 @@
     "transforms.encounters": "encounters"
   },
   "inputTransforms": {
-    "encounters": "$match(requestBody.observations[1].valueCodeableConcept.coding[0].code, 'Y') ? requestBody.encounters : [requestBody.encounters[0]]"
+    "encounters": "$contains(requestBody.observations[1].value.valueCodeableConcept.coding[0].code, 'Y') ? requestBody.encounters : [requestBody.encounters[0]]"
   }
 }
