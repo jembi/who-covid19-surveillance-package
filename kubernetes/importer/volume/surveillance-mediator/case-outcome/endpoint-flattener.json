@@ -113,5 +113,19 @@
       "code": "96551-7",
       "system": "http://loinc.org"
     }
+  },
+  "requests": {
+    "response": [
+      {
+        "id": "encounter-check",
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/encounter-check",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ]
   }
 }

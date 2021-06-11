@@ -10,7 +10,7 @@
   },
   "inputTransforms": {
     "compositionId": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
-    "hospitalEncounterId": "$exists(requestBody.data.encounters[1]) ? requestBody.data.encounters[1].id: ''"
+    "hospitalEncounterId": "$exists(requestBody.data.encounters[1]) ? {'reference': requestBody.data.encounters[1].id} : null"
   },
   "inputMapping": {
     "constants.template": "composition",
@@ -27,7 +27,7 @@
     "requestBody.data.observations[5].id": "composition.resource.section[0].entry[5].reference",
     "requestBody.data.observations[6].id": "composition.resource.section[0].entry[6].reference",
     "requestBody.data.observations[7].id": "composition.resource.section[0].entry[7].reference",
-    "transforms.hospitalEncounterId": "composition.resource.section[0].entry[8].reference",
+    "transforms.hospitalEncounterId": "composition.resource.section[0].entry[8]",
     "requestBody.data.observations[8].id": "composition.resource.section[1].entry[0].reference"
   },
   "constants": {
