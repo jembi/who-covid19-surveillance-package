@@ -1,0 +1,84 @@
+{
+  "name": "FHIR - FHIR Resource Bundler for Covid19 case outcome",
+  "description": "Endpoint to orchestrate Bundle creation",
+  "endpoint": {
+    "pattern": "/create-bundle-case-outcome"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "constants": {
+    "resourceType": "Bundle",
+    "type": "transaction"
+  },
+  "inputMapping": {
+    "constants.resourceType": "resourceType",
+    "constants.type": "type",
+    "lookupRequests.compositionEndpoint.composition": "entry[]+",
+    "lookupRequests.encounterEndpoint.encounters[].encounter": {
+      "key": "entry[]",
+      "transform": {
+        "function": "appendArray"
+      }
+    },
+    "lookupRequests.observationEndpoint.observation": {
+      "key": "entry[]",
+      "transform": {
+        "function": "appendArray"
+      }
+    }
+  },
+  "requests": {
+    "lookup": [
+      {
+        "id": "compositionEndpoint",
+        "forwardExistingRequestBody": true,
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/create-composition-case-outcome",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      },
+      {
+        "id": "encounterEndpoint",
+        "forwardExistingRequestBody": true,
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/encounter-resolver",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      },
+      {
+        "id": "observationEndpoint",
+        "forwardExistingRequestBody": true,
+        "forEach": {
+          "items": "payload.data.observations"
+        },
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/create-observation-case-outcome",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ],
+    "response": [
+      {
+        "id": "hapi-fhir",
+        "config": {
+          "method": "post",
+          "url": "http://hapi-fhir:8080/fhir",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ]
+  }
+}

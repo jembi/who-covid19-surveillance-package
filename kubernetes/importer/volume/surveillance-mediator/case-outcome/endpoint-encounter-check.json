@@ -1,0 +1,21 @@
+{
+  "name": "FHIR - Hospital Encounter Check",
+  "description": "Endpoint for ensuring the hospital encounter is only created when the patient was admitted to a hospital",
+  "endpoint": {
+    "pattern": "/encounter-check"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputMapping": {
+    "constants.template": "encounter",
+    "requestBody.identifier": "identifier",
+    "requestBody.compositionDate": "compositionDate",
+    "requestBody.observations": "observations",
+    "transforms.encounters": "encounters"
+  },
+  "inputTransforms": {
+    "encounters": "$contains(requestBody.observations[1].value.valueCodeableConcept.coding[0].code, 'Y') ? requestBody.encounters : [requestBody.encounters[0]]"
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "name": "Case Outcome QuestionnaireResponse Flattener",
+  "description": "Flattens item array data from the Questionnaire Response",
+  "endpoint": {
+    "pattern": "/flatten-case-outcome"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputTransforms": {
+    "itemsObject": "(*.item){linkId: $exists(answer[0]) ? {'answer': answer[0], 'definition': definition, 'text': text}}",
+    "encounterId0": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "encounterId1": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId0": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId1": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId2": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId3": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId4": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId5": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId6": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId7": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId8": "'urn:uuid:' & $substringAfter($string($random()), '0.')"
+  },
+  "inputMapping": {
+    "transforms.itemsObject.patinfo_ID.answer.valueString": "identifier",
+    "transforms.itemsObject.outcome_report_date.answer.valueDateTime": "compositionDate",
+
+    "transforms.encounterId0": "encounters[0].id",
+    "transforms.itemsObject.outcome_date_of_outcome.answer.valueDateTime": "encounters[0].period.end",
+    "constants.date_of_outcome_encounter_status": "encounters[0].status",
+
+    "transforms.encounterId1": "encounters[1].id",
+    "transforms.itemsObject.admission_date.answer.valueDateTime": "encounters[1].period.start",
+    "transforms.itemsObject.outcome_date_of_outcome.answer[].valueDateTime": "encounters[1].period.end",
+    "constants.admission_date_encounter_status": "encounters[1].status",
+
+    "transforms.observationId0": "observations[0].id",
+    "transforms.itemsObject.outcome_asymp.answer[].valueCoding": "observations[0].value.valueCodeableConcept.coding[]",
+    "constants.outcomeAsympCoding": "observations[0].coding",
+    "transforms.itemsObject.outcome_asymp_date.answer[].valueDateTime": "observations[0].effectiveDateTime",
+
+    "transforms.observationId1":"observations[1].id",
+    "transforms.itemsObject.patcourse_admit.answer[].valueCoding": "observations[1].value.valueCodeableConcept.coding[]",
+    "transforms.itemsObject.admission_date.answer[].valueDateTime": "observations[1].effectiveDateTime",
+    "constants.patcourseAdmitCoding": "observations[1].coding",
+
+    "transforms.observationId2":"observations[2].id",
+    "transforms.itemsObject.outcome_patcourse_icu.answer[].valueCoding": "observations[2].value.valueCodeableConcept.coding[]",
+    "constants.patcourseICUCoding": "observations[2].coding",
+
+    "transforms.observationId3":"observations[3].id",
+    "transforms.itemsObject.outcome_patcourse_vent.answer[].valueCoding": "observations[3].value.valueCodeableConcept.coding[]",
+    "constants.patcourseVentCoding": "observations[3].coding",
+
+    "transforms.observationId4":"observations[4].id",
+    "transforms.itemsObject.outcome_patcourse_ecmo.answer[].valueCoding": "observations[4].value.valueCodeableConcept.coding[]",
+    "constants.patcourseECMOCoding": "observations[4].coding",
+
+    "transforms.observationId5": "observations[5].id",
+    "transforms.itemsObject.outcome_patcourse_status.answer[].valueCoding": "observations[5].value.valueCodeableConcept.coding[]",
+    "constants.patcourseStatusCoding": "observations[5].coding",
+
+    "transforms.observationId6": "observations[6].id",
+    "transforms.itemsObject.outcome_patcourse_status_other.answer[].valueString": "observations[6].value.valueString",
+    "constants.patcourseStatusOtherCoding": "observations[6].coding",
+
+    "transforms.observationId7":"observations[7].id",
+    "transforms.itemsObject.outcome_lab_date.answer[].valueDateTime": "observations[7].value.effectiveDateTime",
+    "transforms.itemsObject.outcome_lab_result.answer[].valueCoding": "observations[7].value.valueCodeableConcept.coding[]",
+    "constants.outcomeLabResultCoding": "observations[7].coding",
+
+    "transforms.observationId8":"observations[8].id",
+    "transforms.itemsObject.outcome_contacts_followed.answer[].valueInteger": "observations[8].value.valueInteger",
+    "constants.outcomeContactsFollowedCoding": "observations[8].coding"
+  },
+  "constants": {
+    "date_of_outcome_encounter_status": "finished",
+    "admission_date_encounter_status": "finished",
+    "outcomeAsympCoding": {
+      "code": "66421-9",
+      "system": "http://loinc.org"
+    },
+    "patcourseAdmitCoding": {
+      "code": "77974-4",
+      "system": "http://loinc.org"
+    },
+    "patcourseICUCoding": {
+      "code": "95420-6",
+      "system": "http://loinc.org"
+    },
+    "patcourseVentCoding": {
+      "code": "96539-2",
+      "system": "http://loinc.org"
+    },
+    "patcourseECMOCoding": {
+      "code": "96540-0",
+      "system": "http://loinc.org"
+    },
+    "patcourseStatusCoding": {
+      "code": "91541-3",
+      "system": "http://loinc.org"
+    },
+    "patcourseStatusOtherCoding": {
+      "code": "91541-3",
+      "system": "http://loinc.org"
+    },
+    "outcomeLabResultCoding": {
+      "code": "96552-5",
+      "system": "http://loinc.org"
+    },
+    "outcomeContactsFollowedCoding": {
+      "code": "96551-7",
+      "system": "http://loinc.org"
+    }
+  },
+  "requests": {
+    "response": [
+      {
+        "id": "encounter-check",
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/encounter-check",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ]
+  }
+}
