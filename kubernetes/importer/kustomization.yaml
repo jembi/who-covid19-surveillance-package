@@ -36,6 +36,7 @@ configMapGenerator:
       - ./volume/surveillance-mediator/case-outcome/endpoint-flattener.json
       - ./volume/surveillance-mediator/case-outcome/endpoint-handler.json
       - ./volume/surveillance-mediator/case-outcome/endpoint-observation.json
+      - ./volume/surveillance-mediator/case-outcome/endpoint-encounter-check.json
       - ./volume/surveillance-mediator/case-outcome/endpoint.js
   - name: dhis2-tracker-populator-endpoint-importer-configmap
     files:
