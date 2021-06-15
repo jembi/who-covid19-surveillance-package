@@ -1,0 +1,101 @@
+{
+  "name": "Covid19 Case Outcome DHIS2 Orchestrator",
+  "description": "Endpoint for mapping the Covid19 case outcome into DHIS format and then forwarding it to DHIS2",
+  "endpoint": {
+    "pattern": "/resource-resolver-dhis"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputValidation": {
+    "type": "object",
+    "properties": {
+      "requestBody": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "identifier": {
+                "type": "string"
+              },
+              "observations": {
+                "type": "array"
+              }
+            },
+            "required": ["identifier", "observations"]
+          }
+        },
+        "required": ["data"]
+      }
+    },
+    "required": ["requestBody"]
+  },
+  "inputMapping": {
+    "requestBody.data.identifier": "teiIdentifier",
+    "constants.program": "program",
+    "constants.orgUnit": "orgUnit",
+    "constants.trackedEntityType": "trackedEntityType",
+    "constants.status": "event.status",
+    "constants.stage": "event.programStage",
+
+    "transforms.patinfo_ID": "attributes[]+",
+
+    "transforms.incidentDate": {
+      "key": "incidentDate",
+      "transform": {
+        "function": "dateTimeToDate"
+      }
+    },
+
+    "transforms.health_outcome": "event.dataValues[]+",
+    "transforms.outcome_date_of_outcome": "event.dataValues[]+",
+    "transforms.outcome_contacts_followed": "event.dataValues[]+",
+    "transforms.heath_outcome": "event.dataValues[]+"
+  },
+  "inputTransforms": {
+    "patinfo_ID": "{ 'dataElement': constants.attributes.patinfo_ID, 'value': requestBody.data.identifier }",
+    "outcome_date_of_outcome": "{ 'dataElement': constants.dataElements.outcome_date_of_outcome, 'value': requestBody.data.encounters[0].period.end }",
+    "outcome_contacts_followed": "{ 'dataElement': constants.dataElements.outcome_contacts_followed, 'value': requestBody.data.observations[8].value.valueInteger }",
+    "heath_outcome": "{'dataElement': constants.dataElements.health_outcome, 'value': $lookup(constants.healthOutcomeMap, requestBody.data.observations[5].value.valueCodeableConcept.coding[0].code)}",
+    "incidentDate": "$now()"
+  },
+  "requests": {
+    "response": [
+      {
+        "primary": true,
+        "id": "dhis-file-queue",
+        "config": {
+          "method": "POST",
+          "url": "http://file-queue:4002/populator",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ]
+  },
+  "constants": {
+    "program": "uYjxkTbwRNf",
+    "orgUnit": "ImspTQPwCqd",
+    "stage": "LpWNjNGvCO5",
+    "trackedEntityType": "MCPQUTHX1Ze",
+    "status": "ACTIVE",
+    "attributes": {
+      "patinfo_ID": "he05i8FUwu3"
+    },
+    "dataElements": {
+      "health_outcome": "bOYWVEBaWy6",
+      "outcome_date_of_outcome": "dDEdmn8q3P1",
+      "outcome_contacts_followed": "SbXES4EPgqP"
+    },
+    "healthOutcomeMap": {
+      "RECOVERED_HEALTHY": "Recovered/Healthy",
+      "NOT_RECOVERED": "Not recovered",
+      "DEATH": "Death",
+      "UNKNOWN": "Unknown",
+      "OTHER": "Other"
+    }
+  }
+}
