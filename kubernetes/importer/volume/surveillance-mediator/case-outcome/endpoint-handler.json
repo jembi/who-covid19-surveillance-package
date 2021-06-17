@@ -132,6 +132,16 @@
             "Content-Type": "application/json"
           }
         }
+      },
+      {
+        "id": "resource-resolver-dhis-case-outcome",
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/resource-resolver-dhis-case-outcome",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
       }
     ]
   }
