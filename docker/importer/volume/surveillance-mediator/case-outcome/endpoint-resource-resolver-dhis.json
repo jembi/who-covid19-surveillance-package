@@ -55,7 +55,7 @@
     "transforms.heath_outcome": "event.dataValues[]+"
   },
   "inputTransforms": {
-    "patinfo_ID": "{ 'dataElement': constants.attributes.patinfo_ID, 'value': requestBody.data.identifier }",
+    "patinfo_ID": "{ 'attribute': constants.attributes.patinfo_ID, 'value': requestBody.data.identifier }",
     "outcome_date_of_outcome": "{ 'dataElement': constants.dataElements.outcome_date_of_outcome, 'value': requestBody.data.encounters[0].period.end }",
     "outcome_contacts_followed": "{ 'dataElement': constants.dataElements.outcome_contacts_followed, 'value': requestBody.data.observations[8].value.valueInteger }",
     "heath_outcome": "{'dataElement': constants.dataElements.health_outcome, 'value': $lookup(constants.healthOutcomeMap, requestBody.data.observations[5].value.valueCodeableConcept.coding[0].code)}",
