@@ -906,7 +906,7 @@ These assumptions are made as we do not yet support the client registry responsi
       "answer": [
         {
           "valueCoding": {
-            "code": "other",
+            "code": "OTHER",
             "system": "http://openhie.github.io/covid-19/CodeSystem/WhoCoHealthOutcome"
           }
         }
