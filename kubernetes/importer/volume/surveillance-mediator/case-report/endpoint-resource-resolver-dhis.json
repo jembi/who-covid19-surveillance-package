@@ -2,7 +2,7 @@
   "name": "Covid19 DHIS2 Orchestrator",
   "description": "Endpoint for mapping the Covid19 case report into DHIS format and then forwarding it to DHIS2",
   "endpoint": {
-    "pattern": "/resource-resolver-dhis"
+    "pattern": "/resource-resolver-dhis-case-outcome"
   },
   "transformation": {
     "input": "JSON",
