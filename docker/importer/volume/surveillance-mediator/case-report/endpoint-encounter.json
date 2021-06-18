@@ -18,7 +18,7 @@
       "resource": {
         "resourceType": "Encounter",
         "location": [],
-        "status": "finished",
+        "status": "in-progress",
         "class": {
           "code": "ACUTE",
           "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
