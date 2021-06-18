@@ -10,7 +10,8 @@
   },
   "inputTransforms": {
     "createDate": "$substringBefore( $now(), 'T')",
-    "compositionId": "'urn:uuid:' & $substringAfter($string($random()), '0.')"
+    "compositionId": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "hospitalEncounterId": "$exists(requestBody.data.encounters[1]) ? {'reference': requestBody.data.encounters[1].id} : null"
   },
   "inputMapping": {
     "constants.template": "composition",
@@ -18,15 +19,26 @@
     "requestBody.author": "composition.resource.author[]+",
     "requestBody.data.identifier": "composition.resource.identifier.value",
     "transforms.createDate": "composition.resource.date",
-    "requestBody.data.encounter.id": "composition.resource.encounter.reference",
+    "requestBody.data.encounters[0].id": "composition.resource.encounter.reference",
     "requestBody.data.observations[0].id": "composition.resource.section[0].entry[0].reference",
     "requestBody.data.observations[1].id": "composition.resource.section[0].entry[1].reference",
     "requestBody.data.observations[2].id": "composition.resource.section[1].entry[0].reference",
     "requestBody.data.observations[3].id": "composition.resource.section[1].entry[1].reference",
     "requestBody.data.observations[4].id": "composition.resource.section[1].entry[2].reference",
     "requestBody.data.observations[5].id": "composition.resource.section[1].entry[3].reference",
-    "requestBody.data.observations[6].id": "composition.resource.section[2].entry[0].reference"
-
+    "requestBody.data.observations[7].id": "composition.resource.section[1].entry[4].reference",
+    "requestBody.data.observations[8].id": "composition.resource.section[1].entry[5].reference",
+    "requestBody.data.observations[9].id": "composition.resource.section[1].entry[6].reference",
+    "requestBody.data.observations[10].id": "composition.resource.section[1].entry[7].reference",
+    "requestBody.data.observations[11].id": "composition.resource.section[1].entry[8].reference",
+    "requestBody.data.observations[12].id": "composition.resource.section[1].entry[9].reference",
+    "requestBody.data.observations[13].id": "composition.resource.section[1].entry[10].reference",
+    "requestBody.data.observations[14].id": "composition.resource.section[1].entry[11].reference",
+    "transforms.hospitalEncounterId": "composition.resource.section[1].entry[12]",
+    "requestBody.data.observations[6].id": "composition.resource.section[2].entry[0].reference",
+    "requestBody.data.observations[15].id": "composition.resource.section[2].entry[1].reference",
+    "requestBody.data.observations[16].id": "composition.resource.section[2].entry[2].reference",
+    "requestBody.data.observations[17].id": "composition.resource.section[2].entry[3].reference"
   },
   "constants": {
     "template": {
