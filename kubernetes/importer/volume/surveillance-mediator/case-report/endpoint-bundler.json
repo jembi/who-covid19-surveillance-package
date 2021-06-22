@@ -16,13 +16,19 @@
     "constants.resourceType": "resourceType",
     "constants.type": "type",
     "lookupRequests.compositionEndpoint.composition": "entry[]+",
-    "lookupRequests.encounterEndpoint.encounters[].encounter": {
+    "lookupRequests.encounterEndpoint.encounters": {
       "key": "entry[]",
       "transform": {
         "function": "appendArray"
       }
     },
     "lookupRequests.observationEndpoint.observation": {
+      "key": "entry[]",
+      "transform": {
+        "function": "appendArray"
+      }
+    },
+    "requestBody.conditions": {
       "key": "entry[]",
       "transform": {
         "function": "appendArray"
