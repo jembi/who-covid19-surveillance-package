@@ -20,7 +20,7 @@ yarn docker:instant init core covid19surveillance -custom-package="<Path to pack
 yarn docker:instant init -t k8s core covid19surveillance --custom-package="<Path to package>"
 ```
 
-**NB** The alias for the option ``--custom-package`` is ``-c``
+**NB** The alias for the option `--custom-package` is `-c`
 
 Once the package has been initialized, the following commands can be run to start, stop or destroy the instance.
 
@@ -77,7 +77,7 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
   "status": "completed",
   "authored": "2021-01-20T11:29:52+02:00",
   "author": {
-    "reference": "Practitioner/1844391"
+    "reference": "Practitioner/1844391y"
   },
   "item": [
     {
@@ -107,6 +107,16 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
       ]
     },
     {
+      "linkId": "report_date",
+      "text": "Date of Reporting:",
+      "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.report.reportDate",
+      "answer": [
+        {
+          "valueDate": "2021-01-20"
+        }
+      ]
+    },
+    {
       "linkId": "section_patient_info",
       "text": "Patient information",
       "item": [
@@ -127,8 +137,8 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
           "answer": [
             {
               "valueQuantity": {
-                "value": 11,
-                "code": "d",
+                "value": 34,
+                "code": "a",
                 "system": "http://unitsofmeasure.org"
               }
             }
@@ -171,7 +181,7 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
                   "answer": [
                     {
                       "valueCoding": {
-                        "code": "KZN",
+                        "code": "ZA-KZN",
                         "system": "urn:iso:std:iso:3166:-2"
                       }
                     }
@@ -219,6 +229,91 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
                   "valueDate": "2021-01-15"
                 }
               ]
+            },
+            {
+              "linkId": "patcourse_admit",
+              "text": "Hospital Admission Indicator:",
+              "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.clinicalStatus.patientCourse.wasAdmitted",
+              "answer": [
+                {
+                  "valueCoding": {
+                    "code": "Y",
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "patcourse_presHCF",
+              "text": "First Hospital Admission Date:",
+              "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.clinicalStatus.patientCourse.admitDate",
+              "answer": [
+                {
+                  "valueDate": "2021-01-15"
+                }
+              ]
+            },
+            {
+              "linkId": "patcourse_icu",
+              "text": "Intensive Care Received:",
+              "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.clinicalStatus.patientCourse.receivedIcuCare",
+              "answer": [
+                {
+                  "valueCoding": {
+                    "code": "Y",
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "patcourse_vent",
+              "text": "Ventilation Received:",
+              "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.clinicalStatus.patientCourse.ventilated",
+              "answer": [
+                {
+                  "valueCoding": {
+                    "code": "Y",
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "patcourse_ecmo",
+              "text": "Did the case receive extracorporeal membrane oxygenation?:",
+              "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.clinicalStatus.patientCourse.receivedEcmo",
+              "answer": [
+                {
+                  "valueCoding": {
+                    "code": "Y",
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "patcourse_iso",
+              "text": "Is case in isolation with Infection Control Practice in place?",
+              "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.clinicalStatus.patientCourse.wasIsolated",
+              "answer": [
+                {
+                  "valueCoding": {
+                    "code": "Y",
+                    "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "patcourse_dateiso",
+              "text": "Date of isolation:",
+              "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.clinicalStatus.patientCourse.isolatedDate",
+              "answer": [
+                {
+                  "valueDate": "2021-01-15"
+                }
+              ]
             }
           ]
         },
@@ -233,8 +328,27 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
               "answer": [
                 {
                   "valueCoding": {
-                    "code": "N",
+                    "code": "Y",
                     "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "comcond",
+              "text": "Patient Underlying Conditions:",
+              "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.clinicalStatus.comorbidities.conditions",
+              "answer": [
+                {
+                  "valueCoding": {
+                    "code": "DIABETES",
+                    "system": "http://openhie.github.io/covid-19/CodeSystem/WhoCrCodeSystemComorbidity"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "PREGNANCY",
+                    "system": "http://openhie.github.io/covid-19/CodeSystem/WhoCrCodeSystemComorbidity"
                   }
                 }
               ]
@@ -248,6 +362,19 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
       "text": "Exposure risk in the 14 days prior to symptom onset (prior to testing if asymptomatic)",
       "item": [
         {
+          "linkId": "patinfo_occuhcw",
+          "text": "Is case a Health Care Worker (any job in a health care setting):",
+          "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.exposure.travel.isHealthcareWorker",
+          "answer": [
+            {
+              "valueCoding": {
+                "code": "N",
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+              }
+            }
+          ]
+        },
+        {
           "linkId": "expo_travel",
           "text": "Has the case travelled in the 14 days prior to symptom onset?",
           "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.exposure.travel.hasTravelled",
@@ -256,6 +383,118 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
               "valueCoding": {
                 "code": "N",
                 "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "expo_travel_country",
+          "text": "Country:",
+          "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.exposure.travel.location.country",
+          "answer": [
+            {
+              "valueCoding": {
+                "code": "ZW",
+                "system": "http://hl7.org/fhir/ValueSet/iso3166-1-2"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "expo_travel_city",
+          "text": "City:",
+          "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.exposure.travel.location.city",
+          "answer": [
+            {
+              "valueString": "Harare"
+            }
+          ]
+        },
+        {
+          "linkId": "expo_travel_date",
+          "text": "Date of Departure from the place:",
+          "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.exposure.travel.location.locationPeriod.end",
+          "answer": [
+            {
+              "valueDate": "2021-01-15"
+            }
+          ]
+        },
+        {
+          "linkId": "expo_visit_healthcare",
+          "text": "Has case visited any health care facility in the 14 days prior to symptom onset?",
+          "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.exposure.visitedHealthcare",
+          "answer": [
+            {
+              "valueCoding": {
+                "code": "N",
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "expo_contact_case",
+          "text": "Has case had contact with a confirmed case in the 14 days prior to symptom onset?",
+          "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.exposure.contact.hadContact",
+          "answer": [
+            {
+              "valueCoding": {
+                "code": "N",
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "expo_case_setting_detail",
+          "text": "Contact Setting:",
+          "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.exposure.contact.contact.exposure.setting",
+          "answer": [
+            {
+              "valueString": "Home"
+            }
+          ]
+        },
+        {
+          "linkId": "expo_ID1",
+          "text": "Contact ID:",
+          "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.exposure.contact.contact.identifier",
+          "answer": [
+            {
+              "valueString": "+2777888888"
+            }
+          ]
+        },
+        {
+          "linkId": "expo_case_date_first",
+          "text": "First Date of Contact:",
+          "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.exposure.contact.contact.exposure.period.begin",
+          "answer": [
+            {
+              "valueDate": "2021-01-15"
+            }
+          ]
+        },
+        {
+          "linkId": "expo_case_date_last",
+          "text": "Last Date of Contact:",
+          "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary.exposure.contact.contact.exposure.period.end",
+          "answer": [
+            {
+              "valueDate": "2021-01-17"
+            }
+          ]
+        },
+        {
+          "linkId": "expo_case_location",
+          "text": "Most likely country of exposure:",
+          "definition": "http://openhie.github.io/covid-19/StructureDefinition/WhoCrSurveillanceDataDictionary#WhoCrSurveillanceDataDictionary..exposure.contact.country",
+          "answer": [
+            {
+              "valueCoding": {
+                "code": "ZW",
+                "system": "http://hl7.org/fhir/ValueSet/iso3166-1-2"
               }
             }
           ]
@@ -271,41 +510,21 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
 ```json
 {
   "resourceType": "Bundle",
-  "id": "WhoCrBundleExample",
   "type": "transaction",
   "entry": [
     {
-      "fullUrl": "http://test.org/fhir/Composition/WhoCrCompositionBasicExample",
       "resource": {
         "resourceType": "Composition",
-        "id": "WhoCrCompositionBasicExample",
-        "meta": {
-          "profile": [
-            "http://openhie.github.io/covid-19/StructureDefinition/who-cr-composition-basic"
-          ]
-        },
         "type": {
-          "coding": [
-            {
-              "code": "95412-3",
-              "system": "http://loinc.org"
-            }
-          ]
+          "coding": [{ "code": "95412-3", "system": "http://loinc.org" }]
         },
         "status": "final",
         "identifier": {
           "system": "http://test.org/identifier/who-covid-19-case-report",
-          "value": "1111"
+          "value": "123456789"
         },
-        "encounter": {
-          "reference": "Encounter/WhoCrEncounterExample"
-        },
-        "date": "2021-01-18",
-        "author": [
-          {
-            "reference": "Practitioner/WhoCrPractitionerExample"
-          }
-        ],
+        "encounter": { "reference": "urn:uuid:92984469334599" },
+        "author": [{ "reference": "Practitioner/1844391y" }],
         "title": "WHO COVID-19 Case Report",
         "section": [
           {
@@ -319,12 +538,8 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
               ]
             },
             "entry": [
-              {
-                "reference": "Observation/WhoCrObservationAgeExample"
-              },
-              {
-                "reference": "Observation/WhoCrObservationBirthSexExample"
-              }
+              { "reference": "urn:uuid:550598074398342" },
+              { "reference": "urn:uuid:567618776220275" }
             ]
           },
           {
@@ -338,18 +553,19 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
               ]
             },
             "entry": [
-              {
-                "reference": "Observation/WhoCrObservationLabTestDateExample"
-              },
-              {
-                "reference": "Observation/WhoCrObservationSymptomsExample"
-              },
-              {
-                "reference": "Observation/WhoCRObservationOnsetDateExample"
-              },
-              {
-                "reference": "Observation/WhoCrObservationComorbiditiesExample"
-              }
+              { "reference": "urn:uuid:0558627936725375" },
+              { "reference": "urn:uuid:80139664661405" },
+              { "reference": "urn:uuid:764073491561028" },
+              { "reference": "urn:uuid:15791239164346" },
+              { "reference": "urn:uuid:148961659797258" },
+              { "reference": "urn:uuid:798228396400571" },
+              { "reference": "urn:uuid:871204281919977" },
+              { "reference": "urn:uuid:948070869743333" },
+              { "reference": "urn:uuid:0436824739975563" },
+              { "reference": "urn:uuid:602777289150051" },
+              { "reference": "urn:uuid:507059939525307" },
+              { "reference": "urn:uuid:391509353985015" },
+              { "reference": "urn:uuid:562750380722932" }
             ]
           },
           {
@@ -363,90 +579,76 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
               ]
             },
             "entry": [
-              {
-                "reference": "Observation/WhoCrObservationHasTravelledExample"
-              }
+              { "reference": "urn:uuid:964251889468667" },
+              { "reference": "urn:uuid:752280133489467" },
+              { "reference": "urn:uuid:566209579060944" },
+              { "reference": "urn:uuid:279695879661603" }
             ]
           }
-        ]
+        ],
+        "date": "2021-06-22",
+        "section[1]": {
+          "entry": [
+            {
+              "reference": [
+                "urn:uuid:665719920671014",
+                "urn:uuid:0520145048026721"
+              ]
+            }
+          ]
+        }
       },
-      "request": {
-        "method": "POST",
-        "url": "Composition"
-      }
+      "request": { "method": "POST", "url": "Composition" },
+      "fullUrl": "urn:uuid:45910466258278"
     },
     {
-      "fullUrl": "http://test.org/fhir/Encounter/WhoCrEncounterExample",
       "resource": {
         "resourceType": "Encounter",
-        "id": "WhoCrEncounterExample",
-        "location": [
-          {
-            "location": {
-              "reference": "Location/WhoCrLocationExample"
-            }
-          }
-        ],
-        "status": "finished",
+        "status": "in-progress",
         "class": {
           "code": "ACUTE",
           "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
-        }
+        },
+        "location": [
+          { "location": { "reference": "Location/covid19249937372146211" } }
+        ],
+        "period": { "start": "2021-01-20" }
       },
-      "request": {
-        "method": "POST",
-        "url": "Encounter"
-      }
+      "request": { "method": "POST", "url": "Encounter" },
+      "fullUrl": "urn:uuid:92984469334599"
     },
     {
-      "fullUrl": "http://test.org/fhir/Observation/WhoCrObservationAgeExample",
       "resource": {
-        "resourceType": "Observation",
-        "id": "WhoCrObservationAgeExample",
-        "meta": {
-          "profile": [
-            "http://openhie.github.io/covid-19/StructureDefinition/who-cr-observation-age"
-          ]
+        "resourceType": "Encounter",
+        "status": "in-progress",
+        "class": {
+          "code": "ACUTE",
+          "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
         },
-        "code": {
-          "coding": [
-            {
-              "code": "30525-0",
-              "system": "http://loinc.org"
-            }
-          ]
-        },
-        "status": "final",
+        "period": { "start": "2021-01-15" }
+      },
+      "request": { "method": "POST", "url": "Encounter" },
+      "fullUrl": "urn:uuid:562750380722932"
+    },
+    {
+      "fullUrl": "urn:uuid:550598074398342",
+      "resource": {
         "valueQuantity": {
-          "value": 34,
-          "system": "https://openconceptlab.org/orgs/CIEL/sources/CIEL/concepts/",
-          "code": "1734"
-        }
-      },
-      "request": {
-        "method": "POST",
-        "url": "Observation"
-      }
-    },
-    {
-      "fullUrl": "http://test.org/fhir/Observation/WhoCrObservationBirthSexExample",
-      "resource": {
-        "resourceType": "Observation",
-        "id": "WhoCrObservationBirthSexExample",
-        "meta": {
-          "profile": [
-            "http://openhie.github.io/covid-19/StructureDefinition/who-cr-observation-birth-sex"
-          ]
+          "code": "1734",
+          "system": "https://openconceptlab.org/orgs/CIEL/sources/CIEL/concepts",
+          "value": 34
         },
         "code": {
-          "coding": [
-            {
-              "code": "76689-9",
-              "system": "http://loinc.org"
-            }
-          ]
+          "coding": [{ "code": "30525-0", "system": "http://loinc.org" }]
         },
-        "status": "final",
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": { "method": "POST", "url": "Observation" }
+    },
+    {
+      "fullUrl": "urn:uuid:567618776220275",
+      "resource": {
         "valueCodeableConcept": {
           "coding": [
             {
@@ -454,58 +656,32 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
               "system": "http://hl7.org/fhir/administrative-gender"
             }
           ]
-        }
-      },
-      "request": {
-        "method": "POST",
-        "url": "Observation"
-      }
-    },
-    {
-      "fullUrl": "http://test.org/fhir/Observation/WhoCrObservationLabTestDateExample",
-      "resource": {
-        "resourceType": "Observation",
-        "id": "WhoCrObservationLabTestDateExample",
-        "meta": {
-          "profile": [
-            "http://openhie.github.io/covid-19/StructureDefinition/who-cr-observation-lab-test-date"
-          ]
         },
         "code": {
-          "coding": [
-            {
-              "code": "lab-test-date",
-              "system": "http://test.org/obsCode"
-            }
-          ]
+          "coding": [{ "code": "76689-9", "system": "http://loinc.org" }]
         },
-        "status": "final",
-        "valueDateTime": "2021-01-18"
+        "resourceType": "Observation",
+        "status": "final"
       },
-      "request": {
-        "method": "POST",
-        "url": "Observation"
-      }
+      "request": { "method": "POST", "url": "Observation" }
     },
     {
-      "fullUrl": "http://test.org/fhir/Observation/WhoCrObservationSymptomsExample",
+      "fullUrl": "urn:uuid:0558627936725375",
       "resource": {
-        "resourceType": "Observation",
-        "id": "WhoCrObservationSymptomsExample",
-        "meta": {
-          "profile": [
-            "http://openhie.github.io/covid-19/StructureDefinition/who-cr-observation-symptoms"
-          ]
-        },
+        "valueDateTime": "2021-01-20",
         "code": {
           "coding": [
-            {
-              "code": "symptoms",
-              "system": "http://test.org/obsCode"
-            }
+            { "code": "lab-test-date", "system": "http://test.org/obsCode" }
           ]
         },
-        "status": "final",
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": { "method": "POST", "url": "Observation" }
+    },
+    {
+      "fullUrl": "urn:uuid:80139664661405",
+      "resource": {
         "valueCodeableConcept": {
           "coding": [
             {
@@ -513,58 +689,32 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
               "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
             }
           ]
-        }
-      },
-      "request": {
-        "method": "POST",
-        "url": "Observation"
-      }
-    },
-    {
-      "fullUrl": "http://test.org/fhir/Observation/WhoCRObservationOnsetDateExample",
-      "resource": {
-        "resourceType": "Observation",
-        "id": "WhoCRObservationOnsetDateExample",
-        "meta": {
-          "profile": [
-            "http://openhie.github.io/covid-19/StructureDefinition/who-cr-observation-onset-date"
-          ]
         },
         "code": {
           "coding": [
-            {
-              "code": "65222-2",
-              "system": "http://loinc.org"
-            }
+            { "code": "symptoms", "system": "http://test.org/obsCode" }
           ]
         },
-        "status": "final",
-        "valueDateTime": "2021-01-15"
+        "resourceType": "Observation",
+        "status": "final"
       },
-      "request": {
-        "method": "POST",
-        "url": "Observation"
-      }
+      "request": { "method": "POST", "url": "Observation" }
     },
     {
-      "fullUrl": "http://test.org/fhir/Observation/WhoCrObservationComorbiditiesExample",
+      "fullUrl": "urn:uuid:764073491561028",
       "resource": {
-        "resourceType": "Observation",
-        "id": "WhoCrObservationComorbiditiesExample",
-        "meta": {
-          "profile": [
-            "http://openhie.github.io/covid-19/StructureDefinition/who-cr-observation-comorbidities"
-          ]
-        },
+        "valueDateTime": "2021-01-15",
         "code": {
-          "coding": [
-            {
-              "code": "75618-9",
-              "system": "http://loinc.org"
-            }
-          ]
+          "coding": [{ "code": "65222-2", "system": "http://loinc.org" }]
         },
-        "status": "final",
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": { "method": "POST", "url": "Observation" }
+    },
+    {
+      "fullUrl": "urn:uuid:15791239164346",
+      "resource": {
         "valueCodeableConcept": {
           "coding": [
             {
@@ -572,32 +722,18 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
               "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
             }
           ]
-        }
-      },
-      "request": {
-        "method": "POST",
-        "url": "Observation"
-      }
-    },
-    {
-      "fullUrl": "http://test.org/fhir/Observation/WhoCrObservationHasTravelledExample",
-      "resource": {
-        "resourceType": "Observation",
-        "id": "WhoCrObservationHasTravelledExample",
-        "meta": {
-          "profile": [
-            "http://openhie.github.io/covid-19/StructureDefinition/who-cr-observation-has-travelled"
-          ]
         },
         "code": {
-          "coding": [
-            {
-              "code": "96542-6",
-              "system": "http://loinc.org"
-            }
-          ]
+          "coding": [{ "code": "75618-9", "system": "http://loinc.org" }]
         },
-        "status": "final",
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": { "method": "POST", "url": "Observation" }
+    },
+    {
+      "fullUrl": "urn:uuid:964251889468667",
+      "resource": {
         "valueCodeableConcept": {
           "coding": [
             {
@@ -605,12 +741,275 @@ The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19
               "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
             }
           ]
-        }
+        },
+        "code": {
+          "coding": [{ "code": "96542-6", "system": "http://loinc.org" }]
+        },
+        "resourceType": "Observation",
+        "status": "final"
       },
-      "request": {
-        "method": "POST",
-        "url": "Observation"
-      }
+      "request": { "method": "POST", "url": "Observation" }
+    },
+    {
+      "fullUrl": "urn:uuid:148961659797258",
+      "resource": {
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "CASE_CONTACT",
+              "system": "http://openhie.github.io/covid-19/CodeSystem/WhoCrCodeSystemReasonForTesting"
+            }
+          ]
+        },
+        "code": {
+          "coding": [{ "code": "67098-4", "system": "http://loinc.org" }]
+        },
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": { "method": "POST", "url": "Observation" }
+    },
+    {
+      "fullUrl": "urn:uuid:798228396400571",
+      "resource": {
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "ZA",
+              "system": "http://hl7.org/fhir/ValueSet/iso3166-1-2"
+            }
+          ]
+        },
+        "code": {
+          "coding": [{ "code": "77967-8", "system": "http://loinc.org" }]
+        },
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": { "method": "POST", "url": "Observation" }
+    },
+    {
+      "fullUrl": "urn:uuid:871204281919977",
+      "resource": {
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "Y",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+            }
+          ]
+        },
+        "code": {
+          "coding": [{ "code": "77974-4", "system": "http://loinc.org" }]
+        },
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": { "method": "POST", "url": "Observation" }
+    },
+    {
+      "fullUrl": "urn:uuid:948070869743333",
+      "resource": {
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "Y",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+            }
+          ]
+        },
+        "code": {
+          "coding": [{ "code": "95420-6", "system": "http://loinc.org" }]
+        },
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": { "method": "POST", "url": "Observation" }
+    },
+    {
+      "fullUrl": "urn:uuid:0436824739975563",
+      "resource": {
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "Y",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+            }
+          ]
+        },
+        "code": {
+          "coding": [{ "code": "96539-2", "system": "http://loinc.org" }]
+        },
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": { "method": "POST", "url": "Observation" }
+    },
+    {
+      "fullUrl": "urn:uuid:602777289150051",
+      "resource": {
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "Y",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+            }
+          ]
+        },
+        "code": {
+          "coding": [{ "code": "96540-0", "system": "http://loinc.org" }]
+        },
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": { "method": "POST", "url": "Observation" }
+    },
+    {
+      "fullUrl": "urn:uuid:507059939525307",
+      "resource": {
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "Y",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+            }
+          ]
+        },
+        "component": [{}],
+        "code": {
+          "coding": [{ "code": "96548-3", "system": "http://loinc.org" }]
+        },
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": { "method": "POST", "url": "Observation" }
+    },
+    {
+      "fullUrl": "urn:uuid:391509353985015",
+      "resource": {
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "N",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+            }
+          ]
+        },
+        "code": {
+          "coding": [{ "code": "95418-0", "system": "http://loinc.org" }]
+        },
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": { "method": "POST", "url": "Observation" }
+    },
+    {
+      "fullUrl": "urn:uuid:752280133489467",
+      "resource": {
+        "valueCodeableConcept": { "coding": [] },
+        "component": [
+          { "code": { "code": "94653-3", "system": "http://loinc.org" } }
+        ],
+        "code": {
+          "coding": [{ "code": "94651-7", "system": "http://loinc.org" }]
+        },
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": { "method": "POST", "url": "Observation" }
+    },
+    {
+      "fullUrl": "urn:uuid:566209579060944",
+      "resource": {
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "N",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+            }
+          ]
+        },
+        "code": {
+          "coding": [{ "code": "96543-4", "system": "http://loinc.org" }]
+        },
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": { "method": "POST", "url": "Observation" }
+    },
+    {
+      "fullUrl": "urn:uuid:279695879661603",
+      "resource": {
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "N",
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+            }
+          ]
+        },
+        "component": [
+          {
+            "valueString": "Home",
+            "code": { "code": "81267-7", "system": "http://loinc.org" }
+          },
+          {
+            "valueString": "+2777888888",
+            "code": { "code": "94650-9", "system": "http://loinc.org" }
+          },
+          {
+            "valueDateTime": "2021-01-15",
+            "code": { "code": "96545-9", "system": "http://loinc.org" }
+          },
+          {
+            "valueDateTime": "2021-01-17",
+            "code": { "code": "95386-9", "system": "http://loinc.org" }
+          },
+          {
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "code": "ZW",
+                  "system": "http://hl7.org/fhir/ValueSet/iso3166-1-2"
+                }
+              ]
+            },
+            "code": { "code": "77984-3", "system": "http://loinc.org" }
+          }
+        ],
+        "code": {
+          "coding": [{ "code": "96544-2", "system": "http://loinc.org" }]
+        },
+        "resourceType": "Observation",
+        "status": "final"
+      },
+      "request": { "method": "POST", "url": "Observation" }
+    },
+    {
+      "fullUrl": "urn:uuid:665719920671014",
+      "resource": {
+        "code": {
+          "coding": {
+            "code": "DIABETES",
+            "system": "http://openhie.github.io/covid-19/CodeSystem/WhoCrCodeSystemComorbidity"
+          }
+        },
+        "resourceType": "Condition"
+      },
+      "request": { "method": "POST", "url": "Condition" }
+    },
+    {
+      "fullUrl": "urn:uuid:0520145048026721",
+      "resource": {
+        "code": {
+          "coding": {
+            "code": "PREGNANCY",
+            "system": "http://openhie.github.io/covid-19/CodeSystem/WhoCrCodeSystemComorbidity"
+          }
+        },
+        "resourceType": "Condition"
+      },
+      "request": { "method": "POST", "url": "Condition" }
     }
   ]
 }
