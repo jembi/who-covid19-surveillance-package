@@ -20,7 +20,8 @@ const ENDPOINT_FILES = [
   'endpoint-location-resolver.json',
   'endpoint-resource-resolver-dhis.json',
   'endpoint-encounter-resolver.json',
-  'endpoint-encounter-check.json'
+  'endpoint-encounter-check.json',
+  'endpoint-condition.json'
 ]
 
 ENDPOINT_FILES.forEach(file => {

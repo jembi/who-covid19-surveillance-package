@@ -2,7 +2,7 @@
   "name": "FHIR - Resolves Location and Practitioner references",
   "description": "Endpoint to validate the incoming",
   "endpoint": {
-    "pattern": "/resource-resolver"
+    "pattern": "/resource-resolver-fhir"
   },
   "transformation": {
     "input": "JSON",
@@ -26,10 +26,14 @@
     },
     "required": ["requestBody", "lookupRequests"]
   },
+  "inputTransforms": {
+    "conditions": "$map(lookupRequests.conditionEndpoint, function($v){$v.condition})"
+  },
   "inputMapping": {
     "requestBody.data": "data",
     "requestBody.author": "author",
-    "lookupRequests.locationEndpoint.locationReference": "data.location.reference"
+    "lookupRequests.locationEndpoint.locationReference": "data.encounters[0].reference",
+    "transforms.conditions": "conditions[]"
   },
   "requests": {
     "lookup": [
@@ -39,6 +43,20 @@
         "config": {
           "method": "POST",
           "url": "http://localhost:3003/get-location",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      },
+      {
+        "id": "conditionEndpoint",
+        "forwardExistingRequestBody": true,
+        "forEach": {
+          "items": "payload.data.conditions"
+        },
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/create-condition",
           "headers": {
             "Content-Type": "application/json"
           }

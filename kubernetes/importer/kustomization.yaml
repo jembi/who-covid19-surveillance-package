@@ -17,6 +17,7 @@ configMapGenerator:
       - ./volume/surveillance-mediator/case-report/endpoint-resource-resolver-dhis.json
       - ./volume/surveillance-mediator/case-report/endpoint-encounter-resolver.json
       - ./volume/surveillance-mediator/case-report/endpoint-encounter-check.json
+      - ./volume/surveillance-mediator/case-report/endpoint-condition.json
       - ./volume/surveillance-mediator/case-report/endpoint.js
   - name: covid19-lab-report-endpoint-importer-configmap
     files:

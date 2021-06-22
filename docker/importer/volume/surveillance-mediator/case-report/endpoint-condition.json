@@ -1,0 +1,31 @@
+{
+  "name": "FHIR - Orchestrate Condition Data into one resource",
+  "description": "",
+  "endpoint": {
+    "pattern": "/create-condition"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputTransforms": {
+    "conditionId": "'urn:uuid:' & $substringAfter($string($random()), '0.')"
+  },
+  "inputMapping": {
+    "transforms.conditionId": "condition.fullUrl",
+    "requestBody.valueCoding": "condition.resource.code.coding",
+    "constants.template.resource.resourceType": "condition.resource.resourceType",
+    "constants.template.request": "condition.request"
+  },
+  "constants": {
+    "template": {
+      "resource": {
+        "resourceType": "Condition"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Condition"
+      }
+    }
+  }
+}
