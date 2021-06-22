@@ -10,12 +10,12 @@
   },
   "inputTransforms": {
     "createDate": "$substringBefore( $now(), 'T')",
-    "compositionId": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
-    "hospitalEncounterId": "$exists(requestBody.data.encounters[1]) ? {'reference': requestBody.data.encounters[1].id} : null"
+    "hospitalEncounterId": "$exists(requestBody.data.encounters[1]) ? {'reference': requestBody.data.encounters[1].id} : null",
+    "conditionReferences": "$exists(requestBody.conditions[1]) ? $map(requestBody.conditions, function($v) {{'reference': $v.fullUrl}}) : [{'reference': requestBody.conditions[0].fullUrl}]"
   },
   "inputMapping": {
     "constants.template": "composition",
-    "transforms.compositionId": "composition.fullUrl",
+    "requestBody.data.compositionId": "composition.fullUrl",
     "requestBody.author": "composition.resource.author[]+",
     "requestBody.data.identifier": "composition.resource.identifier.value",
     "transforms.createDate": "composition.resource.date",
@@ -34,7 +34,13 @@
     "requestBody.data.observations[12].id": "composition.resource.section[1].entry[9].reference",
     "requestBody.data.observations[13].id": "composition.resource.section[1].entry[10].reference",
     "requestBody.data.observations[14].id": "composition.resource.section[1].entry[11].reference",
-    "transforms.hospitalEncounterId": "composition.resource.section[1].entry[12]",
+    "transforms.conditionReferences": {
+      "key": "composition.resource.section[1].entry[]",
+      "transform": {
+        "function": "appendArray"
+      }
+    },
+    "transforms.hospitalEncounterId": "composition.resource.section[1].entry[]+",
     "requestBody.data.observations[6].id": "composition.resource.section[2].entry[0].reference",
     "requestBody.data.observations[15].id": "composition.resource.section[2].entry[1].reference",
     "requestBody.data.observations[16].id": "composition.resource.section[2].entry[2].reference",
