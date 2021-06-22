@@ -10,7 +10,9 @@
   },
   "inputMapping": {
     "requestBody.identifier": "identifier",
+    "requestBody.compositionId": "compositionId",
     "requestBody.observations": "observations",
+    "requestBody.conditions": "conditions",
     "requestBody.location": "location",
     "transforms.encounters": "encounters"
   },

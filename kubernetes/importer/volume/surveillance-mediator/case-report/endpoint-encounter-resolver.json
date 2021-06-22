@@ -9,7 +9,12 @@
     "output": "JSON"
   },
   "inputMapping": {
-    "lookupRequests.encounterEndpoint": "encounters"
+    "lookupRequests.encounterEndpoint.encounter": {
+      "key": "encounters[]",
+      "transform": {
+        "function": "appendArray"
+      }
+    }
   },
   "requests": {
     "lookup": [

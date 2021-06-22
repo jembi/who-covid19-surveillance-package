@@ -8,16 +8,19 @@
     "input": "JSON",
     "output": "JSON"
   },
+  "inputTransforms": {
+    "reference": "$exists(requestBody.reference) ? {'location': {'reference': requestBody.reference}} : null"
+  },
   "inputMapping": {
     "constants.template": "encounter",
-    "requestBody.data.encounter.id": "encounter.fullUrl",
-    "requestBody.data.location.reference": "encounter.resource.location[0].location.reference"
+    "requestBody.id": "encounter.fullUrl",
+    "transforms.reference": "encounter.resource.location[]+",
+    "requestBody.period": "encounter.resource.period"
   },
   "constants": {
     "template": {
       "resource": {
         "resourceType": "Encounter",
-        "location": [],
         "status": "in-progress",
         "class": {
           "code": "ACUTE",
