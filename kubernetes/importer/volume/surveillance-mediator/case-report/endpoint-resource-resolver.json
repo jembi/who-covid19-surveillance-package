@@ -27,7 +27,7 @@
     "required": ["requestBody", "lookupRequests"]
   },
   "inputTransforms": {
-    "conditions": "$map(lookupRequests.conditionEndpoint, function($v){$v.condition})"
+    "conditions": "$map($filter(lookupRequests.conditionEndpoint, function($v){$exists($v.condition.resource.code.coding)}), function($v){$v.condition})"
   },
   "inputMapping": {
     "requestBody.data": "data",

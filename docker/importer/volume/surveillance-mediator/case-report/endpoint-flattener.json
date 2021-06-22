@@ -9,7 +9,7 @@
     "output": "JSON"
   },
   "inputTransforms": {
-    "itemsObject": "(**.item){linkId: $exists(answer[0])? {'answer': answer, 'definition': definition, 'text': text}}",
+    "itemsObject": "(**.item){linkId: $exists(answer)? {'answer': answer, 'definition': definition, 'text': text}}",
     "encounterId": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
     "encounterId1": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
     "compositionId": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
@@ -30,7 +30,8 @@
     "observationId14": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
     "observationId15": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
     "observationId16": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
-    "observationId17": "'urn:uuid:' & $substringAfter($string($random()), '0.')"
+    "observationId17": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "defaultConditionArray": "[{}]"
   },
   "inputMapping": {
     "transforms.compositionId": "compositionId",
@@ -41,6 +42,7 @@
     "transforms.itemsObject.report_date.answer[0].valueDate": "encounters[0].period.start",
     "transforms.encounterId1": "encounters[1].id",
     "transforms.itemsObject.patcourse_presHCF.answer[0].valueDate": "encounters[1].period.start",
+    "transforms.defaultConditionArray": "conditions[]",
     "transforms.itemsObject.comcond.answer": "conditions[]",
     "transforms.observationId0": "observations[0].id",
     "transforms.itemsObject.patinfo_ageonset.answer[0].valueQuantity.code": {

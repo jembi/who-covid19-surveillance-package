@@ -12,6 +12,9 @@
     "resourceType": "Bundle",
     "type": "transaction"
   },
+  "inputTransforms": {
+    "conditions": "$exists(requestBody.conditions) ? requestBody.conditions : []"
+  },
   "inputMapping": {
     "constants.resourceType": "resourceType",
     "constants.type": "type",
@@ -28,7 +31,7 @@
         "function": "appendArray"
       }
     },
-    "requestBody.conditions": {
+    "transforms.conditions": {
       "key": "entry[]",
       "transform": {
         "function": "appendArray"
