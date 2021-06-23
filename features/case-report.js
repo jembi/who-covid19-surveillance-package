@@ -1,18 +1,15 @@
 'use strict'
 
-const {Given, When, Then, setDefaultTimeout} = require('@cucumber/cucumber')
+const {When, Then, setDefaultTimeout} = require('@cucumber/cucumber')
 
 const {
   sendCovid19CaseReport,
   verifyCovid19CaseReportInDhis,
   verifyCovid19CaseReportInFhir,
-  cleanupCovid19CaseReport,
-  ensurePractitionerExists
+  cleanupCovid19CaseReport
 } = require('./utils')
 
 setDefaultTimeout(30000)
-
-Given('that the practitioner sending the reports exists', ensurePractitionerExists)
 
 When('a case report is sent through', sendCovid19CaseReport)
 

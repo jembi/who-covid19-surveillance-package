@@ -1,7 +1,6 @@
 Feature: Covid19 Case report
 
   Scenario: A case report is sent
-    Given that the practitioner sending the reports exists
     When a case report is sent through
     Then the case report should be stored in the fhir server
     And it should be also be available in dhis
