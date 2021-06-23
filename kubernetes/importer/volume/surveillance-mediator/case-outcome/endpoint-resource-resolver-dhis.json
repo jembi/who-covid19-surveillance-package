@@ -68,7 +68,7 @@
         "id": "dhis-file-queue",
         "config": {
           "method": "POST",
-          "url": "http://file-queue:4002/populator",
+          "url": "http://covid19-surveillance-file-queue-service:4002/populator",
           "headers": {
             "Content-Type": "application/json"
           }
