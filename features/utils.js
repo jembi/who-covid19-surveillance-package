@@ -21,10 +21,14 @@ const authHeader = new Buffer.from(
 ).toString('base64')
 
 const patientId = '12305759751'
-const patientId2 = '1234567'
+const patientId1 = '1234567'
+const patientId2 = '12305759781'
 const programId = 'uYjxkTbwRNf'
-let trackedEntityId, trackedEntityId2, fhirBundleCaseReport, fhirBundleLabResult, organizationsBundle, locationExists
+let trackedEntityId, trackedEntityId1, trackedEntityId2, fhirBundleCaseReport, fhirBundleCaseOutcome, fhirBundleLabResult, organizationsBundle, locationExists
 
+const caseOutcomeQuestionnaireResponse = JSON.parse(
+  fs.readFileSync(`${__dirname}/resources/case-outcome-questionnaireResponse.json`, 'utf8')
+)
 const caseReportQuestionnaireResponse = JSON.parse(
   fs.readFileSync(`${__dirname}/resources/case-report-questionnaireResponse.json`, 'utf8')
 )
@@ -62,6 +66,7 @@ labResultQuestionnaireResponse.item[1].answer[0].valueString = organization2Iden
 labResultQuestionnaireResponse.item[5].answer[0].valueString = organization1Name
 labResultQuestionnaireResponse.author.reference = `Practitioner/${practitionerId}`
 caseReportQuestionnaireResponse.author.reference = `Practitioner/${practitionerId}`
+caseOutcomeQuestionnaireResponse.author.reference = `Practitioner/${practitionerId}`
 
 exports.verifyDhis2Configured = async () => {
   const options = {
@@ -92,14 +97,32 @@ exports.verifyDhis2Configured = async () => {
   }
 }
 
+const getDhisEntity = id => axios({
+  url: `${DHIS2_PROTOCOL}://${DHIS2_API_HOSTNAME}:${DHIS2_API_PORT}/api/trackedEntityInstances`,
+  method: 'GET',
+  headers: {
+    "Content-Type": 'application/json',
+    "Cache-Control": 'no-cache',
+    Authorization: `Basic ${authHeader}`
+  },
+  params: {
+    ouMode: 'DESCENDANTS',
+    ou: ORG_UNIT,
+    programId: programId,
+    filter: `he05i8FUwu3:EQ:${id}`
+  }
+})
+
+const deleteDhisEntity = id => axios({
+  url: `${DHIS2_PROTOCOL}://${DHIS2_API_HOSTNAME}:${DHIS2_API_PORT}/api/trackedEntityInstances/${id}`,
+  method: 'DELETE',
+  headers: {
+  Authorization: `Basic ${authHeader}`
+  }
+})
+
 exports.deletePatient = async () => {
- const result = await axios({
-      url: `${DHIS2_PROTOCOL}://${DHIS2_API_HOSTNAME}:${DHIS2_API_PORT}/api/trackedEntityInstances/${trackedEntityId}`,
-      method: 'DELETE',
-      headers: {
-      Authorization: `Basic ${authHeader}`
-      }
-  })
+ const result = await deleteDhisEntity(trackedEntityId)
 
   if (result.status !== 200 || !result.data.response.importCount.deleted) {
     throw Error('Clean up failed - patient')
@@ -107,21 +130,7 @@ exports.deletePatient = async () => {
 }
 
 exports.verifyPatientExists = async () => {
-  const result = await axios({
-    url: `${DHIS2_PROTOCOL}://${DHIS2_API_HOSTNAME}:${DHIS2_API_PORT}/api/trackedEntityInstances`,
-    method: 'GET',
-    headers: {
-      "Content-Type": 'application/json',
-      "Cache-Control": 'no-cache',
-      Authorization: `Basic ${authHeader}`
-    },
-    params: {
-      ouMode: 'DESCENDANTS',
-      ou: ORG_UNIT,
-      programId: programId,
-      filter: `he05i8FUwu3:EQ:${patientId}`
-    }
-  })
+  const result = await getDhisEntity(patientId)
 
   if (result.status != 200 || !result.data.trackedEntityInstances.length) {
     throw Error('Patient verification failed')
@@ -189,21 +198,7 @@ const sendRequest = (path, payload={}, method='POST') => axios({
 
 exports.sendCovid19CaseReport = async () => {
   // Check whether the case report exists in DHIS
-  let response = await axios({
-    url: `${DHIS2_PROTOCOL}://${DHIS2_API_HOSTNAME}:${DHIS2_API_PORT}/api/trackedEntityInstances`,
-    method: 'GET',
-    headers: {
-      "Content-Type": 'application/json',
-      "Cache-Control": 'no-cache',
-      Authorization: `Basic ${authHeader}`
-    },
-    params: {
-      ouMode: 'DESCENDANTS',
-      ou: ORG_UNIT,
-      programId: programId,
-      filter: `he05i8FUwu3:EQ:${patientId}`
-    }
-  })
+  let response = await getDhisEntity(patientId1)
 
   /*
     Sending a case report creates a Location resource if one does not exist.
@@ -227,6 +222,24 @@ exports.sendCovid19CaseReport = async () => {
 
   fhirBundleCaseReport = JSON.parse(response.data['resource-resolver-fhir'].response.body)
   console.log('Covid19 Case report successfully sent')
+}
+
+exports.sendCovid19CaseOutcome = async () => {
+  // Check whether the case outcome exists in DHIS
+  let response = await getDhisEntity(patientId2)
+
+  if (response.status == 200 && response.data.trackedEntityInstances.length) {
+    throw Error('Test Covid19 Case Outcome already exists')
+  }
+
+  response = await sendRequest('case-outcome', caseOutcomeQuestionnaireResponse)
+
+  if (response.status !== 200) {
+    throw Error('Covid19 Case Outcome sending failed')
+  }
+
+  fhirBundleCaseOutcome = JSON.parse(response.data['resource-resolver-fhir'].response.body)
+  console.log('Covid19 Case Outcome successfully sent')
 }
 
 exports.ensurePractitionerExists = async () => {
@@ -266,37 +279,45 @@ exports.verifyCovid19CaseReportInFhir = async () => {
 }
 
 exports.verifyCovid19CaseReportInDhis = async () => {
-  const response = await axios({
-    url: `${DHIS2_PROTOCOL}://${DHIS2_API_HOSTNAME}:${DHIS2_API_PORT}/api/trackedEntityInstances`,
-    method: 'GET',
-    headers: {
-      "Content-Type": 'application/json',
-      "Cache-Control": 'no-cache',
-      Authorization: `Basic ${authHeader}`
-    },
-    params: {
-      ouMode: 'DESCENDANTS',
-      ou: ORG_UNIT,
-      programId: programId,
-      filter: `he05i8FUwu3:EQ:${patientId2}`
-    }
-  })
+  const response = await getDhisEntity(patientId1)
 
   if (response.status != 200 || !response.data.trackedEntityInstances.length) {
     throw Error('Covid19 Case report verification failed')
   }
-  trackedEntityId2 = response.data.trackedEntityInstances[0].trackedEntityInstance
+  trackedEntityId1 = response.data.trackedEntityInstances[0].trackedEntityInstance
   console.log('Covid19 Case report has been successfully registered in DHIS')
 }
 
-exports.cleanupCovid19CaseReport = async () => {
-  const response = await axios({
-    url: `${DHIS2_PROTOCOL}://${DHIS2_API_HOSTNAME}:${DHIS2_API_PORT}/api/trackedEntityInstances/${trackedEntityId2}`,
-    method: 'DELETE',
-    headers: {
-      Authorization: `Basic ${authHeader}`
-      }
+exports.verifyCovid19CaseOutcomeInFhir = async () => {
+  if (
+    !fhirBundleCaseOutcome ||
+    !fhirBundleCaseOutcome.entry ||
+    !fhirBundleCaseOutcome.entry.length
+  ) throw Error('Covid19 Case Outcome does not exist in FHIR')
+
+  // Verify one of the resources in the bundle exists in fhir
+  const response = await sendRequest(`fhir/${fhirBundleCaseOutcome.entry[0].response.location}`, {}, 'GET')
+
+  if (response.status != 200) throw Error('Covid19 Case outcome resources not stored in FHIR')
+  console.log('Covid19 Case Outcome successfully stored in the FHIR server')
+}
+
+exports.verifyCovid19CaseOutcomeInDhis = async () => {
+  await new Promise(resolve => {
+    setTimeout(() => resolve(), 10000)
   })
+
+  const response = await getDhisEntity(patientId2)
+
+  if (response.status != 200 || !response.data.trackedEntityInstances.length) {
+    throw Error('Covid19 Case Outcome verification failed')
+  }
+  trackedEntityId2 = response.data.trackedEntityInstances[0].trackedEntityInstance
+  console.log('Covid19 Case Outcome has been successfully added to DHIS')
+}
+
+exports.cleanupCovid19CaseReport = async () => {
+  const response = await deleteDhisEntity(trackedEntityId1)
 
   if (response.status !== 200 || !response.data.response.importCount.deleted) {
     throw Error('Covid19 Case report clean up failed in DHIS')
@@ -336,6 +357,43 @@ exports.cleanupCovid19CaseReport = async () => {
   }
 
   console.log('The test Covid19 Case report has been removed from the FHIR server')
+}
+
+exports.cleanupCovid19CaseOutcome = async () => {
+  const response = await deleteDhisEntity(trackedEntityId2)
+
+  if (response.status !== 200 || !response.data.response.importCount.deleted) {
+    throw Error('Covid19 Case Outcome clean up failed in DHIS')
+  }
+
+  const deletesBundle = {
+    resourceType: 'Bundle',
+    type: 'transaction',
+    entry: []
+  }
+
+  fhirBundleCaseOutcome.entry.forEach(resource => {
+    if (
+      resource &&
+      resource.response &&
+      resource.response.location
+    ) {
+      deletesBundle.entry.push({
+        request: {
+          method: 'DELETE',
+          url: `${resource.response.location.split('/_')[0]}`
+        }
+      })
+    }
+  })
+
+  const deleteResources = await sendRequest('fhir/', deletesBundle)
+
+  if (deleteResources.status != 200) {
+    throw Error('Covid19 Case Outcome clean up failed in FHIR')
+  }
+
+  console.log('The test Covid19 Case Outcome has been removed from the FHIR server')
 }
 
 exports.createLabResultOrganizations = async () => {
