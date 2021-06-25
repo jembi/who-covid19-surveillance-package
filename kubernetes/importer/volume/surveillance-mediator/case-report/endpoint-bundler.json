@@ -30,12 +30,6 @@
       "transform": {
         "function": "appendArray"
       }
-    },
-    "transforms.conditions": {
-      "key": "entry[]",
-      "transform": {
-        "function": "appendArray"
-      }
     }
   },
   "requests": {
