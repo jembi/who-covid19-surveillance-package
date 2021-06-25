@@ -30,8 +30,7 @@
     "observationId14": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
     "observationId15": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
     "observationId16": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
-    "observationId17": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
-    "defaultConditionArray": "[{}]"
+    "observationId17": "'urn:uuid:' & $substringAfter($string($random()), '0.')"
   },
   "inputMapping": {
     "transforms.compositionId": "compositionId",
@@ -42,7 +41,6 @@
     "transforms.itemsObject.report_date.answer[0].valueDate": "encounters[0].period.start",
     "transforms.encounterId1": "encounters[1].id",
     "transforms.itemsObject.patcourse_presHCF.answer[0].valueDate": "encounters[1].period.start",
-    "transforms.defaultConditionArray": "conditions[]",
     "transforms.itemsObject.comcond.answer": "conditions[]",
     "transforms.observationId0": "observations[0].id",
     "transforms.itemsObject.patinfo_ageonset.answer[0].valueQuantity.code": {
@@ -106,8 +104,8 @@
     "transforms.observationId13":"observations[13].id",
     "transforms.itemsObject.patcourse_iso.answer[0].valueCoding": "observations[13].value.valueCodeableConcept.coding[]",
     "constants.patcourseIsoCoding": "observations[13].coding",
-    "transforms.itemsObject.patcourse_dateiso.answer[0].valueCoding": "observations[13].value.component[0].valueDateTime",
-    "constants.patcourseDateIsoCoding": "observations[13].value.component[0].code",
+    "transforms.itemsObject.patcourse_dateiso.answer[0].valueDate": "observations[13].value.component[0].valueDateTime",
+    "constants.patcourseDateIsoCoding": "observations[13].value.component[0].code.coding[]+",
     "transforms.observationId14":"observations[14].id",
     "transforms.itemsObject.patinfo_occuhcw.answer[0].valueCoding": "observations[14].value.valueCodeableConcept.coding[]",
     "constants.patinfoOccuhcwCoding": "observations[14].coding",
@@ -115,7 +113,7 @@
     "transforms.itemsObject.expo_travel_country1.answer[0].valueCoding": "observations[15].value.valueCodeableConcept.coding[]",
     "constants.expoTravelCountry1Coding": "observations[15].coding",
     "transforms.itemsObject.expo_travel_city1.answer[0].valueString": "observations[15].value.component[0].valueString",
-    "constants.expoTravelCity1Coding": "observations[15].value.component[0].code",
+    "constants.expoTravelCity1Coding": "observations[15].value.component[0].code.coding[]+",
     "transforms.itemsObject.expo_travel_date1.answer[0].valueDate": "observations[15].value.effectiveDateTime",
     "transforms.observationId16":"observations[16].id",
     "transforms.itemsObject.expo_visit_healthcare.answer[0].valueCoding": "observations[16].value.valueCodeableConcept.coding[]",
@@ -124,15 +122,15 @@
     "transforms.itemsObject.expo_contact_case.answer[0].valueCoding": "observations[17].value.valueCodeableConcept.coding[]",
     "constants.expoContactCaseCoding": "observations[17].coding",
     "transforms.itemsObject.expo_case_setting_detail.answer[0].valueString": "observations[17].value.component[0].valueString",
-    "constants.expoCaseSettingDetailCoding": "observations[17].value.component[0].code",
+    "constants.expoCaseSettingDetailCoding": "observations[17].value.component[0].code.coding[]+",
     "transforms.itemsObject.expo_ID1.answer[0].valueString": "observations[17].value.component[1].valueString",
-    "constants.expoID1Coding": "observations[17].value.component[1].code",
+    "constants.expoID1Coding": "observations[17].value.component[1].code.coding[]+",
     "transforms.itemsObject.expo_case_date_first.answer[0].valueDate": "observations[17].value.component[2].valueDateTime",
-    "constants.expoCaseDateFirstCoding": "observations[17].value.component[2].code",
+    "constants.expoCaseDateFirstCoding": "observations[17].value.component[2].code.coding[]+",
     "transforms.itemsObject.expo_case_date_last.answer[0].valueDate": "observations[17].value.component[3].valueDateTime",
-    "constants.expoCaseDateLastCoding": "observations[17].value.component[3].code",
+    "constants.expoCaseDateLastCoding": "observations[17].value.component[3].code.coding[]+",
     "transforms.itemsObject.expo_case_location.answer[0].valueCoding": "observations[17].value.component[4].valueCodeableConcept.coding[]",
-    "constants.expoCaseLocationCoding": "observations[17].value.component[4].code"
+    "constants.expoCaseLocationCoding": "observations[17].value.component[4].code.coding[]+"
   },
   "constants": {
     "ageCoding": {
