@@ -27,13 +27,13 @@
     "required": ["requestBody", "lookupRequests"]
   },
   "inputTransforms": {
-    "conditions": "$map($filter(lookupRequests.conditionEndpoint, function($v){$exists($v.condition.resource.code.coding)}), function($v){$v.condition})"
+    "conditions": "$exists(requestBody.data.conditions) ? $map($filter(requestBody.data.conditions, function($e){$exists($e.valueCoding)}), function($v){{'code': {'coding': [requestBody.data.observations[5].coding]}, 'valueCodeableConcept': {'coding': [$v.valueCoding]}}}) : null"
   },
   "inputMapping": {
     "requestBody.data": "data",
     "requestBody.author": "author",
     "lookupRequests.locationEndpoint.locationReference": "data.encounters[0].reference",
-    "transforms.conditions": "conditions[]"
+    "transforms.conditions": "data.observations[5].component[]"
   },
   "requests": {
     "lookup": [
@@ -43,20 +43,6 @@
         "config": {
           "method": "POST",
           "url": "http://localhost:3003/get-location",
-          "headers": {
-            "Content-Type": "application/json"
-          }
-        }
-      },
-      {
-        "id": "conditionEndpoint",
-        "forwardExistingRequestBody": true,
-        "forEach": {
-          "items": "payload.data.conditions"
-        },
-        "config": {
-          "method": "POST",
-          "url": "http://localhost:3003/create-condition",
           "headers": {
             "Content-Type": "application/json"
           }

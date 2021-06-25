@@ -12,6 +12,7 @@
     "requestBody.id": "observation.fullUrl",
     "requestBody.value": "observation.resource",
     "requestBody.coding": "observation.resource.code.coding[]+",
+    "requestBody.component": "observation.resource.component[]+",
     "constants.template.resource.resourceType": "observation.resource.resourceType",
     "constants.template.resource.status": "observation.resource.status",
     "constants.template.request.method": "observation.request.method",
