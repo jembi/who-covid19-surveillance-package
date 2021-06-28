@@ -12,11 +12,19 @@
     "resourceType": "Bundle",
     "type": "transaction"
   },
+  "inputTransforms": {
+    "conditions": "$exists(requestBody.conditions) ? requestBody.conditions : []"
+  },
   "inputMapping": {
     "constants.resourceType": "resourceType",
     "constants.type": "type",
     "lookupRequests.compositionEndpoint.composition": "entry[]+",
-    "lookupRequests.encounterEndpoint.encounter": "entry[]+",
+    "lookupRequests.encounterEndpoint.encounters": {
+      "key": "entry[]",
+      "transform": {
+        "function": "appendArray"
+      }
+    },
     "lookupRequests.observationEndpoint.observation": {
       "key": "entry[]",
       "transform": {
@@ -42,7 +50,7 @@
         "forwardExistingRequestBody": true,
         "config": {
           "method": "POST",
-          "url": "http://localhost:3003/create-encounter",
+          "url": "http://localhost:3003/encounter-resolver-case-report",
           "headers": {
             "Content-Type": "application/json"
           }

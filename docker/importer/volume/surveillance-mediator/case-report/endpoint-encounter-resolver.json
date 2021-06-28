@@ -1,0 +1,37 @@
+{
+  "name": "FHIR - Resolve the Case Report encounters",
+  "description": "",
+  "endpoint": {
+    "pattern": "/encounter-resolver-case-report"
+  },
+  "transformation": {
+    "input": "JSON",
+    "output": "JSON"
+  },
+  "inputMapping": {
+    "lookupRequests.encounterEndpoint.encounter": {
+      "key": "encounters[]",
+      "transform": {
+        "function": "appendArray"
+      }
+    }
+  },
+  "requests": {
+    "lookup": [
+      {
+        "id": "encounterEndpoint",
+        "forwardExistingRequestBody": true,
+        "forEach": {
+          "items": "payload.data.encounters"
+        },
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/create-encounter",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ]
+  }
+}

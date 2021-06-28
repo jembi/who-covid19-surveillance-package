@@ -65,14 +65,17 @@
                 },
                 "required": ["country", "state"]
               },
-              "encounter": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "string"
-                  }
-                },
-                "required": ["id"]
+              "encounters": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["id"]
+                }
               },
               "observations": {
                 "type": "array",
@@ -99,7 +102,7 @@
                 }
               }
             },
-            "required": ["identifier", "location", "encounter", "observations"]
+            "required": ["identifier", "location", "encounters", "observations"]
           }
         },
         "required": ["flatArray"]
@@ -130,7 +133,7 @@
         "id": "resource-resolver-fhir",
         "config": {
           "method": "POST",
-          "url": "http://localhost:3003/resource-resolver",
+          "url": "http://localhost:3003/resource-resolver-fhir",
           "headers": {
             "Content-Type": "application/json"
           }

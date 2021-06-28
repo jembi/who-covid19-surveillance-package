@@ -26,10 +26,14 @@
     },
     "required": ["requestBody", "lookupRequests"]
   },
+  "inputTransforms": {
+    "conditions": "$exists(requestBody.data.conditions) ? $map($filter(requestBody.data.conditions, function($e){$exists($e.valueCoding)}), function($v){{'code': {'coding': [requestBody.data.observations[5].coding]}, 'valueCodeableConcept': {'coding': [$v.valueCoding]}}}) : null"
+  },
   "inputMapping": {
     "requestBody.data": "data",
     "requestBody.author": "author",
-    "lookupRequests.locationEndpoint.locationReference": "data.location.reference"
+    "lookupRequests.locationEndpoint.locationReference": "data.encounters[0].reference",
+    "transforms.conditions": "data.observations[5].component[]"
   },
   "requests": {
     "lookup": [

@@ -9,23 +9,41 @@
     "output": "JSON"
   },
   "inputTransforms": {
-    "itemsObject": "(**.item){linkId: $exists(answer[0])? {'answer': answer[0], 'definition': definition, 'text': text}}",
+    "itemsObject": "(**.item){linkId: $exists(answer)? {'answer': answer, 'definition': definition, 'text': text}}",
     "encounterId": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "encounterId1": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "compositionId": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
     "observationId0": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
     "observationId1": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
     "observationId2": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
     "observationId3": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
     "observationId4": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
     "observationId5": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
-    "observationId6": "'urn:uuid:' & $substringAfter($string($random()), '0.')"
+    "observationId6": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId7": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId8": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId9": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId10": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId11": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId12": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId13": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId14": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId15": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId16": "'urn:uuid:' & $substringAfter($string($random()), '0.')",
+    "observationId17": "'urn:uuid:' & $substringAfter($string($random()), '0.')"
   },
   "inputMapping": {
-    "transforms.itemsObject.patinfo_ID.answer.valueString": "identifier",
-    "transforms.itemsObject.patinfo_idadmin0.answer.valueCoding.code": "location.country",
-    "transforms.itemsObject.patinfo_idadmin1.answer.valueCoding.code": "location.state",
-    "transforms.encounterId":"encounter.id",
-    "transforms.observationId0":"observations[0].id",
-    "transforms.itemsObject.patinfo_ageonset.answer.valueQuantity.code": {
+    "transforms.compositionId": "compositionId",
+    "transforms.itemsObject.patinfo_ID.answer[0].valueString": "identifier",
+    "transforms.itemsObject.patinfo_idadmin0.answer[0].valueCoding.code": "location.country",
+    "transforms.itemsObject.patinfo_idadmin1.answer[0].valueCoding.code": "location.state",
+    "transforms.encounterId": "encounters[0].id",
+    "transforms.itemsObject.report_date.answer[0].valueDate": "encounters[0].period.start",
+    "transforms.encounterId1": "encounters[1].id",
+    "transforms.itemsObject.patcourse_presHCF.answer[0].valueDate": "encounters[1].period.start",
+    "transforms.itemsObject.comcond.answer": "conditions[]",
+    "transforms.observationId0": "observations[0].id",
+    "transforms.itemsObject.patinfo_ageonset.answer[0].valueQuantity.code": {
       "key": "observations[0].value.valueQuantity",
       "transform": {
         "function": "mapCodes",
@@ -45,26 +63,74 @@
         }
       }
     },
-    "transforms.itemsObject.patinfo_ageonset.answer.valueQuantity.value": "observations[0].value.valueQuantity.value",
+    "transforms.itemsObject.patinfo_ageonset.answer[0].valueQuantity.value": "observations[0].value.valueQuantity.value",
     "constants.ageCoding": "observations[0].coding",
-    "transforms.observationId1":"observations[1].id",
-    "transforms.itemsObject.patinfo_sex.answer[].valueCoding": "observations[1].value.valueCodeableConcept.coding[]",
+    "transforms.observationId1": "observations[1].id",
+    "transforms.itemsObject.patinfo_sex.answer[0].valueCoding": "observations[1].value.valueCodeableConcept.coding[]",
     "constants.sexCoding": "observations[1].coding",
-    "transforms.observationId2":"observations[2].id",
-    "transforms.itemsObject.Lab_date1.answer[].valueDate": "observations[2].value.valueDateTime",
+    "transforms.observationId2": "observations[2].id",
+    "transforms.itemsObject.Lab_date1.answer[0].valueDate": "observations[2].value.valueDateTime",
     "constants.labTestDateCoding": "observations[2].coding",
-    "transforms.observationId3":"observations[3].id",
-    "transforms.itemsObject.patcourse_asymp.answer[].valueCoding": "observations[3].value.valueCodeableConcept.coding[]",
+    "transforms.observationId3": "observations[3].id",
+    "transforms.itemsObject.patcourse_asymp.answer[0].valueCoding": "observations[3].value.valueCodeableConcept.coding[]",
     "constants.symptomsCoding": "observations[3].coding",
-    "transforms.observationId4":"observations[4].id",
-    "transforms.itemsObject.patcourse_dateonset.answer[].valueDate": "observations[4].value.valueDateTime",
+    "transforms.observationId4": "observations[4].id",
+    "transforms.itemsObject.patcourse_dateonset.answer[0].valueDate": "observations[4].value.valueDateTime",
     "constants.onsetDateCoding": "observations[4].coding",
     "transforms.observationId5":"observations[5].id",
-    "transforms.itemsObject.Comcond_any.answer[].valueCoding": "observations[5].value.valueCodeableConcept.coding[]",
+    "transforms.itemsObject.Comcond_any.answer[0].valueCoding": "observations[5].value.valueCodeableConcept.coding[]",
     "constants.comorbidityCoding": "observations[5].coding",
-    "transforms.observationId6":"observations[6].id",
-    "transforms.itemsObject.expo_travel.answer[].valueCoding": "observations[6].value.valueCodeableConcept.coding[]",
-    "constants.travelCoding": "observations[6].coding"
+    "transforms.observationId6": "observations[6].id",
+    "transforms.itemsObject.expo_travel.answer[0].valueCoding": "observations[6].value.valueCodeableConcept.coding[]",
+    "constants.travelCoding": "observations[6].coding",
+    "transforms.observationId7":"observations[7].id",
+    "transforms.itemsObject.report_test_reason.answer[0].valueCoding": "observations[7].value.valueCodeableConcept.coding[]",
+    "constants.testReasonCoding": "observations[7].coding",
+    "transforms.observationId8": "observations[8].id",
+    "transforms.itemsObject.report_country.answer[0].valueCoding": "observations[8].value.valueCodeableConcept.coding[]",
+    "constants.reportCountryCoding": "observations[8].coding",
+    "transforms.observationId9": "observations[9].id",
+    "transforms.itemsObject.patcourse_admit.answer[0].valueCoding": "observations[9].value.valueCodeableConcept.coding[]",
+    "constants.patcourseAdmitCoding": "observations[9].coding",
+    "transforms.observationId10": "observations[10].id",
+    "transforms.itemsObject.patcourse_icu.answer[0].valueCoding": "observations[10].value.valueCodeableConcept.coding[]",
+    "constants.patcourseIcuCoding": "observations[10].coding",
+    "transforms.observationId11": "observations[11].id",
+    "transforms.itemsObject.patcourse_vent.answer[0].valueCoding": "observations[11].value.valueCodeableConcept.coding[]",
+    "constants.patcourseVentCoding": "observations[11].coding",
+    "transforms.observationId12":"observations[12].id",
+    "transforms.itemsObject.patcourse_ecmo.answer[0].valueCoding": "observations[12].value.valueCodeableConcept.coding[]",
+    "constants.patcourseEcmoCoding": "observations[12].coding",
+    "transforms.observationId13":"observations[13].id",
+    "transforms.itemsObject.patcourse_iso.answer[0].valueCoding": "observations[13].value.valueCodeableConcept.coding[]",
+    "constants.patcourseIsoCoding": "observations[13].coding",
+    "transforms.itemsObject.patcourse_dateiso.answer[0].valueDate": "observations[13].value.component[0].valueDateTime",
+    "constants.patcourseIsoDateCoding": "observations[13].value.component[0].code.coding[]+",
+    "transforms.observationId14":"observations[14].id",
+    "transforms.itemsObject.patinfo_occuhcw.answer[0].valueCoding": "observations[14].value.valueCodeableConcept.coding[]",
+    "constants.patinfoOccuhcwCoding": "observations[14].coding",
+    "transforms.observationId15":"observations[15].id",
+    "transforms.itemsObject.expo_travel_country1.answer[0].valueCoding": "observations[15].value.valueCodeableConcept.coding[]",
+    "constants.expoTravelCountry1Coding": "observations[15].coding",
+    "transforms.itemsObject.expo_travel_city1.answer[0].valueString": "observations[15].value.component[0].valueString",
+    "constants.expoTravelCity1Coding": "observations[15].value.component[0].code.coding[]+",
+    "transforms.itemsObject.expo_travel_date1.answer[0].valueDate": "observations[15].value.effectiveDateTime",
+    "transforms.observationId16":"observations[16].id",
+    "transforms.itemsObject.expo_visit_healthcare.answer[0].valueCoding": "observations[16].value.valueCodeableConcept.coding[]",
+    "constants.expoVisitHealthcareCoding": "observations[16].coding",
+    "transforms.observationId17":"observations[17].id",
+    "transforms.itemsObject.expo_contact_case.answer[0].valueCoding": "observations[17].value.valueCodeableConcept.coding[]",
+    "constants.expoContactCaseCoding": "observations[17].coding",
+    "transforms.itemsObject.expo_case_setting_detail.answer[0].valueString": "observations[17].value.component[0].valueString",
+    "constants.expoCaseSettingDetailCoding": "observations[17].value.component[0].code.coding[]+",
+    "transforms.itemsObject.expo_ID1.answer[0].valueString": "observations[17].value.component[1].valueString",
+    "constants.expoID1Coding": "observations[17].value.component[1].code.coding[]+",
+    "transforms.itemsObject.expo_case_date_first.answer[0].valueDate": "observations[17].value.component[2].valueDateTime",
+    "constants.expoCaseDateFirstCoding": "observations[17].value.component[2].code.coding[]+",
+    "transforms.itemsObject.expo_case_date_last.answer[0].valueDate": "observations[17].value.component[3].valueDateTime",
+    "constants.expoCaseDateLastCoding": "observations[17].value.component[3].code.coding[]+",
+    "transforms.itemsObject.expo_case_location.answer[0].valueCoding": "observations[17].value.component[4].valueCodeableConcept.coding[]",
+    "constants.expoCaseLocationCoding": "observations[17].value.component[4].code.coding[]+"
   },
   "constants": {
     "ageCoding": {
@@ -94,6 +160,92 @@
     "travelCoding": {
       "code": "96542-6",
       "system": "http://loinc.org"
+    },
+    "testReasonCoding": {
+      "code": "67098-4",
+      "system": "http://loinc.org"
+    },
+    "reportCountryCoding": {
+      "code": "77967-8",
+      "system": "http://loinc.org"
+    },
+    "patcourseAdmitCoding": {
+      "code": "77974-4",
+      "system": "http://loinc.org"
+    },
+    "patcourseIcuCoding": {
+      "code": "95420-6",
+      "system": "http://loinc.org"
+    },
+    "patcourseVentCoding": {
+      "code": "96539-2",
+      "system": "http://loinc.org"
+    },
+    "patcourseEcmoCoding": {
+      "code": "96540-0",
+      "system": "http://loinc.org"
+    },
+    "patcourseIsoCoding": {
+      "code": "96548-3",
+      "system": "http://loinc.org"
+    },
+    "patcourseIsoDateCoding": {
+      "code": "96549-1",
+      "system": "http://loinc.org"
+    },
+    "patinfoOccuhcwCoding": {
+      "code": "95418-0",
+      "system": "http://loinc.org"
+    },
+    "expoTravelCountry1Coding": {
+      "code": "94651-7",
+      "system": "http://loinc.org"
+    },
+    "expoTravelCity1Coding": {
+      "code": "94653-3",
+      "system": "http://loinc.org"
+    },
+    "expoVisitHealthcareCoding": {
+      "code": "96543-4",
+      "system": "http://loinc.org"
+    },
+    "expoContactCaseCoding": {
+      "code": "96544-2",
+      "system": "http://loinc.org"
+    },
+    "expoCaseSettingDetailCoding": {
+      "code": "81267-7",
+      "system": "http://loinc.org"
+    },
+    "expoID1Coding": {
+      "code": "94650-9",
+      "system": "http://loinc.org"
+    },
+    "expoCaseDateFirstCoding": {
+      "code": "96545-9",
+      "system": "http://loinc.org"
+    },
+    "expoCaseDateLastCoding": {
+      "code": "95386-9",
+      "system": "http://loinc.org"
+    },
+    "expoCaseLocationCoding": {
+      "code": "77984-3",
+      "system": "http://loinc.org"
     }
+  },
+  "requests": {
+    "response": [
+      {
+        "id": "encounter-check",
+        "config": {
+          "method": "POST",
+          "url": "http://localhost:3003/encounter-check-case-report",
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      }
+    ]
   }
 }
