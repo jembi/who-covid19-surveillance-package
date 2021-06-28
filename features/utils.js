@@ -27,7 +27,7 @@ const programId = 'uYjxkTbwRNf'
 let trackedEntityId, trackedEntityId1, trackedEntityId2, fhirBundleCaseReport, fhirBundleCaseOutcome, fhirBundleLabResult, organizationsBundle, locationExists
 
 const caseOutcomeQuestionnaireResponse = JSON.parse(
-  fs.readFileSync(`${__dirname}/resources/case-outcome-questionnaireResponse.json`, 'utf8')
+  fs.readFileSync(path.resolve(__dirname, 'resources', 'case-outcome-questionnaireResponse.json'), 'utf8')
 )
 const caseReportQuestionnaireResponse = JSON.parse(
   fs.readFileSync(`${__dirname}/resources/case-report-questionnaireResponse.json`, 'utf8')
