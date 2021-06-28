@@ -2,6 +2,7 @@
 
 const axios = require('axios')
 const fs = require('fs')
+const path = require('path')
 
 const DHIS2_PROTOCOL = process.env.DHIS2_PROTOCOL || 'http'
 const DHIS2_API_HOSTNAME = process.env.DHIS2_API_HOSTNAME || 'localhost'
@@ -16,7 +17,7 @@ const OPENHIM_TRANSACTION_API_PORT =
   process.env.OPENHIM_TRANSACTION_API_PORT || '5001'
 const CUSTOM_TOKEN_ID = process.env.CUSTOM_TOKEN_ID || 'test'
 
-const authHeader = new Buffer.from(
+const authHeader = Buffer.from(
   `${DHIS2_API_USERNAME}:${DHIS2_API_PASSWORD}`
 ).toString('base64')
 
@@ -24,22 +25,48 @@ const patientId = '12305759751'
 const patientId1 = '1234567'
 const patientId2 = '12305759781'
 const programId = 'uYjxkTbwRNf'
-let trackedEntityId, trackedEntityId1, trackedEntityId2, fhirBundleCaseReport, fhirBundleCaseOutcome, fhirBundleLabResult, organizationsBundle, locationExists
+let trackedEntityId,
+  trackedEntityId1,
+  trackedEntityId2,
+  fhirBundleCaseReport,
+  fhirBundleCaseOutcome,
+  fhirBundleLabResult,
+  organizationsBundle,
+  locationExists
 
 const caseOutcomeQuestionnaireResponse = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, 'resources', 'case-outcome-questionnaireResponse.json'), 'utf8')
+  fs.readFileSync(
+    path.resolve(
+      __dirname,
+      'resources',
+      'case-outcome-questionnaireResponse.json'
+    ),
+    'utf8'
+  )
 )
 const caseReportQuestionnaireResponse = JSON.parse(
-  fs.readFileSync(`${__dirname}/resources/case-report-questionnaireResponse.json`, 'utf8')
+  fs.readFileSync(
+    `${__dirname}/resources/case-report-questionnaireResponse.json`,
+    'utf8'
+  )
 )
 const labResultQuestionnaireResponse = JSON.parse(
-  fs.readFileSync(`${__dirname}/resources/lab-result-questionnaireResponse.json`, 'utf8')
+  fs.readFileSync(
+    `${__dirname}/resources/lab-result-questionnaireResponse.json`,
+    'utf8'
+  )
 )
 const organization1 = JSON.parse(
-  fs.readFileSync(`${__dirname}/resources/lab-result-organization1.json`, 'utf8')
+  fs.readFileSync(
+    `${__dirname}/resources/lab-result-organization1.json`,
+    'utf8'
+  )
 )
 const organization2 = JSON.parse(
-  fs.readFileSync(`${__dirname}/resources/lab-result-organization2.json`, 'utf8')
+  fs.readFileSync(
+    `${__dirname}/resources/lab-result-organization2.json`,
+    'utf8'
+  )
 )
 const practitioner = JSON.parse(
   fs.readFileSync(`${__dirname}/resources/practitioner.json`, 'utf8')
@@ -87,7 +114,12 @@ exports.verifyDhis2Configured = async () => {
       throw new Error('DHIS2 NOT running!')
     }
 
-    if (response && response.data && response.data.trackedEntityTypes && response.data.trackedEntityTypes[0].id == 'MCPQUTHX1Ze') {
+    if (
+      response &&
+      response.data &&
+      response.data.trackedEntityTypes &&
+      response.data.trackedEntityTypes[0].id == 'MCPQUTHX1Ze'
+    ) {
       console.log(`DHIS2 configured correctly`)
     } else {
       throw new Error('DHIS2 config issue!')
@@ -97,32 +129,34 @@ exports.verifyDhis2Configured = async () => {
   }
 }
 
-const getDhisEntity = id => axios({
-  url: `${DHIS2_PROTOCOL}://${DHIS2_API_HOSTNAME}:${DHIS2_API_PORT}/api/trackedEntityInstances`,
-  method: 'GET',
-  headers: {
-    "Content-Type": 'application/json',
-    "Cache-Control": 'no-cache',
-    Authorization: `Basic ${authHeader}`
-  },
-  params: {
-    ouMode: 'DESCENDANTS',
-    ou: ORG_UNIT,
-    programId: programId,
-    filter: `he05i8FUwu3:EQ:${id}`
-  }
-})
+const getDhisEntity = id =>
+  axios({
+    url: `${DHIS2_PROTOCOL}://${DHIS2_API_HOSTNAME}:${DHIS2_API_PORT}/api/trackedEntityInstances`,
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
+      Authorization: `Basic ${authHeader}`
+    },
+    params: {
+      ouMode: 'DESCENDANTS',
+      ou: ORG_UNIT,
+      programId: programId,
+      filter: `he05i8FUwu3:EQ:${id}`
+    }
+  })
 
-const deleteDhisEntity = id => axios({
-  url: `${DHIS2_PROTOCOL}://${DHIS2_API_HOSTNAME}:${DHIS2_API_PORT}/api/trackedEntityInstances/${id}`,
-  method: 'DELETE',
-  headers: {
-  Authorization: `Basic ${authHeader}`
-  }
-})
+const deleteDhisEntity = id =>
+  axios({
+    url: `${DHIS2_PROTOCOL}://${DHIS2_API_HOSTNAME}:${DHIS2_API_PORT}/api/trackedEntityInstances/${id}`,
+    method: 'DELETE',
+    headers: {
+      Authorization: `Basic ${authHeader}`
+    }
+  })
 
 exports.deletePatient = async () => {
- const result = await deleteDhisEntity(trackedEntityId)
+  const result = await deleteDhisEntity(trackedEntityId)
 
   if (result.status !== 200 || !result.data.response.importCount.deleted) {
     throw Error('Clean up failed - patient')
@@ -141,40 +175,42 @@ exports.verifyPatientExists = async () => {
 
 exports.createPatient = async () => {
   const data = {
-    trackedEntityType: "MCPQUTHX1Ze",
+    trackedEntityType: 'MCPQUTHX1Ze',
     orgUnit: ORG_UNIT,
     attributes: [
       {
-        attribute: "NI0QRzJvQ0k",
-        value: "2011-04-13"
+        attribute: 'NI0QRzJvQ0k',
+        value: '2011-04-13'
       },
       {
-        attribute: "oindugucx72",
-        value: "Male"
+        attribute: 'oindugucx72',
+        value: 'Male'
       },
       {
         attribute: 'Rv8WM2mTuS5',
-        value: "10"
+        value: '10'
       },
       {
-        attribute: "he05i8FUwu3",
+        attribute: 'he05i8FUwu3',
         value: patientId
       }
     ],
-    enrollments: [{
-      orgUnit: ORG_UNIT,
-      program: programId,
-      enrollmentDate: new Date(),
-      incidentDate: new Date()
-    }]
+    enrollments: [
+      {
+        orgUnit: ORG_UNIT,
+        program: programId,
+        enrollmentDate: new Date(),
+        incidentDate: new Date()
+      }
+    ]
   }
 
   const result = await axios({
     url: `${DHIS2_PROTOCOL}://${DHIS2_API_HOSTNAME}:${DHIS2_API_PORT}/api/trackedEntityInstances`,
     method: 'POST',
     headers: {
-      "Content-Type": 'application/json',
-      "Cache-Control": 'no-cache',
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
       Authorization: `Basic ${authHeader}`
     },
     data: JSON.stringify(data)
@@ -185,16 +221,17 @@ exports.createPatient = async () => {
   }
 }
 
-const sendRequest = (path, payload={}, method='POST') => axios({
-  url: `${OPENHIM_PROTOCOL}://${OPENHIM_API_HOSTNAME}:${OPENHIM_TRANSACTION_API_PORT}/${path}`,
-  method: method,
-  headers: {
-    'Content-Type': 'application/json',
-    Authorization: `Custom ${CUSTOM_TOKEN_ID}`,
-    'Cache-Control': 'no-cache'
-  },
-  data: JSON.stringify(payload)
-})
+const sendRequest = (path, payload = {}, method = 'POST') =>
+  axios({
+    url: `${OPENHIM_PROTOCOL}://${OPENHIM_API_HOSTNAME}:${OPENHIM_TRANSACTION_API_PORT}/${path}`,
+    method: method,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Custom ${CUSTOM_TOKEN_ID}`,
+      'Cache-Control': 'no-cache'
+    },
+    data: JSON.stringify(payload)
+  })
 
 exports.sendCovid19CaseReport = async () => {
   // Check whether the case report exists in DHIS
@@ -204,23 +241,30 @@ exports.sendCovid19CaseReport = async () => {
     Sending a case report creates a Location resource if one does not exist.
     Check if one exists and if test create one it should be removed afterwards
   */
-  const locationResponse = await sendRequest(`fhir/Location?address-state=WC&address-country=ZA`, {}, 'GET')
-  if (
-    locationResponse.status == 200 &&
-    locationResponse.data.total
-  ) locationExists = true
+  const locationResponse = await sendRequest(
+    `fhir/Location?address-state=WC&address-country=ZA`,
+    {},
+    'GET'
+  )
+  if (locationResponse.status === 200 && locationResponse.data.total)
+    locationExists = true
 
-  if (response.status == 200 && response.data.trackedEntityInstances.length) {
+  if (response.status === 200 && response.data.trackedEntityInstances.length) {
     throw Error('Test Covid19 Case report already exists')
   }
 
-  response = await sendRequest('covid19-surveillance', caseReportQuestionnaireResponse)
+  response = await sendRequest(
+    'covid19-surveillance',
+    caseReportQuestionnaireResponse
+  )
 
   if (response.status !== 200) {
     throw Error('Covid19 Case report sending failed')
   }
 
-  fhirBundleCaseReport = JSON.parse(response.data['resource-resolver-fhir'].response.body)
+  fhirBundleCaseReport = JSON.parse(
+    response.data['resource-resolver-fhir'].response.body
+  )
   console.log('Covid19 Case report successfully sent')
 }
 
@@ -228,7 +272,7 @@ exports.sendCovid19CaseOutcome = async () => {
   // Check whether the case outcome exists in DHIS
   let response = await getDhisEntity(patientId2)
 
-  if (response.status == 200 && response.data.trackedEntityInstances.length) {
+  if (response.status === 200 && response.data.trackedEntityInstances.length) {
     throw Error('Test Covid19 Case Outcome already exists')
   }
 
@@ -238,30 +282,40 @@ exports.sendCovid19CaseOutcome = async () => {
     throw Error('Covid19 Case Outcome sending failed')
   }
 
-  fhirBundleCaseOutcome = JSON.parse(response.data['resource-resolver-fhir'].response.body)
+  fhirBundleCaseOutcome = JSON.parse(
+    response.data['resource-resolver-fhir'].response.body
+  )
   console.log('Covid19 Case Outcome successfully sent')
 }
 
 exports.ensurePractitionerExists = async () => {
   // First check whether the practitioner to be created already exists
   try {
-    const response = await sendRequest(`fhir/Practitioner/${practitioner.id}`, {}, 'GET')
+    const response = await sendRequest(
+      `fhir/Practitioner/${practitioner.id}`,
+      {},
+      'GET'
+    )
 
-    if (response.status == 200) throw Error('Test Practitioner to be created exists in the system')
+    if (response.status === 200)
+      throw Error('Test Practitioner to be created exists in the system')
   } catch (error) {
     if (
       error &&
       error.response &&
-      !(
-        error.response.status == 404 ||
-        error.response.status == 410
-      )
-    ) throw Error('Test Practitioner to be created exists in the system')
+      !(error.response.status === 404 || error.response.status === 410)
+    )
+      throw Error('Test Practitioner to be created exists in the system')
   }
 
-  const response = await sendRequest(`fhir/Practitioner/${practitioner.id}`, practitioner, 'PUT')
-  if (response.status != 201) throw Error('Test Practitioner resource not created')
-  console.log('The test Practitioner that send the reports has been created');
+  const response = await sendRequest(
+    `fhir/Practitioner/${practitioner.id}`,
+    practitioner,
+    'PUT'
+  )
+  if (response.status != 201)
+    throw Error('Test Practitioner resource not created')
+  console.log('The test Practitioner that send the reports has been created')
 }
 
 exports.verifyCovid19CaseReportInFhir = async () => {
@@ -269,12 +323,18 @@ exports.verifyCovid19CaseReportInFhir = async () => {
     !fhirBundleCaseReport ||
     !fhirBundleCaseReport.entry ||
     !fhirBundleCaseReport.entry.length
-  ) throw Error('Covid19 Case report does not exist in FHIR')
+  )
+    throw Error('Covid19 Case report does not exist in FHIR')
 
   // Verify one of the resources in the bundle exists in fhir
-  const response = await sendRequest(`fhir/${fhirBundleCaseReport.entry[0].response.location}`, {}, 'GET')
+  const response = await sendRequest(
+    `fhir/${fhirBundleCaseReport.entry[0].response.location}`,
+    {},
+    'GET'
+  )
 
-  if (response.status != 200) throw Error('Covid19 Case report resources not stored in FHIR')
+  if (response.status != 200)
+    throw Error('Covid19 Case report resources not stored in FHIR')
   console.log('Covid19 Case report successfully stored in the FHIR server')
 }
 
@@ -284,7 +344,8 @@ exports.verifyCovid19CaseReportInDhis = async () => {
   if (response.status != 200 || !response.data.trackedEntityInstances.length) {
     throw Error('Covid19 Case report verification failed')
   }
-  trackedEntityId1 = response.data.trackedEntityInstances[0].trackedEntityInstance
+  trackedEntityId1 =
+    response.data.trackedEntityInstances[0].trackedEntityInstance
   console.log('Covid19 Case report has been successfully registered in DHIS')
 }
 
@@ -293,12 +354,18 @@ exports.verifyCovid19CaseOutcomeInFhir = async () => {
     !fhirBundleCaseOutcome ||
     !fhirBundleCaseOutcome.entry ||
     !fhirBundleCaseOutcome.entry.length
-  ) throw Error('Covid19 Case Outcome does not exist in FHIR')
+  )
+    throw Error('Covid19 Case Outcome does not exist in FHIR')
 
   // Verify one of the resources in the bundle exists in fhir
-  const response = await sendRequest(`fhir/${fhirBundleCaseOutcome.entry[0].response.location}`, {}, 'GET')
+  const response = await sendRequest(
+    `fhir/${fhirBundleCaseOutcome.entry[0].response.location}`,
+    {},
+    'GET'
+  )
 
-  if (response.status != 200) throw Error('Covid19 Case outcome resources not stored in FHIR')
+  if (response.status != 200)
+    throw Error('Covid19 Case outcome resources not stored in FHIR')
   console.log('Covid19 Case Outcome successfully stored in the FHIR server')
 }
 
@@ -312,7 +379,8 @@ exports.verifyCovid19CaseOutcomeInDhis = async () => {
   if (response.status != 200 || !response.data.trackedEntityInstances.length) {
     throw Error('Covid19 Case Outcome verification failed')
   }
-  trackedEntityId2 = response.data.trackedEntityInstances[0].trackedEntityInstance
+  trackedEntityId2 =
+    response.data.trackedEntityInstances[0].trackedEntityInstance
   console.log('Covid19 Case Outcome has been successfully added to DHIS')
 }
 
@@ -330,11 +398,7 @@ exports.cleanupCovid19CaseReport = async () => {
   }
 
   fhirBundleCaseReport.entry.forEach(resource => {
-    if (
-      resource &&
-      resource.response &&
-      resource.response.location
-    ) {
+    if (resource && resource.response && resource.response.location) {
       deletesBundle.entry.push({
         request: {
           method: 'DELETE',
@@ -350,13 +414,18 @@ exports.cleanupCovid19CaseReport = async () => {
     throw Error('Covid19 Case report clean up failed in FHIR')
   }
   if (!locationExists) {
-    const locationResponse = await sendRequest(`fhir/Location?address-state=WC&address-country=ZA`, {}, 'DELETE')
-    if (
-      locationResponse.status != 200
-    ) throw Error('Covid19 Case report location not deleted')
+    const locationResponse = await sendRequest(
+      `fhir/Location?address-state=WC&address-country=ZA`,
+      {},
+      'DELETE'
+    )
+    if (locationResponse.status != 200)
+      throw Error('Covid19 Case report location not deleted')
   }
 
-  console.log('The test Covid19 Case report has been removed from the FHIR server')
+  console.log(
+    'The test Covid19 Case report has been removed from the FHIR server'
+  )
 }
 
 exports.cleanupCovid19CaseOutcome = async () => {
@@ -373,11 +442,7 @@ exports.cleanupCovid19CaseOutcome = async () => {
   }
 
   fhirBundleCaseOutcome.entry.forEach(resource => {
-    if (
-      resource &&
-      resource.response &&
-      resource.response.location
-    ) {
+    if (resource && resource.response && resource.response.location) {
       deletesBundle.entry.push({
         request: {
           method: 'DELETE',
@@ -393,7 +458,9 @@ exports.cleanupCovid19CaseOutcome = async () => {
     throw Error('Covid19 Case Outcome clean up failed in FHIR')
   }
 
-  console.log('The test Covid19 Case Outcome has been removed from the FHIR server')
+  console.log(
+    'The test Covid19 Case Outcome has been removed from the FHIR server'
+  )
 }
 
 exports.createLabResultOrganizations = async () => {
@@ -401,20 +468,30 @@ exports.createLabResultOrganizations = async () => {
     resourceType: 'Bundle',
     type: 'transaction',
     entry: [
-      {resource: organization1, request: {method: 'POST', url: 'Organization'}},
-      {resource: organization2, request: {method: 'POST', url: 'Organization'}},
+      {
+        resource: organization1,
+        request: { method: 'POST', url: 'Organization' }
+      },
+      {
+        resource: organization2,
+        request: { method: 'POST', url: 'Organization' }
+      }
     ]
   }
 
   const response = await sendRequest('fhir/', orgBundle)
 
-  if (response.status != 200) throw Error('The required organizations have not been created')
+  if (response.status != 200)
+    throw Error('The required organizations have not been created')
   organizationsBundle = response.data
   console.log('Covid19 Lab result organizations created')
 }
 
 exports.sendCovid19LabResult = async () => {
-  const response = await sendRequest('lab-result', labResultQuestionnaireResponse)
+  const response = await sendRequest(
+    'lab-result',
+    labResultQuestionnaireResponse
+  )
 
   if (response.status !== 200) {
     throw Error('Covid19 Lab result sending failed')
@@ -428,13 +505,21 @@ exports.verifyCovid19LabResult = async () => {
     !fhirBundleLabResult ||
     !fhirBundleLabResult.entry ||
     !fhirBundleLabResult.entry.length
-  ) throw Error('Covid19 Lab result does not exist in FHIR')
+  )
+    throw Error('Covid19 Lab result does not exist in FHIR')
 
   // Verify one of the resources in the bundle exists in fhir
-  const response = await sendRequest(`fhir/${fhirBundleLabResult.entry[0].response.location}`, {}, 'GET')
+  const response = await sendRequest(
+    `fhir/${fhirBundleLabResult.entry[0].response.location}`,
+    {},
+    'GET'
+  )
 
-  if (response.status != 200) throw Error('Covid19 Lab result does not exist in FHIR')
-  console.log('Covid19 Lab result has been successfully stored in the FHIR server')
+  if (response.status != 200)
+    throw Error('Covid19 Lab result does not exist in FHIR')
+  console.log(
+    'Covid19 Lab result has been successfully stored in the FHIR server'
+  )
 }
 
 exports.cleanupLabResult = async () => {
@@ -444,20 +529,18 @@ exports.cleanupLabResult = async () => {
     entry: []
   }
 
-  fhirBundleLabResult.entry.concat(organizationsBundle.entry).forEach(resource => {
-    if (
-      resource &&
-      resource.response &&
-      resource.response.location
-    ) {
-      deletesBundle.entry.push({
-        request: {
-          method: 'DELETE',
-          url: `${resource.response.location.split('/_')[0]}`
-        }
-      })
-    }
-  })
+  fhirBundleLabResult.entry
+    .concat(organizationsBundle.entry)
+    .forEach(resource => {
+      if (resource && resource.response && resource.response.location) {
+        deletesBundle.entry.push({
+          request: {
+            method: 'DELETE',
+            url: `${resource.response.location.split('/_')[0]}`
+          }
+        })
+      }
+    })
 
   // Delete practitioner
   deletesBundle.entry.push({
@@ -472,5 +555,7 @@ exports.cleanupLabResult = async () => {
   if (deleteResponse.status !== 200) {
     throw Error('Covid19 Lab Result clean up failed in FHIR')
   }
-  console.log('The test Covid19 Lab result has been successfully removed from the FHIR server')
+  console.log(
+    'The test Covid19 Lab result has been successfully removed from the FHIR server'
+  )
 }
