@@ -1,0 +1,172 @@
+{
+  "resourceType": "QuestionnaireResponse",
+  "id": "WhoCoQuestionnaireResponse",
+  "identifier": {
+    "system": "http://test.org/response-id",
+    "value": "1111"
+  },
+  "questionnaire": "http://openhie.github.io/covid-19/Questionnaire/WhoCoQuestionnaire",
+  "status": "completed",
+  "authored": "2021-01-20T11:29:52+02:00",
+  "author": {
+    "reference": "Practitioner/doc1452"
+  },
+  "item": [
+    {
+      "linkId": "patinfo_ID",
+      "text": "Unique Case Identifier",
+      "answer": [
+        {
+          "valueString": "12305759781"
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_report_date",
+      "text": "Date of re-submission for this report",
+      "answer": [
+        {
+          "valueDateTime": "2021-05-13"
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_date_of_outcome",
+      "text": "Date of Release from isolation/hospital or Date of Death",
+      "answer": [
+        {
+          "valueDateTime": "2021-05-13"
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_asymp",
+      "text": "Developed symptoms after time of specimen collection",
+      "answer": [
+        {
+          "valueCoding": {
+            "code": "Y",
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_asymp_date",
+      "text": "Date of onset of symptoms/signs of illness",
+      "answer": [
+        {
+          "valueDateTime": "2021-05-13"
+        }
+      ]
+    },
+    {
+      "linkId": "patcourse_admit",
+      "text": "Admission to hospital (may have been previously reported)",
+      "answer": [
+        {
+          "valueCoding": {
+            "code": "Y",
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "admission_date",
+      "text": "First date of admission to hospital",
+      "answer": [
+        {
+          "valueDateTime": "2021-05-13"
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_patcourse_icu",
+      "text": "Did the case receive care in an intensive care unit (ICU)",
+      "answer": [
+        {
+          "valueCoding": {
+            "code": "N",
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_patcourse_vent",
+      "text": "Did the case receive ventilation",
+      "answer": [
+        {
+          "valueCoding": {
+            "code": "UNK",
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_patcourse_ecmo",
+      "text": "Did the case receive extracorporeal membrane oxygenation",
+      "answer": [
+        {
+          "valueCoding": {
+            "code": "Y",
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0136"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_patcourse_status",
+      "text": "Health Outcome",
+      "answer": [
+        {
+          "valueCoding": {
+            "code": "other",
+            "system": "http://openhie.github.io/covid-19/CodeSystem/WhoCoHealthOutcome"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_patcourse_status_other",
+      "text": "If other, please explain",
+      "answer": [
+        {
+          "valueString": "N/A"
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_lab_date",
+      "text": "If released from hospital /isolation, date of last laboratory test",
+      "answer": [
+        {
+          "valueDateTime": "2021-05-13"
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_lab_result",
+      "text": "Results of last test",
+      "answer": [
+        {
+          "valueCoding": {
+            "code": "positive",
+            "system": "http://openhie.github.io/covid-19/CodeSystem/WhoCoPositiveNegativeUnknown"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "outcome_contacts_followed",
+      "text": "Total number of contacts followed for this case",
+      "answer": [
+        {
+          "valueInteger": 5
+        }
+      ]
+    }
+  ]
+}
