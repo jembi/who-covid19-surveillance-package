@@ -118,7 +118,7 @@ exports.verifyDhis2Configured = async () => {
       response &&
       response.data &&
       response.data.trackedEntityTypes &&
-      response.data.trackedEntityTypes[0].id == 'MCPQUTHX1Ze'
+      response.data.trackedEntityTypes[0].id === 'MCPQUTHX1Ze'
     ) {
       console.log(`DHIS2 configured correctly`)
     } else {
@@ -166,7 +166,7 @@ exports.deletePatient = async () => {
 exports.verifyPatientExists = async () => {
   const result = await getDhisEntity(patientId)
 
-  if (result.status != 200 || !result.data.trackedEntityInstances.length) {
+  if (result.status !== 200 || !result.data.trackedEntityInstances.length) {
     throw Error('Patient verification failed')
   }
 
@@ -216,7 +216,7 @@ exports.createPatient = async () => {
     data: JSON.stringify(data)
   })
 
-  if (result.status != 200) {
+  if (result.status !== 200) {
     throw Error('Creation of patient failed')
   }
 }
@@ -313,7 +313,7 @@ exports.ensurePractitionerExists = async () => {
     practitioner,
     'PUT'
   )
-  if (response.status != 201)
+  if (response.status !== 201)
     throw Error('Test Practitioner resource not created')
   console.log('The test Practitioner that send the reports has been created')
 }
@@ -333,7 +333,7 @@ exports.verifyCovid19CaseReportInFhir = async () => {
     'GET'
   )
 
-  if (response.status != 200)
+  if (response.status !== 200)
     throw Error('Covid19 Case report resources not stored in FHIR')
   console.log('Covid19 Case report successfully stored in the FHIR server')
 }
@@ -341,7 +341,7 @@ exports.verifyCovid19CaseReportInFhir = async () => {
 exports.verifyCovid19CaseReportInDhis = async () => {
   const response = await getDhisEntity(patientId1)
 
-  if (response.status != 200 || !response.data.trackedEntityInstances.length) {
+  if (response.status !== 200 || !response.data.trackedEntityInstances.length) {
     throw Error('Covid19 Case report verification failed')
   }
   trackedEntityId1 =
@@ -364,7 +364,7 @@ exports.verifyCovid19CaseOutcomeInFhir = async () => {
     'GET'
   )
 
-  if (response.status != 200)
+  if (response.status !== 200)
     throw Error('Covid19 Case outcome resources not stored in FHIR')
   console.log('Covid19 Case Outcome successfully stored in the FHIR server')
 }
@@ -376,7 +376,7 @@ exports.verifyCovid19CaseOutcomeInDhis = async () => {
 
   const response = await getDhisEntity(patientId2)
 
-  if (response.status != 200 || !response.data.trackedEntityInstances.length) {
+  if (response.status !== 200 || !response.data.trackedEntityInstances.length) {
     throw Error('Covid19 Case Outcome verification failed')
   }
   trackedEntityId2 =
@@ -410,7 +410,7 @@ exports.cleanupCovid19CaseReport = async () => {
 
   const deleteResources = await sendRequest('fhir/', deletesBundle)
 
-  if (deleteResources.status != 200) {
+  if (deleteResources.status !== 200) {
     throw Error('Covid19 Case report clean up failed in FHIR')
   }
   if (!locationExists) {
@@ -419,7 +419,7 @@ exports.cleanupCovid19CaseReport = async () => {
       {},
       'DELETE'
     )
-    if (locationResponse.status != 200)
+    if (locationResponse.status !== 200)
       throw Error('Covid19 Case report location not deleted')
   }
 
@@ -454,7 +454,7 @@ exports.cleanupCovid19CaseOutcome = async () => {
 
   const deleteResources = await sendRequest('fhir/', deletesBundle)
 
-  if (deleteResources.status != 200) {
+  if (deleteResources.status !== 200) {
     throw Error('Covid19 Case Outcome clean up failed in FHIR')
   }
 
@@ -481,7 +481,7 @@ exports.createLabResultOrganizations = async () => {
 
   const response = await sendRequest('fhir/', orgBundle)
 
-  if (response.status != 200)
+  if (response.status !== 200)
     throw Error('The required organizations have not been created')
   organizationsBundle = response.data
   console.log('Covid19 Lab result organizations created')
@@ -515,7 +515,7 @@ exports.verifyCovid19LabResult = async () => {
     'GET'
   )
 
-  if (response.status != 200)
+  if (response.status !== 200)
     throw Error('Covid19 Lab result does not exist in FHIR')
   console.log(
     'Covid19 Lab result has been successfully stored in the FHIR server'
