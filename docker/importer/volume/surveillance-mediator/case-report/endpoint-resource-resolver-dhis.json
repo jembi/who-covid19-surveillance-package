@@ -104,7 +104,7 @@
     "patcourse_asymp": "{ 'dataElement': constants.dataElements.patcourse_asymp, 'value': $lookup(constants.yesNoUnknownMap, requestBody.data.observations[3].value.valueCodeableConcept.coding[0].code) }",
     "Comcond_any": "{ 'dataElement': constants.dataElements.Comcond_any, 'value': $lookup(constants.yesNoUnknownMap, requestBody.data.observations[5].value.valueCodeableConcept.coding[0].code) }",
     "expo_travel": "{ 'dataElement': constants.dataElements.expo_travel, 'value': $lookup(constants.yesNoUnknownMap, requestBody.data.observations[6].value.valueCodeableConcept.coding[0].code) }",
-    "patcourse_dateonset": "{ 'dataElement': constants.dataElements.patcourse_dateonset, 'value': requestBody.data.observations[4].value.valueDate }",
+    "patcourse_dateonset": "{ 'dataElement': constants.dataElements.patcourse_dateonset, 'value': requestBody.data.observations[4].value.valueDateTime }",
     "patcourse_admit": "{'dataElement': constants.dataElements.patcourse_admit, 'value': $lookup(constants.yesNoUnknownMap, requestBody.data.observations[9].value.valueCodeableConcept.coding[0].code) }",
     "patcourse_vent": "{'dataElement': constants.dataElements.patcourse_vent, 'value': $lookup(constants.yesNoUnknownMap, requestBody.data.observations[11].value.valueCodeableConcept.coding[0].code) }",
     "patcourse_presHCF": "{'dataElement': constants.dataElements.patcourse_presHCF,  'value': requestBody.data.encounters[1].period.start }",
