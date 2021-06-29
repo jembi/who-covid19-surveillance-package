@@ -46,30 +46,53 @@ const caseOutcomeQuestionnaireResponse = JSON.parse(
 )
 const caseReportQuestionnaireResponse = JSON.parse(
   fs.readFileSync(
-    `${__dirname}/resources/case-report-questionnaireResponse.json`,
+    path.resolve(
+      __dirname,
+      'resources',
+      'case-report-questionnaireResponse.json'
+    ),
     'utf8'
   )
 )
 const labResultQuestionnaireResponse = JSON.parse(
   fs.readFileSync(
-    `${__dirname}/resources/lab-result-questionnaireResponse.json`,
+    path.resolve(
+      __dirname,
+      'resources',
+      'lab-result-questionnaireResponse.json'
+    ),
     'utf8'
   )
 )
 const organization1 = JSON.parse(
   fs.readFileSync(
-    `${__dirname}/resources/lab-result-organization1.json`,
+    path.resolve(
+      __dirname,
+      'resources',
+      'lab-result-organization1.json'
+    ),
     'utf8'
   )
 )
 const organization2 = JSON.parse(
   fs.readFileSync(
-    `${__dirname}/resources/lab-result-organization2.json`,
+    path.resolve(
+      __dirname,
+      'resources',
+      'lab-result-organization2.json'
+    ),
     'utf8'
   )
 )
 const practitioner = JSON.parse(
-  fs.readFileSync(`${__dirname}/resources/practitioner.json`, 'utf8')
+  fs.readFileSync(
+    path.resolve(
+      __dirname,
+      'resources',
+      'practitioner.json'
+    ),
+    'utf8'
+  )
 )
 
 /*
