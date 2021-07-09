@@ -41,6 +41,24 @@ yarn docker:instant up -t docker core covid19surveillance
 yarn docker:instant down -t docker core covid19surveillance
 yarn docker:instant destroy -t docker core covid19surveillance
 ```
+### Initialise work-flow metadata manually
+
+Browse to the following service  <http://localhost:8080/fhir> and use the CRUD operation per resource to create the required Practitioner and Organization resources on HAPI FHIR. 
+
+#### Organization
+
+Use the Organization resource template [available here](<https://www.hl7.org/fhir/organization-example.json.html>)
+
+- Organization 1:  "id": "123456", "name": "KEMRI Clinic",
+
+#### Practitioner
+
+Use the Practitioner resource template [available here](<https://www.hl7.org/fhir/practitioner-example.json.html>)
+
+Create three different practitioners with the following id/identifier values: 
+- Practitioner 1: "id": "doc123"
+- Practitioner 2: "id": "doc1452"
+- Practitioner 3: "id": "1844391y" 
 
 ## DHIS2
 
@@ -59,7 +77,7 @@ The DHIS2 Tracker Populator Mediator has a fairly generic flow to add data into 
 - Top Level Organisation unit - in this package: `ImspTQPwCqd`
 - A Tracked Entity Identifier (a unique Tracked Entity Attribute) - in this package: `he05i8FUwu3`
 
-## Example Coivd19 Surveillance Message Structures
+## Example Covid19 Surveillance Message Structures
 
 The input message will be sent through the OpenHIM.
 
