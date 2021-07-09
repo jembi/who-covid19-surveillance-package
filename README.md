@@ -2,6 +2,8 @@
 
 This package sets up a mapping mediator instance to map COVID-19 QuestionnaireResponse FHIR resources to FHIR Bundles adhering to the [WHO-CR-COVID19](https://openhie.github.io/covid-ig/) implementation guide.
 
+![Architecture Diagram](./architecture.png)
+
 To enable this package within the Instant OpenHIE, mount this project directory with your Instant OpenHIE start command. More details available on the [Instant OpenHIE docs site](https://openhie.github.io/instant/docs/how-to/creating-packages#how-to-execute-your-new-package)
 
 ## Starting Up
