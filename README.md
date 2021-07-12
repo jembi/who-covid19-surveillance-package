@@ -41,24 +41,16 @@ yarn docker:instant up -t docker core covid19surveillance
 yarn docker:instant down -t docker core covid19surveillance
 yarn docker:instant destroy -t docker core covid19surveillance
 ```
-### Initialise work-flow metadata manually
+### Dependant HAPI FHIR instances
 
-Browse to the following service  <http://localhost:8080/fhir> and use the CRUD operation per resource to create the required Practitioner and Organization resources on HAPI FHIR. 
+Refer to each message structure below for the required HAPI FHIR resources that must first be instantiated before submitting data.
 
-#### Organization
+Get the Practitioner resource template [available here](<https://www.hl7.org/fhir/practitioner-example.json.html>). 
 
-Use the Organization resource template [available here](<https://www.hl7.org/fhir/organization-example.json.html>)
+Get the Organization resource template [available here](<https://www.hl7.org/fhir/organization-example.json.html>).
 
-- Organization 1:  "id": "123456", "name": "KEMRI Clinic",
+Browse to the following service  <http://localhost:8080/fhir> and use the CRUD operation per resource to create the required Practitioner and Organization resources on HAPI FHIR as needed. 
 
-#### Practitioner
-
-Use the Practitioner resource template [available here](<https://www.hl7.org/fhir/practitioner-example.json.html>)
-
-Create three different practitioners with the following id/identifier values: 
-- Practitioner 1: "id": "doc123"
-- Practitioner 2: "id": "doc1452"
-- Practitioner 3: "id": "1844391y" 
 
 ## DHIS2
 
@@ -82,6 +74,10 @@ The DHIS2 Tracker Populator Mediator has a fairly generic flow to add data into 
 The input message will be sent through the OpenHIM.
 
 The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19-surveillance>. Any client with the role **instant** can access the channel using basic authentication (`username and password`) or custom token authentication (`Authorization : Custom <Token>`)
+
+This flow makes some assumptions about the existing HAPI FHIR instance:
+
+- A Practitioner resource exists with FHIR ID `1844391y`
 
 ### Input
 
