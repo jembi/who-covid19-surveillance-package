@@ -13,7 +13,7 @@ const DHIS2_API_USERNAME = process.env.DHIS2_API_USERNAME || 'admin'
 const DHIS2_METADATA_FILENAME =
   process.env.DHIS2_METADATA_FILENAME || 'metadata.json.gz'
 
-const authHeader = new Buffer.from(
+const authHeader = Buffer.from(
   `${DHIS2_API_USERNAME}:${DHIS2_API_PASSWORD}`
 ).toString('base64')
 
@@ -26,7 +26,7 @@ exports.importMetaData = async () => {
   function streamToString(stream) {
     const chunks = []
     return new Promise((resolve, reject) => {
-      stream.on('data', (chunk) => chunks.push(chunk))
+      stream.on('data', chunk => chunks.push(chunk))
       stream.on('error', reject)
       stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')))
     })
