@@ -75,6 +75,8 @@ The input message will be sent through the OpenHIM.
 
 The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19-surveillance>. Any client with the role **instant** can access the channel using basic authentication (`username and password`) or custom token authentication (`Authorization : Custom <Token>`)
 
+> The messages are expected in JSON format. The Content-Type header `application/fhir+json` is not permitted.
+
 This flow makes some assumptions about the existing HAPI FHIR instance:
 
 - A Practitioner resource exists with FHIR ID `1844391y`
