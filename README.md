@@ -41,16 +41,16 @@ yarn docker:instant up -t docker core covid19surveillance
 yarn docker:instant down -t docker core covid19surveillance
 yarn docker:instant destroy -t docker core covid19surveillance
 ```
-### Dependant HAPI FHIR instances
+
+### Dependant HAPI FHIR instance
 
 Refer to each message structure below for the required HAPI FHIR resources that must first be instantiated before submitting data.
 
-Get the Practitioner resource template [available here](<https://www.hl7.org/fhir/practitioner-example.json.html>). 
+Get the Practitioner resource template [available here](https://www.hl7.org/fhir/practitioner-example.json.html).
 
-Get the Organization resource template [available here](<https://www.hl7.org/fhir/organization-example.json.html>).
+Get the Organization resource template [available here](https://www.hl7.org/fhir/organization-example.json.html).
 
-Browse to the following service  <http://localhost:8080/fhir> and use the CRUD operation per resource to create the required Practitioner and Organization resources on HAPI FHIR as needed. 
-
+Browse to the following service <http://localhost:8080/fhir> and use the CRUD operation per resource to create the required Practitioner and Organization resources on HAPI FHIR as needed.
 
 ## DHIS2
 
@@ -1380,14 +1380,16 @@ These assumptions are made as we do not yet support the client registry responsi
     {
       "resource": {
         "resourceType": "Composition",
-        "type": {"coding": [{"code": "95412-3", "system": "http://loinc.org"}]},
+        "type": {
+          "coding": [{ "code": "95412-3", "system": "http://loinc.org" }]
+        },
         "status": "final",
         "identifier": {
           "system": "http://test.org/identifier/who-covid-19-case-outcome",
           "value": "123456789"
         },
-        "encounter": {"reference": "urn:uuid:94976331728655"},
-        "author": [{"reference": "Practitioner/1844391y"}],
+        "encounter": { "reference": "urn:uuid:94976331728655" },
+        "author": [{ "reference": "Practitioner/1844391y" }],
         "title": "WHO COVID-19 Case Outcome",
         "section": [
           {
@@ -1401,18 +1403,18 @@ These assumptions are made as we do not yet support the client registry responsi
               ]
             },
             "entry": [
-              {"reference": "urn:uuid:94976331728655"},
-              {"reference": "urn:uuid:203155906139894"},
-              {"reference": "urn:uuid:455719316166893"},
-              {"reference": "urn:uuid:222214635598315"},
-              {"reference": "urn:uuid:388170145026748"},
-              {"reference": "urn:uuid:346620203461778"},
-              {"reference": "urn:uuid:949258897864128"},
-              {"reference": "urn:uuid:648726946521651"},
-              {"reference": "urn:uuid:02063039706351"},
-              {"reference": "urn:uuid:678524501114971"},
-              {"reference": "urn:uuid:392692899557129"},
-              {"reference": "urn:uuid:924867647670974"}
+              { "reference": "urn:uuid:94976331728655" },
+              { "reference": "urn:uuid:203155906139894" },
+              { "reference": "urn:uuid:455719316166893" },
+              { "reference": "urn:uuid:222214635598315" },
+              { "reference": "urn:uuid:388170145026748" },
+              { "reference": "urn:uuid:346620203461778" },
+              { "reference": "urn:uuid:949258897864128" },
+              { "reference": "urn:uuid:648726946521651" },
+              { "reference": "urn:uuid:02063039706351" },
+              { "reference": "urn:uuid:678524501114971" },
+              { "reference": "urn:uuid:392692899557129" },
+              { "reference": "urn:uuid:924867647670974" }
             ]
           },
           {
@@ -1425,11 +1427,11 @@ These assumptions are made as we do not yet support the client registry responsi
                 }
               ]
             },
-            "entry": [{"reference": "urn:uuid:298020334930571"}]
+            "entry": [{ "reference": "urn:uuid:298020334930571" }]
           }
         ]
       },
-      "request": {"method": "POST", "url": "Composition"},
+      "request": { "method": "POST", "url": "Composition" },
       "fullUrl": "urn:uuid:418322796048621"
     },
     {
@@ -1440,9 +1442,9 @@ These assumptions are made as we do not yet support the client registry responsi
           "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
         },
         "status": "finished",
-        "period": {"end": "2021-05-13"}
+        "period": { "end": "2021-05-13" }
       },
-      "request": {"method": "POST", "url": "Encounter"},
+      "request": { "method": "POST", "url": "Encounter" },
       "fullUrl": "urn:uuid:94976331728655"
     },
     {
@@ -1453,9 +1455,9 @@ These assumptions are made as we do not yet support the client registry responsi
           "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
         },
         "status": "in-progress",
-        "period": {"start": "2021-05-13"}
+        "period": { "start": "2021-05-13" }
       },
-      "request": {"method": "POST", "url": "Encounter"},
+      "request": { "method": "POST", "url": "Encounter" },
       "fullUrl": "urn:uuid:203155906139894"
     },
     {
@@ -1469,21 +1471,25 @@ These assumptions are made as we do not yet support the client registry responsi
             }
           ]
         },
-        "code": {"coding": [{"code": "66421-9", "system": "http://loinc.org"}]},
+        "code": {
+          "coding": [{ "code": "66421-9", "system": "http://loinc.org" }]
+        },
         "resourceType": "Observation",
         "status": "final"
       },
-      "request": {"method": "POST", "url": "Observation"}
+      "request": { "method": "POST", "url": "Observation" }
     },
     {
       "fullUrl": "urn:uuid:222214635598315",
       "resource": {
         "effectiveDateTime": "2021-05-13",
-        "code": {"coding": [{"code": "65222-2", "system": "http://loinc.org"}]},
+        "code": {
+          "coding": [{ "code": "65222-2", "system": "http://loinc.org" }]
+        },
         "resourceType": "Observation",
         "status": "final"
       },
-      "request": {"method": "POST", "url": "Observation"}
+      "request": { "method": "POST", "url": "Observation" }
     },
     {
       "fullUrl": "urn:uuid:388170145026748",
@@ -1496,11 +1502,13 @@ These assumptions are made as we do not yet support the client registry responsi
             }
           ]
         },
-        "code": {"coding": [{"code": "77974-4", "system": "http://loinc.org"}]},
+        "code": {
+          "coding": [{ "code": "77974-4", "system": "http://loinc.org" }]
+        },
         "resourceType": "Observation",
         "status": "final"
       },
-      "request": {"method": "POST", "url": "Observation"}
+      "request": { "method": "POST", "url": "Observation" }
     },
     {
       "fullUrl": "urn:uuid:346620203461778",
@@ -1513,11 +1521,13 @@ These assumptions are made as we do not yet support the client registry responsi
             }
           ]
         },
-        "code": {"coding": [{"code": "95420-6", "system": "http://loinc.org"}]},
+        "code": {
+          "coding": [{ "code": "95420-6", "system": "http://loinc.org" }]
+        },
         "resourceType": "Observation",
         "status": "final"
       },
-      "request": {"method": "POST", "url": "Observation"}
+      "request": { "method": "POST", "url": "Observation" }
     },
     {
       "fullUrl": "urn:uuid:949258897864128",
@@ -1530,11 +1540,13 @@ These assumptions are made as we do not yet support the client registry responsi
             }
           ]
         },
-        "code": {"coding": [{"code": "96539-2", "system": "http://loinc.org"}]},
+        "code": {
+          "coding": [{ "code": "96539-2", "system": "http://loinc.org" }]
+        },
         "resourceType": "Observation",
         "status": "final"
       },
-      "request": {"method": "POST", "url": "Observation"}
+      "request": { "method": "POST", "url": "Observation" }
     },
     {
       "fullUrl": "urn:uuid:648726946521651",
@@ -1547,11 +1559,13 @@ These assumptions are made as we do not yet support the client registry responsi
             }
           ]
         },
-        "code": {"coding": [{"code": "96540-0", "system": "http://loinc.org"}]},
+        "code": {
+          "coding": [{ "code": "96540-0", "system": "http://loinc.org" }]
+        },
         "resourceType": "Observation",
         "status": "final"
       },
-      "request": {"method": "POST", "url": "Observation"}
+      "request": { "method": "POST", "url": "Observation" }
     },
     {
       "fullUrl": "urn:uuid:02063039706351",
@@ -1564,31 +1578,37 @@ These assumptions are made as we do not yet support the client registry responsi
             }
           ]
         },
-        "code": {"coding": [{"code": "91541-3", "system": "http://loinc.org"}]},
+        "code": {
+          "coding": [{ "code": "91541-3", "system": "http://loinc.org" }]
+        },
         "resourceType": "Observation",
         "status": "final"
       },
-      "request": {"method": "POST", "url": "Observation"}
+      "request": { "method": "POST", "url": "Observation" }
     },
     {
       "fullUrl": "urn:uuid:678524501114971",
       "resource": {
         "valueString": "N/A",
-        "code": {"coding": [{"code": "91541-3", "system": "http://loinc.org"}]},
+        "code": {
+          "coding": [{ "code": "91541-3", "system": "http://loinc.org" }]
+        },
         "resourceType": "Observation",
         "status": "final"
       },
-      "request": {"method": "POST", "url": "Observation"}
+      "request": { "method": "POST", "url": "Observation" }
     },
     {
       "fullUrl": "urn:uuid:392692899557129",
       "resource": {
         "effectiveDateTime": "2021-05-13",
-        "code": {"coding": [{"code": "96550-9", "system": "http://loinc.org"}]},
+        "code": {
+          "coding": [{ "code": "96550-9", "system": "http://loinc.org" }]
+        },
         "resourceType": "Observation",
         "status": "final"
       },
-      "request": {"method": "POST", "url": "Observation"}
+      "request": { "method": "POST", "url": "Observation" }
     },
     {
       "fullUrl": "urn:uuid:924867647670974",
@@ -1601,21 +1621,25 @@ These assumptions are made as we do not yet support the client registry responsi
             }
           ]
         },
-        "code": {"coding": [{"code": "96552-5", "system": "http://loinc.org"}]},
+        "code": {
+          "coding": [{ "code": "96552-5", "system": "http://loinc.org" }]
+        },
         "resourceType": "Observation",
         "status": "final"
       },
-      "request": {"method": "POST", "url": "Observation"}
+      "request": { "method": "POST", "url": "Observation" }
     },
     {
       "fullUrl": "urn:uuid:298020334930571",
       "resource": {
         "valueInteger": 5,
-        "code": {"coding": [{"code": "96551-7", "system": "http://loinc.org"}]},
+        "code": {
+          "coding": [{ "code": "96551-7", "system": "http://loinc.org" }]
+        },
         "resourceType": "Observation",
         "status": "final"
       },
-      "request": {"method": "POST", "url": "Observation"}
+      "request": { "method": "POST", "url": "Observation" }
     }
   ]
 }
