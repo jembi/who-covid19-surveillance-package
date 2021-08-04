@@ -44,8 +44,24 @@ yarn docker:instant destroy -t docker core covid19surveillance
 
 ## DHIS2
 
-This package contains a DHIS2 Tracker Populator mediator which interacts with a preconfigured DHIS2 instance. This package also contains scripts for configuring the DHIS2 instance for this usecase.
-The DHIS2 metadata config is imported automatically on the `init` command. The import scripts will import the specified metadata into the existing DHIS2 instance that is setup by the `health-management-information-system` package in the Instant OpenHIE project.
+This package contains a DHIS2 Tracker Populator mediator which interacts with a preconfigured DHIS2 instance.
+This package also contains scripts for configuring the DHIS2 instance for this usecase.
+The DHIS2 metadata config is imported automatically on the `init` command.
+The import scripts will import the specified metadata into the existing DHIS2 instance that is setup by the `health-management-information-system` package in the Instant OpenHIE project.
+
+Unfortunately, the installed package is not linked to the admin user automatically created on DHIS2 start up.
+Therefore, we need to **fix the admin rights** before we can send through any data.
+Start by logging into DHIS2. Then navigate to the *Users* app and click the *User* card.
+Select the user `admin admin` and give the user access to the Testland Organisation Unit by checking the three boxes.
+Finally add the admin user to the three covid19 user groups.
+Your user setup page should look like the screenshot below. Remember to save.
+
+![DHIS2 User Access Page](./useraccess.png)
+
+The next access issue is with the program setup. To fix this, navigate to the maintenance app and click on the `Program` card.
+Then click on the *COVID-19 Case-Based Surveillance* Program and navigate to the *Access* tab.
+Here check the `Testland` organisation unit to assign it to the program then click save.
+Repeat this process with the *COVID-19 Contact Registration & Follow-up* program.
 
 ### Mediator
 
