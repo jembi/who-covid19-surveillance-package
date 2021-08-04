@@ -42,16 +42,6 @@ yarn docker:instant down -t docker core covid19surveillance
 yarn docker:instant destroy -t docker core covid19surveillance
 ```
 
-### Dependant HAPI FHIR instance
-
-Refer to each message structure below for the required HAPI FHIR resources that must first be instantiated before submitting data.
-
-Get the Practitioner resource template [available here](https://www.hl7.org/fhir/practitioner-example.json.html).
-
-Get the Organization resource template [available here](https://www.hl7.org/fhir/organization-example.json.html).
-
-Browse to the following service <http://localhost:8080/fhir> and use the CRUD operation per resource to create the required Practitioner and Organization resources on HAPI FHIR as needed.
-
 ## DHIS2
 
 This package contains a DHIS2 Tracker Populator mediator which interacts with a preconfigured DHIS2 instance. This package also contains scripts for configuring the DHIS2 instance for this usecase.
@@ -68,6 +58,13 @@ The DHIS2 Tracker Populator Mediator has a fairly generic flow to add data into 
 
 - Top Level Organisation unit - in this package: `ImspTQPwCqd`
 - A Tracked Entity Identifier (a unique Tracked Entity Attribute) - in this package: `he05i8FUwu3`
+
+## Dependant HAPI FHIR instance
+
+In our scenario, the case report messages we send form part of a larger health information exchange including Health Worker and Facility registries.
+In our example however, the external registries don't exist and therefore we need to create the Practitioner and Organization resources that we will be referencing in our Bundle.
+To create these resources please use [this Postman collection](https://www.getpostman.com/collections/a750f85613629eded003) to run the POST requests. We've included all the necessary resources. Please create the Practiioners and Organisations before sending through the case report.
+Refer to each message structure below for the required HAPI FHIR resources that must first be instantiated before submitting data.
 
 ## Example Covid19 Surveillance Message Structures
 
