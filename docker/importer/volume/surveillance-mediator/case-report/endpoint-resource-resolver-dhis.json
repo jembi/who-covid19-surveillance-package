@@ -188,8 +188,8 @@
       "U": "Unknown"
     },
     "sexMap": {
-      "male": "Male",
-      "female": "Female"
+      "male": "MALE",
+      "female": "FEMALE"
     }
   }
 }

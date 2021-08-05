@@ -41,21 +41,27 @@ yarn docker:instant up -t docker core covid19surveillance
 yarn docker:instant down -t docker core covid19surveillance
 yarn docker:instant destroy -t docker core covid19surveillance
 ```
-### Dependant HAPI FHIR instances
-
-Refer to each message structure below for the required HAPI FHIR resources that must first be instantiated before submitting data.
-
-Get the Practitioner resource template [available here](<https://www.hl7.org/fhir/practitioner-example.json.html>). 
-
-Get the Organization resource template [available here](<https://www.hl7.org/fhir/organization-example.json.html>).
-
-Browse to the following service  <http://localhost:8080/fhir> and use the CRUD operation per resource to create the required Practitioner and Organization resources on HAPI FHIR as needed. 
-
 
 ## DHIS2
 
-This package contains a DHIS2 Tracker Populator mediator which interacts with a preconfigured DHIS2 instance. This package also contains scripts for configuring the DHIS2 instance for this usecase.
-The DHIS2 metadata config is imported automatically on the `init` command. The import scripts will import the specified metadata into the existing DHIS2 instance that is setup by the `health-management-information-system` package in the Instant OpenHIE project.
+This package contains a DHIS2 Tracker Populator mediator which interacts with a preconfigured DHIS2 instance.
+This package also contains scripts for configuring the DHIS2 instance for this usecase.
+The DHIS2 metadata config is imported automatically on the `init` command.
+The import scripts will import the specified metadata into the existing DHIS2 instance that is setup by the `health-management-information-system` package in the Instant OpenHIE project.
+
+Unfortunately, the installed package is not linked to the admin user automatically created on DHIS2 start up.
+Therefore, we need to **fix the admin rights** before we can send through any data.
+Start by logging into DHIS2. Then navigate to the *Users* app and click the *User* card.
+Select the user `admin admin` and give the user access to the Testland Organisation Unit by checking the three boxes.
+Finally add the admin user to the three covid19 user groups.
+Your user setup page should look like the screenshot below. Remember to save.
+
+![DHIS2 User Access Page](./useraccess.png)
+
+The next access issue is with the program setup. To fix this, navigate to the maintenance app and click on the `Program` card.
+Then click on the *COVID-19 Case-Based Surveillance* Program and navigate to the *Access* tab.
+Here check the `Testland` organisation unit to assign it to the program then click save.
+Repeat this process with the *COVID-19 Contact Registration & Follow-up* program.
 
 ### Mediator
 
@@ -69,11 +75,20 @@ The DHIS2 Tracker Populator Mediator has a fairly generic flow to add data into 
 - Top Level Organisation unit - in this package: `ImspTQPwCqd`
 - A Tracked Entity Identifier (a unique Tracked Entity Attribute) - in this package: `he05i8FUwu3`
 
+## Dependant HAPI FHIR instance
+
+In our scenario, the case report messages we send form part of a larger health information exchange including Health Worker and Facility registries.
+In our example however, the external registries don't exist and therefore we need to create the Practitioner and Organization resources that we will be referencing in our Bundle.
+To create these resources please use [this Postman collection](https://www.getpostman.com/collections/a750f85613629eded003) to run the POST requests. We've included all the necessary resources. Please create the Practiioners and Organisations before sending through the case report.
+Refer to each message structure below for the required HAPI FHIR resources that must first be instantiated before submitting data.
+
 ## Example Covid19 Surveillance Message Structures
 
 The input message will be sent through the OpenHIM.
 
 The OpenHIM channel is accessible on the endpoint <http://localhost:5001/covid19-surveillance>. Any client with the role **instant** can access the channel using basic authentication (`username and password`) or custom token authentication (`Authorization : Custom <Token>`)
+
+> The messages are expected in JSON format. The Content-Type header `application/fhir+json` is not permitted.
 
 This flow makes some assumptions about the existing HAPI FHIR instance:
 
@@ -1380,14 +1395,16 @@ These assumptions are made as we do not yet support the client registry responsi
     {
       "resource": {
         "resourceType": "Composition",
-        "type": {"coding": [{"code": "95412-3", "system": "http://loinc.org"}]},
+        "type": {
+          "coding": [{ "code": "95412-3", "system": "http://loinc.org" }]
+        },
         "status": "final",
         "identifier": {
           "system": "http://test.org/identifier/who-covid-19-case-outcome",
           "value": "123456789"
         },
-        "encounter": {"reference": "urn:uuid:94976331728655"},
-        "author": [{"reference": "Practitioner/1844391y"}],
+        "encounter": { "reference": "urn:uuid:94976331728655" },
+        "author": [{ "reference": "Practitioner/1844391y" }],
         "title": "WHO COVID-19 Case Outcome",
         "section": [
           {
@@ -1401,18 +1418,18 @@ These assumptions are made as we do not yet support the client registry responsi
               ]
             },
             "entry": [
-              {"reference": "urn:uuid:94976331728655"},
-              {"reference": "urn:uuid:203155906139894"},
-              {"reference": "urn:uuid:455719316166893"},
-              {"reference": "urn:uuid:222214635598315"},
-              {"reference": "urn:uuid:388170145026748"},
-              {"reference": "urn:uuid:346620203461778"},
-              {"reference": "urn:uuid:949258897864128"},
-              {"reference": "urn:uuid:648726946521651"},
-              {"reference": "urn:uuid:02063039706351"},
-              {"reference": "urn:uuid:678524501114971"},
-              {"reference": "urn:uuid:392692899557129"},
-              {"reference": "urn:uuid:924867647670974"}
+              { "reference": "urn:uuid:94976331728655" },
+              { "reference": "urn:uuid:203155906139894" },
+              { "reference": "urn:uuid:455719316166893" },
+              { "reference": "urn:uuid:222214635598315" },
+              { "reference": "urn:uuid:388170145026748" },
+              { "reference": "urn:uuid:346620203461778" },
+              { "reference": "urn:uuid:949258897864128" },
+              { "reference": "urn:uuid:648726946521651" },
+              { "reference": "urn:uuid:02063039706351" },
+              { "reference": "urn:uuid:678524501114971" },
+              { "reference": "urn:uuid:392692899557129" },
+              { "reference": "urn:uuid:924867647670974" }
             ]
           },
           {
@@ -1425,11 +1442,11 @@ These assumptions are made as we do not yet support the client registry responsi
                 }
               ]
             },
-            "entry": [{"reference": "urn:uuid:298020334930571"}]
+            "entry": [{ "reference": "urn:uuid:298020334930571" }]
           }
         ]
       },
-      "request": {"method": "POST", "url": "Composition"},
+      "request": { "method": "POST", "url": "Composition" },
       "fullUrl": "urn:uuid:418322796048621"
     },
     {
@@ -1440,9 +1457,9 @@ These assumptions are made as we do not yet support the client registry responsi
           "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
         },
         "status": "finished",
-        "period": {"end": "2021-05-13"}
+        "period": { "end": "2021-05-13" }
       },
-      "request": {"method": "POST", "url": "Encounter"},
+      "request": { "method": "POST", "url": "Encounter" },
       "fullUrl": "urn:uuid:94976331728655"
     },
     {
@@ -1453,9 +1470,9 @@ These assumptions are made as we do not yet support the client registry responsi
           "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
         },
         "status": "in-progress",
-        "period": {"start": "2021-05-13"}
+        "period": { "start": "2021-05-13" }
       },
-      "request": {"method": "POST", "url": "Encounter"},
+      "request": { "method": "POST", "url": "Encounter" },
       "fullUrl": "urn:uuid:203155906139894"
     },
     {
@@ -1469,21 +1486,25 @@ These assumptions are made as we do not yet support the client registry responsi
             }
           ]
         },
-        "code": {"coding": [{"code": "66421-9", "system": "http://loinc.org"}]},
+        "code": {
+          "coding": [{ "code": "66421-9", "system": "http://loinc.org" }]
+        },
         "resourceType": "Observation",
         "status": "final"
       },
-      "request": {"method": "POST", "url": "Observation"}
+      "request": { "method": "POST", "url": "Observation" }
     },
     {
       "fullUrl": "urn:uuid:222214635598315",
       "resource": {
         "effectiveDateTime": "2021-05-13",
-        "code": {"coding": [{"code": "65222-2", "system": "http://loinc.org"}]},
+        "code": {
+          "coding": [{ "code": "65222-2", "system": "http://loinc.org" }]
+        },
         "resourceType": "Observation",
         "status": "final"
       },
-      "request": {"method": "POST", "url": "Observation"}
+      "request": { "method": "POST", "url": "Observation" }
     },
     {
       "fullUrl": "urn:uuid:388170145026748",
@@ -1496,11 +1517,13 @@ These assumptions are made as we do not yet support the client registry responsi
             }
           ]
         },
-        "code": {"coding": [{"code": "77974-4", "system": "http://loinc.org"}]},
+        "code": {
+          "coding": [{ "code": "77974-4", "system": "http://loinc.org" }]
+        },
         "resourceType": "Observation",
         "status": "final"
       },
-      "request": {"method": "POST", "url": "Observation"}
+      "request": { "method": "POST", "url": "Observation" }
     },
     {
       "fullUrl": "urn:uuid:346620203461778",
@@ -1513,11 +1536,13 @@ These assumptions are made as we do not yet support the client registry responsi
             }
           ]
         },
-        "code": {"coding": [{"code": "95420-6", "system": "http://loinc.org"}]},
+        "code": {
+          "coding": [{ "code": "95420-6", "system": "http://loinc.org" }]
+        },
         "resourceType": "Observation",
         "status": "final"
       },
-      "request": {"method": "POST", "url": "Observation"}
+      "request": { "method": "POST", "url": "Observation" }
     },
     {
       "fullUrl": "urn:uuid:949258897864128",
@@ -1530,11 +1555,13 @@ These assumptions are made as we do not yet support the client registry responsi
             }
           ]
         },
-        "code": {"coding": [{"code": "96539-2", "system": "http://loinc.org"}]},
+        "code": {
+          "coding": [{ "code": "96539-2", "system": "http://loinc.org" }]
+        },
         "resourceType": "Observation",
         "status": "final"
       },
-      "request": {"method": "POST", "url": "Observation"}
+      "request": { "method": "POST", "url": "Observation" }
     },
     {
       "fullUrl": "urn:uuid:648726946521651",
@@ -1547,11 +1574,13 @@ These assumptions are made as we do not yet support the client registry responsi
             }
           ]
         },
-        "code": {"coding": [{"code": "96540-0", "system": "http://loinc.org"}]},
+        "code": {
+          "coding": [{ "code": "96540-0", "system": "http://loinc.org" }]
+        },
         "resourceType": "Observation",
         "status": "final"
       },
-      "request": {"method": "POST", "url": "Observation"}
+      "request": { "method": "POST", "url": "Observation" }
     },
     {
       "fullUrl": "urn:uuid:02063039706351",
@@ -1564,31 +1593,37 @@ These assumptions are made as we do not yet support the client registry responsi
             }
           ]
         },
-        "code": {"coding": [{"code": "91541-3", "system": "http://loinc.org"}]},
+        "code": {
+          "coding": [{ "code": "91541-3", "system": "http://loinc.org" }]
+        },
         "resourceType": "Observation",
         "status": "final"
       },
-      "request": {"method": "POST", "url": "Observation"}
+      "request": { "method": "POST", "url": "Observation" }
     },
     {
       "fullUrl": "urn:uuid:678524501114971",
       "resource": {
         "valueString": "N/A",
-        "code": {"coding": [{"code": "91541-3", "system": "http://loinc.org"}]},
+        "code": {
+          "coding": [{ "code": "91541-3", "system": "http://loinc.org" }]
+        },
         "resourceType": "Observation",
         "status": "final"
       },
-      "request": {"method": "POST", "url": "Observation"}
+      "request": { "method": "POST", "url": "Observation" }
     },
     {
       "fullUrl": "urn:uuid:392692899557129",
       "resource": {
         "effectiveDateTime": "2021-05-13",
-        "code": {"coding": [{"code": "96550-9", "system": "http://loinc.org"}]},
+        "code": {
+          "coding": [{ "code": "96550-9", "system": "http://loinc.org" }]
+        },
         "resourceType": "Observation",
         "status": "final"
       },
-      "request": {"method": "POST", "url": "Observation"}
+      "request": { "method": "POST", "url": "Observation" }
     },
     {
       "fullUrl": "urn:uuid:924867647670974",
@@ -1601,21 +1636,25 @@ These assumptions are made as we do not yet support the client registry responsi
             }
           ]
         },
-        "code": {"coding": [{"code": "96552-5", "system": "http://loinc.org"}]},
+        "code": {
+          "coding": [{ "code": "96552-5", "system": "http://loinc.org" }]
+        },
         "resourceType": "Observation",
         "status": "final"
       },
-      "request": {"method": "POST", "url": "Observation"}
+      "request": { "method": "POST", "url": "Observation" }
     },
     {
       "fullUrl": "urn:uuid:298020334930571",
       "resource": {
         "valueInteger": 5,
-        "code": {"coding": [{"code": "96551-7", "system": "http://loinc.org"}]},
+        "code": {
+          "coding": [{ "code": "96551-7", "system": "http://loinc.org" }]
+        },
         "resourceType": "Observation",
         "status": "final"
       },
-      "request": {"method": "POST", "url": "Observation"}
+      "request": { "method": "POST", "url": "Observation" }
     }
   ]
 }
