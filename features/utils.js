@@ -66,31 +66,19 @@ const labResultQuestionnaireResponse = JSON.parse(
 )
 const organization1 = JSON.parse(
   fs.readFileSync(
-    path.resolve(
-      __dirname,
-      'resources',
-      'lab-result-organization1.json'
-    ),
+    path.resolve(__dirname, 'resources', 'lab-result-organization1.json'),
     'utf8'
   )
 )
 const organization2 = JSON.parse(
   fs.readFileSync(
-    path.resolve(
-      __dirname,
-      'resources',
-      'lab-result-organization2.json'
-    ),
+    path.resolve(__dirname, 'resources', 'lab-result-organization2.json'),
     'utf8'
   )
 )
 const practitioner = JSON.parse(
   fs.readFileSync(
-    path.resolve(
-      __dirname,
-      'resources',
-      'practitioner.json'
-    ),
+    path.resolve(__dirname, 'resources', 'practitioner.json'),
     'utf8'
   )
 )
@@ -152,9 +140,8 @@ exports.verifyDhis2Configured = async () => {
   }
 }
 
-const getDhisEntity = id => {
-  console.log(`DHIS2: ${authHeader} ${id}`)
-  return axios({
+const getDhisEntity = id =>
+  axios({
     url: `${DHIS2_PROTOCOL}://${DHIS2_API_HOSTNAME}:${DHIS2_API_PORT}/api/trackedEntityInstances`,
     method: 'GET',
     headers: {
@@ -169,7 +156,6 @@ const getDhisEntity = id => {
       filter: `he05i8FUwu3:EQ:${id}`
     }
   })
-}
 
 const deleteDhisEntity = id =>
   axios({
