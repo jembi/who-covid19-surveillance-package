@@ -66,31 +66,19 @@ const labResultQuestionnaireResponse = JSON.parse(
 )
 const organization1 = JSON.parse(
   fs.readFileSync(
-    path.resolve(
-      __dirname,
-      'resources',
-      'lab-result-organization1.json'
-    ),
+    path.resolve(__dirname, 'resources', 'lab-result-organization1.json'),
     'utf8'
   )
 )
 const organization2 = JSON.parse(
   fs.readFileSync(
-    path.resolve(
-      __dirname,
-      'resources',
-      'lab-result-organization2.json'
-    ),
+    path.resolve(__dirname, 'resources', 'lab-result-organization2.json'),
     'utf8'
   )
 )
 const practitioner = JSON.parse(
   fs.readFileSync(
-    path.resolve(
-      __dirname,
-      'resources',
-      'practitioner.json'
-    ),
+    path.resolve(__dirname, 'resources', 'practitioner.json'),
     'utf8'
   )
 )
@@ -207,7 +195,7 @@ exports.createPatient = async () => {
       },
       {
         attribute: 'oindugucx72',
-        value: 'Male'
+        value: 'MALE'
       },
       {
         attribute: 'Rv8WM2mTuS5',
