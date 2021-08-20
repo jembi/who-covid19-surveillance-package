@@ -152,8 +152,9 @@ exports.verifyDhis2Configured = async () => {
   }
 }
 
-const getDhisEntity = id =>
-  axios({
+const getDhisEntity = id => {
+  console.log(`DHIS2: ${authHeader} ${id}`)
+  return axios({
     url: `${DHIS2_PROTOCOL}://${DHIS2_API_HOSTNAME}:${DHIS2_API_PORT}/api/trackedEntityInstances`,
     method: 'GET',
     headers: {
@@ -168,6 +169,7 @@ const getDhisEntity = id =>
       filter: `he05i8FUwu3:EQ:${id}`
     }
   })
+}
 
 const deleteDhisEntity = id =>
   axios({
@@ -207,7 +209,7 @@ exports.createPatient = async () => {
       },
       {
         attribute: 'oindugucx72',
-        value: 'Male'
+        value: 'MALE'
       },
       {
         attribute: 'Rv8WM2mTuS5',
