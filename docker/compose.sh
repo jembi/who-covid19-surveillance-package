@@ -14,7 +14,7 @@ if [ "$1" == "init" ]; then
     echo "Sleep 90 - Give importers time to complete"
     sleep 90
 
-    # docker rm covid19-surveillance-openhim-config-importer covid19-surveillance-config-importer dhis2-tracker-populator-config-importer hapi-fhir-config-importer dhis2-config-importer
+    docker rm covid19-surveillance-openhim-config-importer covid19-surveillance-config-importer dhis2-tracker-populator-config-importer hapi-fhir-config-importer dhis2-config-importer
 elif [ "$1" == "up" ]; then
     docker-compose -p instant -f "$composeFilePath"/docker-compose.yml -f "$composeFilePath"/docker-compose.dev.yml up -d
 elif [ "$1" == "down" ]; then
